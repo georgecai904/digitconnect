@@ -1,6 +1,5 @@
 from selenium import webdriver
-from django.test import LiveServerTestCase, TestCase
-import time
+from django.test import TestCase
 
 
 class FunctionalTest(TestCase):
@@ -15,7 +14,3 @@ class FunctionalTest(TestCase):
     def tearDownClass(cls):
         cls.browser.quit()
         super(FunctionalTest, cls).tearDownClass()
-
-    # def test_django_server_is_working(self):
-    #     self.browser.get(self.live_server_url)
-    #     self.assertIn("Django", self.browser.title)

@@ -1,0 +1,40 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+
+{% block content %}
+<div class="container">
+    <div class="advbar row">
+        <div class="col-md-12">
+            <img src="{% static 'images/welcome.png' %}" alt="">
+        </div>
+    </div>
+    <hr>
+    <div class="product-list">
+        <div class="row">
+            {% for i in mock_list %}
+                <div class="product-container col-md-3">
+                    <div class="row product-wrapper">
+                        <div class="product-image">
+                            <img src="{% static 'images/product.jpg' %}" class="img-responsive">
+                        </div>
+                        <div class="col-md-12">
+                            <div class="product-category">种类：高品质音响</div>
+                            <div class="product-amount right">数量：10个</div>
+                            <div class="product-location">送货地点：江浙沪</div>
+                        </div>
+                        <div class="col-md-12">
+                            <button class="btn btn-sm btn-default">报价</button>
+                            <button class="btn btn-sm btn-default">加入采购</button>
+                            <button class="btn btn-sm btn-default">在线交流</button>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock %}
