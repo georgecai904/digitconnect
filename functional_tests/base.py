@@ -16,10 +16,6 @@ class FunctionalTest(TestCase):
         cls.browser.quit()
         super(FunctionalTest, cls).tearDownClass()
 
-    def test_django_server_is_working(self):
-        self.browser.get(self.live_server_url)
-        self.assertIn("Django", self.browser.title)
-
-    # def test_template_load_is_correct(self):
-        # self.browser.get(self.live_server_url)
-        # self.assertTemplateUsed()
+    # def test_django_server_is_working(self):
+    #     self.browser.get(self.live_server_url)
+    #     self.assertIn("Django", self.browser.title)
