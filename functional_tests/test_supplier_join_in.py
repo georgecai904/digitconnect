@@ -10,7 +10,7 @@ class SupplierJoinInTest(FunctionalTest):
 
         # 山姆看到导航栏上有"申请入驻"的标志
         # 山姆点击进去
-        self.browser.find_element_by_css_selector(".nav_bar join-in").click()
+        x = self.browser.find_element_by_css_selector("nav .join-in").click()
         self.assertRegex(self.browser.current_url, '/suppliers/new')
 
         # 进去之后，山姆发现页面呈现出一个表格，需要填写相关的信息
