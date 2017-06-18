@@ -5,7 +5,7 @@ class PostNewProductTest(FunctionalTest):
 
     def test_post_new_product(self):
         # 山姆成功注册后，回到首页，他看到了菜单栏最右边的 "产品发布"
-        self.browser.get('/')
+        self.browser.get(self.live_server_url)
         post_product_link = self.browser.find_element_by_css_selector("nav li:last-child")
         self.assertIn("产品发布", post_product_link.text)
 
