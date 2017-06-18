@@ -7,20 +7,24 @@
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-list navbar-right">
                     {% if url == "/" %}
-                    <li class="homepage active"><a href="/">主页</a></li>
+                        <li class="homepage active"><a href="/">主页</a></li>
                     {% else %}
-                    <li class="homepage"><a href="/">主页</a></li>
+                        <li class="homepage"><a href="/">主页</a></li>
                     {% endif %}
-                    <li class="bbs"><a href="/" >论坛</a></li>
-                    <li class="showroom"><a href="/" >展会</a></li>
-                    <li class="meeting"><a href="/" >电子会议</a></li>
+                    <li class="bbs"><a href="/">论坛</a></li>
+                    <li class="showroom"><a href="/">展会</a></li>
+                    <li class="meeting"><a href="/">电子会议</a></li>
                     {% if url == "/suppliers/new" %}
-                    <li class="join-in active"><a href="/suppliers/new" >申请入驻</a></li>
+                        <li class="join-in active"><a href="/suppliers/new">申请入驻</a></li>
                     {% else %}
-                    <li class="join-in"><a href="/suppliers/new" >申请入驻</a></li>
+                        <li class="join-in"><a href="/suppliers/new">申请入驻</a></li>
                     {% endif %}
-                    <li class="about-us"><a href="/" >公司介绍</a></li>
-                    <li class="post-product"><a href="/products/new">产品发布</a></li>
+                    <li class="about-us"><a href="/">公司介绍</a></li>
+                    {% if url == "/products/new" %}
+                        <li class="post-product active"><a href="/products/new">产品发布</a></li>
+                    {% else %}
+                        <li class="post-product"><a href="/products/new">产品发布</a></li>
+                    {% endif %}
                 </ul>
             </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->

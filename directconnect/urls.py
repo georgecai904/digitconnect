@@ -17,9 +17,11 @@ from django.conf.urls import url
 from django.contrib import admin
 import core.views
 import suppliers.views
+import products.views
 
 urlpatterns = [
     url(r'^$', core.views.index_page),
     url(r'^admin/', admin.site.urls),
     url(r'^suppliers/new$', suppliers.views.new_supplier),
+    url(r'^products/new$', products.views.new_product)
 ]

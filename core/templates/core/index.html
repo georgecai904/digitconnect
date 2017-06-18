@@ -17,16 +17,17 @@
     <hr>
     <div class="product-list">
         <div class="row">
-            {% for i in mock_list %}
+            {% for product in products %}
                 <div class="product-container col-md-3">
                     <div class="row product-wrapper">
                         <div class="product-image">
-                            <img src="{% static 'images/product.jpg' %}" class="img-responsive">
+                            <img src="{% static product.image %}" class="img-responsive">
                         </div>
                         <div class="col-md-12">
-                            <div class="product-category">种类：高品质音响</div>
-                            <div class="product-amount right">数量：10个</div>
-                            <div class="product-location">送货地点：江浙沪</div>
+                            <div class="product-name">名称：{{ product.name }}</div>
+                            <div class="product-category">种类：{{ product.category }}</div>
+                            <div class="product-amount right">数量：{{ product.amount }}</div>
+                            <div class="product-location">送货地点：{{ product.location }}</div>
                         </div>
                         <div class="col-md-12">
                             <button class="btn btn-sm btn-default">报价</button>

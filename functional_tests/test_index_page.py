@@ -17,7 +17,7 @@ class IndexPageViewTest(FunctionalTest):
 
         # 目录栏里面分别有主页，论坛，展会，电子会议，申请入驻，公司介绍
         expected_list = ["主页", "论坛", "展会", "电子会议",
-                         "申请入驻", "公司介绍"]
+                         "申请入驻", "公司介绍", "产品发布"]
         nav_list = self.browser.find_elements_by_css_selector("nav li")
 
         self.assertEqual(
