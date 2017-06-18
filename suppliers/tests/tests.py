@@ -2,14 +2,15 @@ from django.test import TestCase
 from suppliers.forms import NewSupplierForm
 from suppliers.models import Supplier
 
-class NewSupplierTest(TestCase):
+
+class CreateSupplierTest(TestCase):
 
     def setUp(self):
-        self.response = self.client.get('/supplier/new')
+        self.response = self.client.get('/suppliers/new')
 
     def create_new_supplier(self):
         return self.client.post(
-            '/supplier/new',
+            '/suppliers/new',
             data={
                 'name': "Sam",
                 'phone': "13868892809",
@@ -24,7 +25,7 @@ class NewSupplierTest(TestCase):
         self.assertTemplateUsed(self.response, "suppliers/new_supplier.html")
 
     def test_new_supplier_form_load(self):
-        self.assertIsInstance(self.response['form'], NewSupplierForm)
+        self.assertIsInstance(self.response.context['form'], NewSupplierForm)
 
     def test_new_supplier_created(self):
         self.response = self.create_new_supplier()
@@ -33,4 +34,11 @@ class NewSupplierTest(TestCase):
     def test_new_supplier_created_redirect(self):
         self.response = self.create_new_supplier()
         self.assertEqual(self.response.status_code, 302)
-        self.assertTemplateUsed(self.response, "core/index.html")
+
+
+class SupplierModelTest(TestCase):
+
+    def test_supplier_reated(self):
+        s = Supplier.objects.create(name='Sam')
+        self.assertEqual(s, Supplier.objects.first())
+        self.assertEqual(s.name, Supplier.objects.first().name)
