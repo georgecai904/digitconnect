@@ -1,22 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="13c69eb3-cee0-41b8-bec3-8ccf51ebb264" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/suppliers/migrations/0003_auto_20170618_0238.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/suppliers/templates/suppliers/new_supplier.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/templates/core/base.html" afterPath="$PROJECT_DIR$/core/templates/core/base.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/templates/core/index.html" afterPath="$PROJECT_DIR$/core/templates/core/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/templates/core/navbar.html" afterPath="$PROJECT_DIR$/core/templates/core/navbar.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/views.py" afterPath="$PROJECT_DIR$/core/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/directconnect/settings.py" afterPath="$PROJECT_DIR$/directconnect/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/functional_tests/test_supplier_join_in.py" afterPath="$PROJECT_DIR$/functional_tests/test_supplier_join_in.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/suppliers/forms.py" afterPath="$PROJECT_DIR$/suppliers/forms.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/suppliers/models.py" afterPath="$PROJECT_DIR$/suppliers/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/suppliers/tests/tests.py" afterPath="$PROJECT_DIR$/suppliers/tests/tests.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/suppliers/views.py" afterPath="$PROJECT_DIR$/suppliers/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/todo.md" afterPath="$PROJECT_DIR$/todo.md" />
-    </list>
+    <list default="true" id="13c69eb3-cee0-41b8-bec3-8ccf51ebb264" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -65,11 +50,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test_supplier_join_in.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="test_supplier_join_in.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/functional_tests/test_supplier_join_in.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="400">
-              <caret line="34" column="29" lean-forward="false" selection-start-line="33" selection-start-column="29" selection-end-line="34" selection-end-column="29" />
+            <state relative-caret-position="510">
+              <caret line="34" column="37" lean-forward="false" selection-start-line="34" selection-start-column="37" selection-end-line="34" selection-end-column="37" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="test_post_product.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/functional_tests/test_post_product.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="4" column="8" lean-forward="false" selection-start-line="4" selection-start-column="8" selection-end-line="4" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -159,6 +154,7 @@
         <option value="$PROJECT_DIR$/suppliers/views.py" />
         <option value="$PROJECT_DIR$/todo.md" />
         <option value="$PROJECT_DIR$/functional_tests/test_supplier_join_in.py" />
+        <option value="$PROJECT_DIR$/functional_tests/test_post_product.py" />
       </list>
     </option>
   </component>
@@ -213,49 +209,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="suppliers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="functional_tests" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="directconnect" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -833,8 +787,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/functional_tests/test_supplier_join_in.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="34" column="29" lean-forward="false" selection-start-line="33" selection-start-column="29" selection-end-line="34" selection-end-column="29" />
+        <state relative-caret-position="510">
+          <caret line="34" column="37" lean-forward="false" selection-start-line="34" selection-start-column="37" selection-end-line="34" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/functional_tests/test_post_product.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="8" lean-forward="false" selection-start-line="4" selection-start-column="8" selection-end-line="4" selection-end-column="8" />
           <folding />
         </state>
       </provider>
