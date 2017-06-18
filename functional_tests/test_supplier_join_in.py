@@ -1,9 +1,10 @@
 from functional_tests.base import FunctionalTest
+import unittest
 
 
 class SupplierJoinInTest(FunctionalTest):
 
-    def test_supplier_join_in(self):
+    def test_supplier_register_in(self):
 
         # 山姆是一个供应商，他登陆了网站
         self.browser.get(self.live_server_url)
@@ -11,6 +12,31 @@ class SupplierJoinInTest(FunctionalTest):
         # 山姆看到导航栏上有"申请入驻"的标志
         # 山姆点击进去，导航栏上的"申请入驻高亮"
         self.browser.find_element_by_css_selector("nav .join-in a").click()
+
+        # 山姆点进去之后是一个登陆界面
+        self.assertRegex(self.browser.current_url, "/users/login")
+
+        # 山姆看到了页面上有用户名，密码的两个填写位置，还有忘记密码，注册，登陆按钮在他们的下方
+        form = self.browser.find_element_by_tag_name("form")
+        self.assertNotEqual(form.find_elements_by_id("id_username"), None)
+        self.assertNotEqual(form.find_elements_by_id("id_password"), None)
+        self.assertNotEqual(form.find_elements_by_id("id_forget-password"), None)
+        self.assertNotEqual(form.find_elements_by_id("id_sign-in"), None)
+        self.assertNotEqual(form.find_elements_by_id("id_sign-up"), None)
+
+        # 所以他没有对应的账号登陆, 山姆点击了注册按钮
+        form.find_element_by_id("id_sign-up").click()
+
+        # 山姆进去之后看到了信息填写页面，山姆将信息依次填写并提交
+        self.assertEqual(self.browser.current_url, self.live_server_url+"/users/signup")
+        form = self.browser.find_element_by_tag_name("form")
+        form.find_element_by_id("id_username").input("georgecai904")
+        form.find_element_by_id("id_password").input("testpassword")
+        form.find_element_by_id("id_password_repeat").input("testpassword")
+        form.find_element_by_id("id_email").input("mail@georgecai.com")
+        form.find_element_by_id("id_submit").click()
+
+        # 页面提示山姆注册成功，页面跳转到供应商细节
         self.assertRegex(self.browser.current_url, '/suppliers/new')
         self.assertIn("active", self.browser.find_element_by_css_selector("nav .join-in").get_attribute("class"))
 
