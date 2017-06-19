@@ -23,5 +23,7 @@ urlpatterns = [
     url(r'^$', core.views.index_page),
     url(r'^admin/', admin.site.urls),
     url(r'^suppliers/new$', suppliers.views.new_supplier),
-    url(r'^products/new$', products.views.new_product)
+    url(r'^products/new$', products.views.new_product),
+    url(r'^auth/login$', core.views.handle_login),
+    url(r'^auth/signup$', core.views.handle_signup)
 ]

@@ -14,7 +14,7 @@ class SupplierJoinInTest(FunctionalTest):
         self.browser.find_element_by_css_selector("nav .join-in a").click()
 
         # 山姆点进去之后是一个登陆界面
-        self.assertRegex(self.browser.current_url, "/users/login")
+        self.assertRegex(self.browser.current_url, "/auth/login")
 
         # 山姆看到了页面上有用户名，密码的两个填写位置，还有忘记密码，注册，登陆按钮在他们的下方
         form = self.browser.find_element_by_tag_name("form")
@@ -28,15 +28,23 @@ class SupplierJoinInTest(FunctionalTest):
         form.find_element_by_id("id_sign-up").click()
 
         # 山姆进去之后看到了信息填写页面，山姆将信息依次填写并提交
-        self.assertEqual(self.browser.current_url, self.live_server_url+"/users/signup")
+        self.assertEqual(self.browser.current_url, self.live_server_url+"/auth/signup")
         form = self.browser.find_element_by_tag_name("form")
-        form.find_element_by_id("id_username").input("georgecai904")
-        form.find_element_by_id("id_password").input("testpassword")
-        form.find_element_by_id("id_password_repeat").input("testpassword")
-        form.find_element_by_id("id_email").input("mail@georgecai.com")
+        form.find_element_by_id("id_username").send_keys("georgecai904")
+        form.find_element_by_id("id_password").send_keys("testpassword")
+        # form.find_element_by_id("id_password_repeat").send_keys("testpassword")
+        form.find_element_by_id("id_email").send_keys("mail@georgecai.com")
         form.find_element_by_id("id_submit").click()
 
-        # 页面提示山姆注册成功，页面跳转到供应商细节
+        # 山姆注册好了之后，页面跳转到了登陆界面
+        self.assertRegex(self.browser.current_url, '/auth/login')
+        form = self.browser.find_element_by_tag_name("form")
+        form.find_element_by_id("id_username").send_keys("georgecai904")
+        form.find_element_by_id("id_password").send_keys("testpassword")
+        form.find_element_by_id("id_sign-in").click()
+
+        # 页面提示山姆登陆成功，由于山姆从未有supplier的细节，页面跳转到创建供应商细节
+        # TODO
         self.assertRegex(self.browser.current_url, '/suppliers/new')
         self.assertIn("active", self.browser.find_element_by_css_selector("nav .join-in").get_attribute("class"))
 

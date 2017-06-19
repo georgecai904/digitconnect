@@ -1,0 +1,20 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <div class="container">
+        <form action="/auth/login" method="post">
+            <div class="form-group">
+                {{ form }}
+                {% csrf_token %}
+                <hr>
+                <button id="id_sign-in" type="submit">Login</button>
+                <br>
+                <a id="id_forget-password" href="/">Forget Password</a> |
+                <a id="id_sign-up" href="/auth/signup">Sign Up</a>
+            </div>
+
+        </form>
+
+    </div>
+
+{% endblock %}
