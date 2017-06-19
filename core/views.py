@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from products.models import Product
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from core.forms import LoginInForm, NewUserForm
 from django.contrib.auth.models import User
 
@@ -16,6 +16,8 @@ def index_page(request):
 
 
 def handle_login(request):
+    if request.user.is_authenticated():
+        return redirect('/')
     if request.method == "POST":
         user = authenticate(request, username=request.POST["username"], password=request.POST["password"])
         if user is not None:
@@ -35,3 +37,9 @@ def handle_signup(request):
         user.save()
         return redirect('/auth/login')
     return render(request, 'auth/signup.html', {'form': NewUserForm()})
+
+
+def handle_logout(request):
+    if request.user:
+        logout(request)
+    return redirect("/")

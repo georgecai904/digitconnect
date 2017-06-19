@@ -25,5 +25,6 @@ urlpatterns = [
     url(r'^suppliers/new$', suppliers.views.new_supplier),
     url(r'^products/new$', products.views.new_product),
     url(r'^auth/login$', core.views.handle_login),
-    url(r'^auth/signup$', core.views.handle_signup)
+    url(r'^auth/signup$', core.views.handle_signup),
+    url(r'^auth/logout$', core.views.handle_logout)
 ]

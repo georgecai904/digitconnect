@@ -2,10 +2,14 @@
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/">欢迎来到 Direct Connect</a>
+                <a class="navbar-brand" href="/">
+                    欢迎来到 Direct Connect
+                </a>
             </div>
-            <div id="navbar" class="navbar-collapse collapse">
-                <ul class="nav navbar-nav navbar-list navbar-right">
+
+
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-list menus">
                     {% if url == "/" %}
                         <li class="homepage active"><a href="/">主页</a></li>
                     {% else %}
@@ -26,7 +30,15 @@
                         <li class="post-product"><a href="/products/new">产品发布</a></li>
                     {% endif %}
                 </ul>
-            </div><!--/.nav-collapse -->
+                <ul class="nav navbar-nav navbar-list navbar-right">
+                    {% if user.is_authenticated %}
+                        <li><a href="/auth/logout">{{ user.username }}登出</a></li>
+                    {% else %}
+                        <li><a href="/auth/login">登陆</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
         </div><!--/.container-fluid -->
     </nav>
 </div>
