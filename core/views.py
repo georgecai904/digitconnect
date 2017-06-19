@@ -20,9 +20,10 @@ def handle_login(request):
         user = authenticate(request, username=request.POST["username"], password=request.POST["password"])
         if user is not None:
             login(request, user)
+            if len(user.supplier_set.all()):
+                return redirect("/")
             return redirect('/suppliers/new')
         else:
-
             return redirect('/auth/login')
     return render(request, 'auth/login.html', {'form': LoginInForm()})
 

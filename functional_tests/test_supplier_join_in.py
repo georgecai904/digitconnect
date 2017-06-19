@@ -1,6 +1,6 @@
 from functional_tests.base import FunctionalTest
 import unittest
-
+import time
 
 class SupplierJoinInTest(FunctionalTest):
 
@@ -54,6 +54,7 @@ class SupplierJoinInTest(FunctionalTest):
 
         # 山姆按照需要的信息填写进去并提交
         form = forms[0]
+        form.find_element_by_id("id_user").send_keys("georgecai904")
         form.find_element_by_id('id_name').send_keys("Sam")
         form.find_element_by_id('id_phone').send_keys("13868892809")
         form.find_element_by_id('id_address').send_keys("上海市浦东新区罗山路1502号10号楼502室")

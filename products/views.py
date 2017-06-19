@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from products.forms import NewProductForm
 # Create your views here.
 
+
 def new_product(request):
     if request.method == "POST":
         NewProductForm(request.POST).save()
