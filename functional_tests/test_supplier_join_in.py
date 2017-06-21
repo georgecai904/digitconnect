@@ -64,7 +64,6 @@ class SupplierJoinInTest(FunctionalTest):
         form.find_element_by_id('id_submit').click()
 
         # 提交之后，网站回到首页，并在首页上方显示入驻成功
-        time.sleep(10)
         self.assertEqual(self.browser.current_url, self.live_server_url+"/")
 
         # TODO
