@@ -13,5 +13,4 @@ def new_supplier(request):
         return redirect('/')
     if len(request.user.supplier_set.all()):
         return redirect('/')
-
     return render(request, 'suppliers/new_supplier.html', {'form': NewSupplierForm(), 'url': request.path})

@@ -3,7 +3,7 @@ from products.models import Product
 from django.contrib.auth import authenticate, login, logout
 from core.forms import LoginInForm, NewUserForm
 from django.contrib.auth.models import User
-
+from urllib import parse
 
 # Create your views here.
 def index_page(request):
@@ -20,14 +20,13 @@ def handle_login(request):
         return redirect('/')
     if request.method == "POST":
         user = authenticate(request, username=request.POST["username"], password=request.POST["password"])
+        query = parse.parse_qs(parse.urlparse(request.get_full_path()).query)
         if user is not None:
             login(request, user)
-            if len(user.supplier_set.all()):
-                return redirect("/")
-            return redirect('/suppliers/new')
+            return redirect(query.get('next', ['/']).pop())
         else:
-            return redirect('/auth/login')
-    return render(request, 'auth/login.html', {'form': LoginInForm()})
+            return redirect(request.path)
+    return render(request, 'auth/login.html', {'form': LoginInForm(), 'action_url': request.get_full_path()})
 
 
 def handle_signup(request):
