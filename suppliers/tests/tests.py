@@ -11,9 +11,9 @@ from django.contrib.auth import authenticate
 class CreateSupplierTest(TestCase):
 
     def setUp(self):
-        self.response = self.client.get('/suppliers/new')
         user = self._create_new_user()
         self._login(user)
+        self.response = self.client.get('/suppliers/new')
 
     def _create_new_user(self):
         user = User.objects.create(username="george")
