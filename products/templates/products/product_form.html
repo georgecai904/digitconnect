@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="container">
-        <form action="/products/new" method="post">
+        <form action="{{ action_url }}" method="post">
             <div class="form-group">
                 {{ form }}
                 {% csrf_token %}

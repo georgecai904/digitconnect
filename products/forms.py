@@ -6,7 +6,7 @@ class NewProductForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        fields = '__all__'
+        exclude = ('supplier', )
 
     def __init__(self, *args, **kwargs):
         super(NewProductForm, self).__init__(*args, **kwargs)

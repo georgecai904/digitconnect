@@ -1,0 +1,39 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <h1>Product List</h1>
+        <a class="post btn btn-info pull-right" href="/products/new">发布</a>
+    </div>
+
+    <table id="product-table" class="table table-striped">
+        <thead>
+            <tr>
+                <th>名称</th>
+                <th>图片</th>
+                <th>种类</th>
+                <th>位置</th>
+                <th>数量</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for product in products %}
+            <tr>
+                <td class="product-name">{{ product.name }}</td>
+                <td class="product-image">{{ product.image }}</td>
+                <td class="product-category">{{ product.category }}</td>
+                <td class="product-location">{{ product.location }}</td>
+                <td class="product-amount">{{ product.amount }}</td>
+                <td>
+                    <a href="/products/edit/{{ product.id }}" class="btn btn-warning btn-sm edit">修改</a>
+                    <a href="/products/delete/{{ product.id }}" class="btn btn-warning btn-sm delete">删除</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
