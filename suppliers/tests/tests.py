@@ -1,21 +1,18 @@
-from django.http import HttpRequest
-from django.test import Client
 from django.test import TestCase
 from suppliers.forms import NewSupplierForm
 from suppliers.models import Supplier
 from django.contrib.auth.models import User
 from unittest import skip
-from django.contrib.auth import authenticate
 
 
 class CreateSupplierTest(TestCase):
-
     def setUp(self):
         user = self._create_new_user()
         self._login(user)
         self.response = self.client.get('/suppliers/new')
 
-    def _create_new_user(self):
+    @staticmethod
+    def _create_new_user():
         user = User.objects.create(username="george")
         user.set_password("yiming123")
         user.save()
@@ -54,7 +51,6 @@ class CreateSupplierTest(TestCase):
 
 
 class SupplierModelTest(TestCase):
-
     def _create_new_user(self):
         user = User.objects.create(username="george")
         user.password("hello")
