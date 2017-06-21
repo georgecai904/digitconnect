@@ -6,7 +6,8 @@ class NewSupplierForm(forms.ModelForm):
 
     class Meta:
         model = Supplier
-        fields = '__all__'
+        # fields = '__all__'
+        exclude = ('user', )
 
     def __init__(self, *args, **kwargs):
         super(NewSupplierForm, self).__init__(*args, **kwargs)
@@ -15,5 +16,11 @@ class NewSupplierForm(forms.ModelForm):
             self.fields[field].widget.attrs.update({
                 'class': 'form-control'
             })
-
+    #
+    # def save(self, commit=True):
+    #     supplier = super(NewSupplierForm, self).save(commit=False)
+    #     supplier.user = self
+    #     if commit:
+    #         supplier.save()
+    #     return supplier
 

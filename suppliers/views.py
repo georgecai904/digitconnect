@@ -6,6 +6,8 @@ from suppliers.forms import NewSupplierForm
 
 def new_supplier(request):
     if request.method == "POST":
-        NewSupplierForm(request.POST).save()
+        supplier = NewSupplierForm(request.POST).save(commit=False)
+        supplier.user = request.user
+        supplier.save()
         return redirect('/')
     return render(request, 'suppliers/new_supplier.html', {'form': NewSupplierForm(), 'url': request.path})

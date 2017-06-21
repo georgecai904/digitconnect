@@ -11,3 +11,6 @@ class Supplier(models.Model):
     location = models.CharField(max_length=20, default='')
     license = models.CharField(max_length=20, default='')
     area = models.CharField(max_length=20, default='')
+
+    def __str__(self):
+        return self.name

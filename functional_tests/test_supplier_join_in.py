@@ -54,7 +54,7 @@ class SupplierJoinInTest(FunctionalTest):
 
         # 山姆按照需要的信息填写进去并提交
         form = forms[0]
-        form.find_element_by_id("id_user").send_keys("georgecai904")
+        # form.find_element_by_id("id_user").send_keys("georgecai904")
         form.find_element_by_id('id_name').send_keys("Sam")
         form.find_element_by_id('id_phone').send_keys("13868892809")
         form.find_element_by_id('id_address').send_keys("上海市浦东新区罗山路1502号10号楼502室")
@@ -64,7 +64,9 @@ class SupplierJoinInTest(FunctionalTest):
         form.find_element_by_id('id_submit').click()
 
         # 提交之后，网站回到首页，并在首页上方显示入驻成功
+        time.sleep(10)
         self.assertEqual(self.browser.current_url, self.live_server_url+"/")
+
         # TODO
         # messages = self.browser.find_elements_by_css_selector('.alert-success.message')
         # self.assertIn("入驻成功", [message.text for message in messages])
