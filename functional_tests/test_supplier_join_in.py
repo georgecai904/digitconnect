@@ -13,7 +13,7 @@ class SupplierJoinInTest(FunctionalTest):
         # 山姆点击进去，导航栏上的"申请入驻高亮"
         self.browser.find_element_by_css_selector("nav .join-in a").click()
 
-        # 山姆点进去之后是一个登陆界面
+        # 因为山姆山姆还没有登陆，所以点进去之后是一个登陆界面
         self.assertRegex(self.browser.current_url, "/auth/login")
 
         # 山姆看到了页面上有用户名，密码的两个填写位置，还有忘记密码，注册，登陆按钮在他们的下方
