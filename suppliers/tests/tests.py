@@ -35,7 +35,7 @@ class CreateSupplierTest(TestCase):
         )
 
     def test_new_supplier_template_load(self):
-        self.assertTemplateUsed(self.response, "suppliers/new_supplier.html")
+        self.assertTemplateUsed(self.response, "suppliers/supplier_form.html")
 
     def test_new_supplier_form_load(self):
         self.assertIsInstance(self.response.context['form'], NewSupplierForm)

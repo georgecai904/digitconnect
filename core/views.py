@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from products.models import Product
 from django.contrib.auth import authenticate, login, logout
-from core.forms import LoginInForm, NewUserForm
+from core.forms import LoginInForm, NewUserForm, ChangeEmailForm, ChangePasswordForm
 from django.contrib.auth.models import User
 from urllib import parse
+from django.contrib.auth.decorators import login_required
+from directconnect.settings import LOGIN_URL
 
 # Create your views here.
 def index_page(request):
@@ -42,3 +44,35 @@ def handle_logout(request):
     if request.user:
         logout(request)
     return redirect("/")
+
+
+@login_required(login_url=LOGIN_URL)
+def user_details(request):
+    user = request.user
+    suppliers = user.supplier_set.all()
+    return render(request, 'auth/user_details.html', {'user': user, 'suppliers': suppliers})
+
+
+@login_required(login_url=LOGIN_URL)
+def user_change_email(request):
+    u = User.objects.get(username=request.user.username)
+    form = ChangeEmailForm(instance=u)
+    if request.method == "POST":
+        u.email = request.POST['email']
+        u.save()
+        return redirect("/auth/details")
+    return render(request, 'auth/user_change_email.html', {'form': form, 'action_url': '/auth/details/email'})
+
+
+@login_required(login_url=LOGIN_URL)
+def user_change_password(request):
+    u = User.objects.get(username=request.user.username)
+    form = ChangePasswordForm()
+    if request.method == "POST":
+        if authenticate(request, username=u.username, password=request.POST['old_password']):
+            if request.POST['password'] == request.POST['repeated_password']:
+                u.set_password(request.POST['password'])
+                u.save()
+                return redirect("/auth/details")
+        return redirect("/auth/details/password")
+    return render(request, 'auth/user_change_email.html', {'form': form, 'action_url': '/auth/details/password'})

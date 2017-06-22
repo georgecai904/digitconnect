@@ -23,6 +23,8 @@ urlpatterns = [
     url(r'^$', core.views.index_page),
     url(r'^admin/', admin.site.urls),
     url(r'^suppliers/new$', suppliers.views.new_supplier),
+    url(r'^suppliers/edit/(?P<supplier_id>[0-9]+)$', suppliers.views.edit_supplier),
+    # url(r'^suppliers/delete/(?P<product_id>[0-9]+)$', suppliers.views.delete_product),
     url(r'^products/new$', products.views.new_product),
     url(r'^products/edit/(?P<product_id>[0-9]+)$', products.views.edit_product),
     url(r'^products/delete/(?P<product_id>[0-9]+)$', products.views.delete_product),
@@ -30,4 +32,8 @@ urlpatterns = [
     url(r'^auth/login$', core.views.handle_login),
     url(r'^auth/signup$', core.views.handle_signup),
     url(r'^auth/logout$', core.views.handle_logout),
+    url(r'^auth/details$', core.views.user_details),
+    url(r'^auth/details/email', core.views.user_change_email),
+    url(r'^auth/details/password', core.views.user_change_password),
+
 ]
