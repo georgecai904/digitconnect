@@ -36,7 +36,7 @@ def handle_signup(request):
         user = User.objects.create(username=request.POST["username"], email=request.POST["email"])
         user.set_password(request.POST["password"])
         user.save()
-        return redirect('/auth/login?next=/suppliers/new')
+        return redirect('/auth/login?next=/purchasers/new')
     return render(request, 'auth/signup.html', {'form': NewUserForm()})
 
 
@@ -49,8 +49,8 @@ def handle_logout(request):
 @login_required(login_url=LOGIN_URL)
 def user_details(request):
     user = request.user
-    suppliers = user.supplier_set.all()
-    return render(request, 'auth/user_details.html', {'user': user, 'suppliers': suppliers})
+    purchasers = user.purchaser_set.all()
+    return render(request, 'auth/user_details.html', {'user': user, 'purchasers': purchasers})
 
 
 @login_required(login_url=LOGIN_URL)

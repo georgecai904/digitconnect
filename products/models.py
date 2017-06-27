@@ -1,10 +1,10 @@
 from django.db import models
-from suppliers.models import Supplier
+from purchasers.models import Purchaser
 # Create your models here.
 
 
 class Product(models.Model):
-    supplier = models.ForeignKey(Supplier, default=None)
+    purchaser = models.ForeignKey(Purchaser, default=None)
     name = models.CharField(max_length=20, default="")
     image = models.CharField(max_length=20, default="")
     category = models.CharField(max_length=20, default="")

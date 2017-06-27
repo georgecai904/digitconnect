@@ -1,6 +1,6 @@
 from django.test import TestCase
-from suppliers.forms import NewSupplierForm
-from suppliers.models import Supplier
+from purchasers.forms import NewPurchaserForm
+from purchasers.models import Purchaser
 from django.contrib.auth.models import User
 from unittest import skip
 
@@ -9,7 +9,7 @@ class CreateSupplierTest(TestCase):
     def setUp(self):
         user = self._create_new_user()
         self._login(user)
-        self.response = self.client.get('/suppliers/new')
+        self.response = self.client.get('/purchasers/new')
 
     @staticmethod
     def _create_new_user():
@@ -21,9 +21,9 @@ class CreateSupplierTest(TestCase):
     def _login(self, user):
         self.client.login(username=user.username, password="yiming123")
 
-    def _create_new_supplier(self):
+    def _create_new_purchaser(self):
         return self.client.post(
-            '/suppliers/new',
+            '/purchasers/new',
             data={
                 'name': "Sam",
                 'phone': "13868892809",
@@ -34,19 +34,19 @@ class CreateSupplierTest(TestCase):
             },
         )
 
-    def test_new_supplier_template_load(self):
-        self.assertTemplateUsed(self.response, "suppliers/supplier_form.html")
+    def test_new_purchaser_template_load(self):
+        self.assertTemplateUsed(self.response, "purchasers/purchaser_form.html")
 
-    def test_new_supplier_form_load(self):
-        self.assertIsInstance(self.response.context['form'], NewSupplierForm)
+    def test_new_purchaser_form_load(self):
+        self.assertIsInstance(self.response.context['form'], NewPurchaserForm)
 
-    def test_new_supplier_created(self):
-        self.response = self._create_new_supplier()
-        self.assertEqual(Supplier.objects.count(), 1)
+    def test_new_purchaser_created(self):
+        self.response = self._create_new_purchaser()
+        self.assertEqual(Purchaser.objects.count(), 1)
 
     @skip
-    def test_new_supplier_created_redirect(self):
-        self.response = self._create_new_supplier()
+    def test_new_purchaser_created_redirect(self):
+        self.response = self._create_new_purchaser()
         self.assertEqual(self.response.status_code, 302)
 
 
@@ -58,8 +58,8 @@ class SupplierModelTest(TestCase):
         return user
 
     @skip
-    def test_supplier_reated(self):
+    def test_purchaser_reated(self):
         user = self._create_new_user()
-        s = Supplier.objects.create(name='Sam', user=user)
-        self.assertEqual(s, Supplier.objects.first())
-        self.assertEqual(s.name, Supplier.objects.first().name)
+        p = Purchaser.objects.create(name='Sam', user=user)
+        self.assertEqual(p, Purchaser.objects.first())
+        self.assertEqual(p.name, Purchaser.objects.first().name)

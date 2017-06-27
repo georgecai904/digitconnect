@@ -4,7 +4,7 @@ from functional_tests.base import FunctionalTest
 from unittest import skip
 import time
 
-from suppliers.models import Supplier
+from purchasers.models import Purchaser
 
 
 class PostNewProductTest(FunctionalTest):
@@ -21,7 +21,7 @@ class PostNewProductTest(FunctionalTest):
         user = User.objects.create(username="georgecai904")
         user.set_password("testpassword")
         user.save()
-        Supplier.objects.create(name="george", user=user)
+        Purchaser.objects.create(name="george", user=user)
 
         self.assertRegex(self.browser.current_url, "/auth/login")
         form = self.browser.find_element_by_tag_name('form')
@@ -31,6 +31,7 @@ class PostNewProductTest(FunctionalTest):
 
         # 山姆将之前的账号输入进去，页面跳转到了空列表中，右边有一个"发布"按钮
         self.assertRegex(self.browser.current_url, "/products/list")
+
         table = self.browser.find_element_by_id("product-table")
         self.assertEqual(table.find_elements_by_css_selector('tbody tr'), [])
         self.browser.find_element_by_css_selector("a.post").click()

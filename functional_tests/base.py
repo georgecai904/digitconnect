@@ -22,28 +22,32 @@ class FunctionalTest(StaticLiveServerTestCase):
         u.save()
         return u
 
-    def _create_supplier(self):
+    def _create_purchaser(self):
         u = self._create_user()
-        from suppliers.models import Supplier
-        s = Supplier.objects.create(
+        from purchasers.models import Purchaser
+        p = Purchaser.objects.create(
             user=u,
-            name="山姆供应商",
+            name="山姆采购商",
             phone="13868892809",
             address="上海市浦东新区罗山路1502号10号楼502室",
             location="江浙沪",
             license="G92719234",
             area="IT行业"
         )
-        return s
+        return p
 
     def _create_product(self):
-        s = self._create_supplier()
+        purchaser = self._create_purchaser()
         from products.models import Product
         p = Product.objects.create(
-            supplier=s,
+            purchaser=purchaser,
             name='B&O音响',
             image='/images/product.jpg',
             category='高档音响',
             amount='100',
             location='江浙沪',
         )
+
+    def _stop(self, sleep_time=10):
+        import time
+        time.sleep(sleep_time)

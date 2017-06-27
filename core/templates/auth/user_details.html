@@ -21,8 +21,8 @@
         </table>
     </div>
     <hr>
-    <div class="suppliers">
-        <h1>供应商信息表</h1>
+    <div class="purchasers">
+        <h1>采购商信息表</h1>
         <table class="table table-condensed">
             <thead>
             <tr>
@@ -36,18 +36,18 @@
             </tr>
             </thead>
             <tbody>
-                {% for supplier in suppliers %}
+                {% for purchaser in purchasers %}
                     <tr>
-                        <td class="supplier-name">{{ supplier.name }}</td>
-                        <td class="supplier-phone">{{ supplier.phone }}</td>
-                        <td class="supplier-address">{{ supplier.address }}</td>
-                        <td class="supplier-location">{{ supplier.location }}</td>
-                        <td class="supplier-license">{{ supplier.license }}</td>
-                        <td class="supplier-area">{{ supplier.area }}</td>
+                        <td class="purchaser-name">{{ purchaser.name }}</td>
+                        <td class="purchaser-phone">{{ purchaser.phone }}</td>
+                        <td class="purchaser-address">{{ purchaser.address }}</td>
+                        <td class="purchaser-location">{{ purchaser.location }}</td>
+                        <td class="purchaser-license">{{ purchaser.license }}</td>
+                        <td class="purchaser-area">{{ purchaser.area }}</td>
                         <td>
                             <a href="/products/list" class="btn btn-sm products">产品</a>
-                            <a href="/suppliers/edit/{{ supplier.id }}" class="btn btn-sm edit">修改</a>
-{#                            <a href="/suppliers/delete" class="btn btn-sm delete">删除</a>#}
+                            <a href="/purchasers/edit/{{ purchaser.id }}" class="btn btn-sm edit">修改</a>
+{#                            <a href="/purchaser/delete" class="btn btn-sm delete">删除</a>#}
                         </td>
                     </tr>
                 {% endfor %}

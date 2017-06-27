@@ -1,6 +1,8 @@
 from functional_tests.base import FunctionalTest
 from unittest import skip
 import time
+
+
 class UserDetailsTest(FunctionalTest):
 
     def setUp(self):
@@ -65,43 +67,44 @@ class UserDetailsTest(FunctionalTest):
         self.assertRegex(self.browser.current_url, "/")
         self.browser.find_element_by_css_selector("nav .user-details").click()
 
-        # 山姆发现在用户信息界面的下方有一个表格显示供应商信息表格
-        supplier_container = self.browser.find_element_by_css_selector(".suppliers")
-        self.assertEqual(supplier_container.find_element_by_tag_name("h1").text, "供应商信息表")
-
-        # 这个表格显示了在自己名下的所有供应商信息
+        # 山姆发现在用户信息界面的下方有一个表格显示采购商信息表格
+        purchaser_container = self.browser.find_element_by_css_selector(".purchasers")
+        self.assertEqual(purchaser_container.find_element_by_tag_name("h1").text, "采购商信息表")
+        # time.sleep(10)
+        # 这个表格显示了在自己名下的所有采购商信息
         self.assertEqual(
-            supplier_container.find_element_by_css_selector("tbody tr:first-child .supplier-name").text,
-            "山姆供应商")
+            purchaser_container.find_element_by_css_selector("tbody tr:first-child .purchaser-name").text,
+            "山姆采购商")
 
         # 在每个表格的右边有产品按钮，修改按钮和删除按钮
-        self.assertEqual(supplier_container.find_element_by_css_selector("tbody tr:first-child .products").text,
+        self.assertEqual(purchaser_container.find_element_by_css_selector("tbody tr:first-child .products").text,
                          "产品")
-        self.assertEqual(supplier_container.find_element_by_css_selector("tbody tr:first-child .edit").text,
+        self.assertEqual(purchaser_container.find_element_by_css_selector("tbody tr:first-child .edit").text,
                          "修改")
-        # self.assertEqual(supplier_container.find_element_by_css_selector("tbody tr:first-child .delete").text,
+        # self.assertEqual(purchaser_container.find_element_by_css_selector("tbody tr:first-child .delete").text,
         #                  "删除")
 
-        # 山姆发现他的供应商信息种类错了，便点击修改按钮
-        supplier_container.find_element_by_css_selector("tbody tr:first-child .edit").click()
+        # 山姆发现他的采购商信息种类错了，便点击修改按钮
+        purchaser_container.find_element_by_css_selector("tbody tr:first-child .edit").click()
 
-        # 页面跳转到了供应商信息修改页面，山姆将自己的信息更新并保存
-        self.assertRegex(self.browser.current_url, "/suppliers/edit")
-        supplier_name_input = self.browser.find_element_by_css_selector("form #id_name")
-        self.assertEqual(supplier_name_input.get_attribute("value"), "山姆供应商")
-        supplier_name_input.clear()
-        supplier_name_input.send_keys("新山姆供应商")
+        # 页面跳转到了采购商信息修改页面，山姆将自己的信息更新并保存
+        self.assertRegex(self.browser.current_url, "/purchasers/edit")
+
+        purchaser_name_input = self.browser.find_element_by_css_selector("form #id_name")
+        self.assertEqual(purchaser_name_input.get_attribute("value"), "山姆采购商")
+        purchaser_name_input.clear()
+        purchaser_name_input.send_keys("新山姆采购商")
         self.browser.find_element_by_css_selector("form #id_submit").click()
 
         # 保存后页面跳回到了用户信息界面，确认刚刚更新成功
         self.assertRegex(self.browser.current_url, "/auth/details")
-        supplier_container = self.browser.find_element_by_css_selector(".suppliers")
+        purchaser_container = self.browser.find_element_by_css_selector(".purchasers")
         self.assertEqual(
-            supplier_container.find_element_by_css_selector("tbody tr:first-child .supplier-name").text,
-            "新山姆供应商")
+            purchaser_container.find_element_by_css_selector("tbody tr:first-child .purchaser-name").text,
+            "新山姆采购商")
 
-        # 山姆想查看一下供应商里的产品信息情况，便点击了产品按钮
-        supplier_container.find_element_by_css_selector("tbody tr:first-child .products").click()
+        # 山姆想查看一下采购商里的产品信息情况，便点击了产品按钮
+        purchaser_container.find_element_by_css_selector("tbody tr:first-child .products").click()
 
         # 页面跳转到了之前的产品列表，里面信息和之前的一致
         self.assertRegex(self.browser.current_url, "/products/list")

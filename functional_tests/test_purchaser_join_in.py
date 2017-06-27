@@ -2,11 +2,11 @@ from functional_tests.base import FunctionalTest
 import unittest
 import time
 
-class SupplierJoinInTest(FunctionalTest):
+class PurchaserJoinInTest(FunctionalTest):
 
-    def test_supplier_register_in(self):
+    def test_purchaser_register_in(self):
 
-        # 山姆是一个供应商，他登陆了网站
+        # 山姆是一个采购商，他登陆了网站
         self.browser.get(self.live_server_url)
 
         # 山姆看到导航栏上有"申请入驻"的标志
@@ -43,9 +43,9 @@ class SupplierJoinInTest(FunctionalTest):
         form.find_element_by_id("id_password").send_keys("testpassword")
         form.find_element_by_id("id_sign-in").click()
 
-        # 页面提示山姆登陆成功，由于山姆从未有supplier的细节，页面跳转到创建供应商细节
+        # 页面提示山姆登陆成功，由于山姆从未有purchaser的细节，页面跳转到创建采购商细节
         # TODO
-        self.assertRegex(self.browser.current_url, '/suppliers/new')
+        self.assertRegex(self.browser.current_url, '/purchasers/new')
         self.assertIn("active", self.browser.find_element_by_css_selector("nav .join-in").get_attribute("class"))
 
         # 进去之后，山姆发现页面呈现出一个表格，需要填写相关的信息

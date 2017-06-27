@@ -10,8 +10,8 @@ from products.models import Product
 def new_product(request):
     if request.method == "POST":
         p = NewProductForm(request.POST).save(commit=False)
-        supplier = request.user.supplier_set.first()
-        p.supplier = supplier
+        purchaser = request.user.purchaser_set.first()
+        p.purchaser = purchaser
         p.save()
         return redirect('/products/list')
     return render(request, 'products/product_form.html', {'form': NewProductForm(), 'url': '/products/new', 'action_url': '/products/new'})
@@ -37,6 +37,6 @@ def delete_product(request, product_id):
 
 @login_required(login_url=LOGIN_URL)
 def product_list(request):
-    supplier = request.user.supplier_set.first()
-    products = Product.objects.filter(supplier=supplier)
+    purchaser = request.user.purchaser_set.first()
+    products = Product.objects.filter(purchaser=purchaser)
     return render(request, "products/product_list.html", {'products': products})

@@ -16,15 +16,15 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 import core.views
-import suppliers.views
+import purchasers.views
 import products.views
 
 urlpatterns = [
     url(r'^$', core.views.index_page),
     url(r'^admin/', admin.site.urls),
-    url(r'^suppliers/new$', suppliers.views.new_supplier),
-    url(r'^suppliers/edit/(?P<supplier_id>[0-9]+)$', suppliers.views.edit_supplier),
-    # url(r'^suppliers/delete/(?P<product_id>[0-9]+)$', suppliers.views.delete_product),
+    url(r'^purchasers/new$', purchasers.views.new_purchaser),
+    url(r'^purchasers/edit/(?P<purchaser_id>[0-9]+)$', purchasers.views.edit_purchaser),
+    # url(r'^purchasers/delete/(?P<product_id>[0-9]+)$', purchasers.views.delete_product),
     url(r'^products/new$', products.views.new_product),
     url(r'^products/edit/(?P<product_id>[0-9]+)$', products.views.edit_product),
     url(r'^products/delete/(?P<product_id>[0-9]+)$', products.views.delete_product),
@@ -35,5 +35,4 @@ urlpatterns = [
     url(r'^auth/details$', core.views.user_details),
     url(r'^auth/details/email', core.views.user_change_email),
     url(r'^auth/details/password', core.views.user_change_password),
-
 ]

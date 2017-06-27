@@ -1,5 +1,5 @@
 from django import forms
-from suppliers.models import Supplier
+from purchasers.models import Purchaser
 
 
 class BasicForm(forms.ModelForm):
@@ -12,9 +12,9 @@ class BasicForm(forms.ModelForm):
             })
 
 
-class NewSupplierForm(BasicForm):
+class NewPurchaserForm(BasicForm):
     class Meta:
-        model = Supplier
+        model = Purchaser
         # fields = '__all__'
         exclude = ('user',)
 
