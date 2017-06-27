@@ -48,6 +48,8 @@ class FunctionalTest(StaticLiveServerTestCase):
             location='江浙沪',
         )
 
+        return p
+
     def _stop(self, sleep_time=10):
         import time
         time.sleep(sleep_time)

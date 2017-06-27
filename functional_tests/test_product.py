@@ -7,7 +7,7 @@ import time
 from purchasers.models import Purchaser
 
 
-class PostNewProductTest(FunctionalTest):
+class ProductFunctionalTest(FunctionalTest):
 
     def test_post_new_product(self):
         # 山姆登陆到了首页，看到了"产品发布"，便点了进去
@@ -82,7 +82,7 @@ class PostNewProductTest(FunctionalTest):
         self.browser.find_element_by_css_selector("nav .homepage").click()
         self.assertEqual(self.browser.current_url, self.live_server_url + "/")
         container = self.browser.find_element_by_css_selector(".product-container:first-child")
-        self.assertEqual(container.find_element_by_css_selector(".product-name").text, '名称：B&O 降噪系列音响')
+        self.assertEqual(container.find_element_by_css_selector(".product-name .value").text, 'B&O 降噪系列音响')
 
         # 山姆觉得这个商品已经过时，想删掉，于是他点回到产品发布
         self.browser.find_element_by_css_selector("nav .post-product").click()

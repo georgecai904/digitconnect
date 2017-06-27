@@ -8,39 +8,55 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="advbar row">
-        <div class="col-md-12">
-            <img src="{% static 'images/welcome.png' %}" alt="">
+    <div class="container">
+        <div class="advbar row">
+            <div class="col-md-12">
+                <img src="{% static 'images/welcome.png' %}" alt="">
+            </div>
         </div>
-    </div>
-    <hr>
-    <div class="product-list">
-        <div class="row">
-            {% for product in products %}
-                <div class="product-container col-md-3">
-                    <div class="row product-wrapper">
-                        <div class="product-image">
-                            <img src="{% static product.image %}" class="img-responsive">
-                        </div>
-                        <div class="col-md-12">
-                            <div class="product-name">名称：{{ product.name }}</div>
-                            <div class="product-category">种类：{{ product.category }}</div>
-                            <div class="product-amount right">数量：{{ product.amount }}</div>
-                            <div class="product-location">送货地点：{{ product.location }}</div>
-                        </div>
-                        <div class="col-md-12">
-                            <button class="btn btn-sm btn-default">报价</button>
-                            <button class="btn btn-sm btn-default">加入采购</button>
-                            <button class="btn btn-sm btn-default">在线交流</button>
+        <hr>
+        <div class="product-list">
+            <div class="row">
+                {% for product in products %}
+                    <div class="product-container col-md-3">
+                        <div class="row product-wrapper">
+                            <div class="product-image">
+                                <img src="{% static product.image %}" class="img-responsive">
+                            </div>
+                            <div class="col-md-12">
+                                <div class="purchaser-name">
+                                    <span class="title">采购商：</span>
+                                    <span class="value">{{ product.purchaser.name }}</span>
+                                </div>
+                                <div class="product-name">
+                                    <span class="title">名称：</span>
+                                    <span class="value">{{ product.name }}</span>
+                                </div>
+                                <div class="product-category">
+                                    <span class="title">种类：</span>
+                                    <span class="value">{{ product.category }}</span>
+                                </div>
+                                <div class="product-amount right">
+                                    <span class="title">数量：</span>
+                                    <span class="value">{{ product.amount }}</span>
+                                </div>
+                                <div class="product-location">
+                                    <span class="title">送货地点：</span>
+                                    <span class="value">{{ product.location }}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <a class="btn btn-sm btn-default post-price" href="/products/{{ product.id }}/post-price/">报价</a>
+                                <a class="btn btn-sm btn-default">加入采购</a>
+                                <a class="btn btn-sm btn-default">在线交流</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            {% endfor %}
-        </div>
+                {% endfor %}
+            </div>
 
+        </div>
     </div>
-</div>
 
 
 {% endblock %}

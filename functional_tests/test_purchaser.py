@@ -2,7 +2,8 @@ from functional_tests.base import FunctionalTest
 import unittest
 import time
 
-class PurchaserJoinInTest(FunctionalTest):
+
+class PurchaserFunctionalTest(FunctionalTest):
 
     def test_purchaser_register_in(self):
 
