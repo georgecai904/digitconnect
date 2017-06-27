@@ -37,6 +37,8 @@ def delete_product(request, product_id):
 
 @login_required(login_url=LOGIN_URL)
 def product_list(request):
+    if len(request.user.purchaser_set.all()) == 0:
+        return redirect('/purchasers/new')
     purchaser = request.user.purchaser_set.first()
     products = Product.objects.filter(purchaser=purchaser)
     return render(request, "products/product_list.html", {'products': products})

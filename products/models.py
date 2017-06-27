@@ -14,7 +14,9 @@ class Product(models.Model):
 
 class PostPrice(models.Model):
     product = models.ForeignKey(Product, default=None)
-    price = models.CharField(max_length=20, default="")
+
     name = models.CharField(max_length=20, default="")
     phone = models.CharField(max_length=20, default="")
     email = models.CharField(max_length=20, default="")
+
+    price = models.CharField(max_length=20, default="")

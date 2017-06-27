@@ -24,9 +24,9 @@ class SupplierFunctionalTest(FunctionalTest):
             self.browser.find_element_by_css_selector(".product-container .product-name .value").text, "B&O音响")
         form = self.browser.find_element_by_css_selector(".post-price form")
         # self._stop(20)
-        form.find_element_by_id("id_name").send_keys("华少")
+        form.find_element_by_id("id_name").send_keys("华少供应")
         form.find_element_by_id("id_phone").send_keys("12839991231")
-        form.find_element_by_id("id_email").send_keys("junk@georgecai.com")
+        form.find_element_by_id("id_email").send_keys("supplier@supplier.com")
         form.find_element_by_id("id_price").send_keys("1000")
         form.find_element_by_id("id_submit").click()
 

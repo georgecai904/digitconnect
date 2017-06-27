@@ -3,40 +3,39 @@
 {% block content %}
     <div class="container">
         <div class="row">
-            <div class="product-container col-md-6">
-                <div class="row product-wrapper">
-                    <div class="product-image">
-                        <img src="{% static product.image %}" class="img-responsive">
+            <div class="product-container col-md-3">
+                <div class="product-image">
+                    <img src="{% static product.image %}" class="img-responsive">
+                </div>
+                <div class="col-md-12">
+                    <div class="purchaser-name">
+                        <span class="title">采购商：</span>
+                        <span class="value">{{ product.purchaser.name }}</span>
                     </div>
-                    <div class="col-md-12">
-                        <div class="purchaser-name">
-                            <span class="title">采购商：</span>
-                            <span class="value">{{ product.purchaser.name }}</span>
-                        </div>
-                        <div class="product-name">
-                            <span class="title">名称：</span>
-                            <span class="value">{{ product.name }}</span>
-                        </div>
-                        <div class="product-category">
-                            <span class="title">种类：</span>
-                            <span class="value">{{ product.category }}</span>
-                        </div>
-                        <div class="product-amount right">
-                            <span class="title">数量：</span>
-                            <span class="value">{{ product.amount }}</span>
-                        </div>
-                        <div class="product-location">
-                            <span class="title">送货地点：</span>
-                            <span class="value">{{ product.location }}</span>
-                        </div>
+                    <div class="product-name">
+                        <span class="title">名称：</span>
+                        <span class="value">{{ product.name }}</span>
+                    </div>
+                    <div class="product-category">
+                        <span class="title">种类：</span>
+                        <span class="value">{{ product.category }}</span>
+                    </div>
+                    <div class="product-amount right">
+                        <span class="title">数量：</span>
+                        <span class="value">{{ product.amount }}</span>
+                    </div>
+                    <div class="product-location">
+                        <span class="title">送货地点：</span>
+                        <span class="value">{{ product.location }}</span>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-6 post-price">
+            <div class="col-md-9 post-price">
                 <form action="{{ action_url }}" method="POST" class="">
                     {{ form }}
                     {% csrf_token %}
+                    <hr>
                     <button class="btn btn-default" type="submit" id="id_submit">报价</button>
                 </form>
             </div>
