@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^purchasers/new$', clients.views.new_purchaser),
     url(r'^purchasers/edit/(?P<purchaser_id>[0-9]+)$', clients.views.edit_purchaser),
     url(r'^suppliers/new$', clients.views.new_supplier),
+    url(r'^suppliers/edit/(?P<supplier_id>[0-9]+)$', clients.views.edit_supplier),
     url(r'^suppliers/post-price/(?P<product_id>[0-9]+)', clients.views.post_price),
     # url(r'^purchasers/delete/(?P<product_id>[0-9]+)$', purchasers.views.delete_product),
 

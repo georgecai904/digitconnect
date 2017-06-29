@@ -14,16 +14,16 @@ from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
 
 
-def create_user():
+def create_user(username):
     from django.contrib.auth.models import User
-    u, created = User.objects.update_or_create(username="georgecai904", email="test@test.com")
-    u.set_password("testpassword")
+    u, created = User.objects.update_or_create(username=username, email="{}@dc.com".format(username))
+    u.set_password("1")
     u.save()
     return u
 
 
 def create_purchaser():
-    u = create_user()
+    u = create_user("purchaser")
     from clients.models import Purchaser
     p, created = Purchaser.objects.update_or_create(
         user=u,
@@ -37,8 +37,22 @@ def create_purchaser():
     return p
 
 
-def create_product():
-    purchaser = create_purchaser()
+def create_supplier():
+    u = create_user("supplier")
+    from clients.models import Supplier
+    s, created = Supplier.objects.update_or_create(
+        user=u,
+        name="华少供应",
+        phone="12839991231",
+        address="上海自贸区11号",
+        location="江浙沪",
+        license="H182119821",
+        area="IT行业"
+    )
+    return s
+
+
+def create_product(purchaser):
     from products.models import Product
     p, created = Product.objects.update_or_create(
         purchaser=purchaser,
@@ -52,16 +66,19 @@ def create_product():
     return p
 
 
-def create_post_price():
-    p = create_product()
-    from products.models import PostPrice
+def create_post_price(supplier, product):
+    from clients.models import PostPrice
     pp, created = PostPrice.objects.update_or_create(
-        product=p,
-        name="华少供应",
-        phone="12839991231",
-        email="supplier@supplier.com",
+        product=product,
+        supplier=supplier,
         price="1000",
+        amount="10"
 
     )
+    return pp
 
-create_post_price()
+
+supplier = create_supplier()
+purchaser = create_purchaser()
+product = create_product(purchaser=purchaser)
+create_post_price(supplier=supplier, product=product)

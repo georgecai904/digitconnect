@@ -50,7 +50,8 @@ def handle_logout(request):
 def user_details(request):
     user = request.user
     purchasers = user.purchaser_set.all()
-    return render(request, 'auth/user_details.html', {'user': user, 'purchasers': purchasers})
+    suppliers = user.supplier_set.all()
+    return render(request, 'auth/user_details.html', {'user': user, 'purchasers': purchasers, 'suppliers': suppliers})
 
 
 @login_required(login_url=LOGIN_URL)

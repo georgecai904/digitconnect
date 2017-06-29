@@ -1,59 +1,96 @@
 {% extends 'core/base.html' %}
 {% block content %}
-<div class="container">
-    <div class="user-details">
-        <h1>用户信息</h1>
-        <table class="table table-condensed">
-            <tr>
-                <td>用户名</td>
-                <td>{{ user.username }}</td>
-            </tr>
-            <tr class="password">
-                <td>密码</td>
-                <td><a href="/auth/details/password" class="edit">更改密码</a></td>
-            </tr>
-            <tr class="email">
-                <td>邮箱</td>
-                <td>
-                    <span class="value">{{ user.email }}</span>(<a href="/auth/details/email" class="edit">更改邮箱</a>)
-                </td>
-            </tr>
-        </table>
-    </div>
-    <hr>
-    <div class="purchasers">
-        <h1>采购商信息表</h1>
-        <table class="table table-condensed">
-            <thead>
-            <tr>
-                <th>姓名</th>
-                <th>电话</th>
-                <th>地址</th>
-                <th>区域</th>
-                <th>营业执照</th>
-                <th>领域</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-                {% for purchaser in purchasers %}
+    <div class="container">
+        <div class="user-details">
+            <h1>用户信息</h1>
+            <table class="table table-condensed">
+                <tr>
+                    <td>用户名</td>
+                    <td>{{ user.username }}</td>
+                </tr>
+                <tr class="password">
+                    <td>密码</td>
+                    <td><a href="/auth/details/password" class="edit">更改密码</a></td>
+                </tr>
+                <tr class="email">
+                    <td>邮箱</td>
+                    <td>
+                        <span class="value">{{ user.email }}</span>(<a href="/auth/details/email" class="edit">更改邮箱</a>)
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <hr>
+        {% if purchasers %}
+            <div class="purchasers">
+                <h1>采购商信息表</h1>
+                <table class="table table-condensed">
+                    <thead>
                     <tr>
-                        <td class="purchaser-name">{{ purchaser.name }}</td>
-                        <td class="purchaser-phone">{{ purchaser.phone }}</td>
-                        <td class="purchaser-address">{{ purchaser.address }}</td>
-                        <td class="purchaser-location">{{ purchaser.location }}</td>
-                        <td class="purchaser-license">{{ purchaser.license }}</td>
-                        <td class="purchaser-area">{{ purchaser.area }}</td>
-                        <td>
-                            <a href="/products/list" class="btn btn-sm products">产品</a>
-                            <a href="/purchasers/edit/{{ purchaser.id }}" class="btn btn-sm edit">修改</a>
-{#                            <a href="/purchaser/delete" class="btn btn-sm delete">删除</a>#}
-                        </td>
+                        <th>姓名</th>
+                        <th>电话</th>
+                        <th>地址</th>
+                        <th>区域</th>
+                        <th>营业执照</th>
+                        <th>领域</th>
+                        <th></th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                    </thead>
+                    <tbody>
+                    {% for purchaser in purchasers %}
+                        <tr>
+                            <td class="purchaser-name">{{ purchaser.name }}</td>
+                            <td class="purchaser-phone">{{ purchaser.phone }}</td>
+                            <td class="purchaser-address">{{ purchaser.address }}</td>
+                            <td class="purchaser-location">{{ purchaser.location }}</td>
+                            <td class="purchaser-license">{{ purchaser.license }}</td>
+                            <td class="purchaser-area">{{ purchaser.area }}</td>
+                            <td>
+                                <a href="/products/list" class="products">产品</a>
+                                <a href="/purchasers/edit/{{ purchaser.id }}" class="edit">修改</a>
+                                {#                            <a href="/purchaser/delete" class="btn btn-sm delete">删除</a>#}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+        {% if suppliers %}
+            <div class="suppliers">
+                <h1>供应商信息表</h1>
+                <table class="table table-condensed">
+                    <thead>
+                    <tr>
+                        <th>姓名</th>
+                        <th>电话</th>
+                        <th>地址</th>
+                        <th>区域</th>
+                        <th>营业执照</th>
+                        <th>领域</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for supplier in suppliers %}
+                        <tr>
+                            <td class="supplier-name">{{ supplier.name }}</td>
+                            <td class="supplier-phone">{{ supplier.phone }}</td>
+                            <td class="supplier-address">{{ supplier.address }}</td>
+                            <td class="supplier-location">{{ supplier.location }}</td>
+                            <td class="supplier-license">{{ supplier.license }}</td>
+                            <td class="supplier-area">{{ supplier.area }}</td>
+                            <td>
+                                <a href="/products/list" class="products">产品</a>
+                                <a href="/suppliers/edit/{{ supplier.id }}" class="edit">修改</a>
+                                {#                            <a href="/supplier/delete" class="btn btn-sm delete">删除</a>#}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
     </div>
-</div>
 
 {% endblock %}

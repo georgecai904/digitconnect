@@ -2,7 +2,7 @@ from django.shortcuts import render, HttpResponse, redirect
 from clients.forms import NewPurchaserForm, PostPriceForm, NewSupplierForm
 from django.contrib.auth.decorators import login_required
 from directconnect.settings import LOGIN_URL
-from clients.models import Purchaser
+from clients.models import Purchaser, Supplier
 # Create your views here.
 from products.models import Product
 
@@ -48,6 +48,18 @@ def new_supplier(request):
         return redirect('/')
     return render(request, 'suppliers/supplier_form.html', {'form': NewSupplierForm(), 'url': request.path,
                                                             'action_url': '/suppliers/new'})
+
+
+@login_required(login_url=LOGIN_URL)
+def edit_supplier(request, supplier_id):
+    supplier = Supplier.objects.get(id=supplier_id)
+    form = NewSupplierForm(instance=supplier)
+    if request.method == "POST":
+        NewSupplierForm(request.POST, instance=supplier).save()
+        return redirect("/auth/details")
+    return render(request, 'suppliers/supplier_form.html', {'form': form,
+                                                              'action_url': '/suppliers/edit/{0}'.format(
+                                                                  supplier_id)})
 
 
 @login_required(login_url=LOGIN_URL)
