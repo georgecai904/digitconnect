@@ -65,6 +65,8 @@ def edit_supplier(request, supplier_id):
 @login_required(login_url=LOGIN_URL)
 def post_price(request, product_id):
     product = Product.objects.get(id=product_id)
+    if request.user.supplier_set.count() == 0:
+        return redirect("/suppliers/new")
     if request.method == "POST":
         pp = PostPriceForm(request.POST).save(commit=False)
         pp.product = product
