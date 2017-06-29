@@ -24,7 +24,7 @@ def create_user():
 
 def create_purchaser():
     u = create_user()
-    from purchasers.models import Purchaser
+    from clients.models import Purchaser
     p, created = Purchaser.objects.update_or_create(
         user=u,
         name="山姆采购商",

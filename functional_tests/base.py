@@ -1,6 +1,6 @@
 from selenium import webdriver
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-
+from unittest import skip
 
 class FunctionalTest(StaticLiveServerTestCase):
 
@@ -15,15 +15,17 @@ class FunctionalTest(StaticLiveServerTestCase):
         cls.browser.quit()
         super(FunctionalTest, cls).tearDownClass()
 
-    def _create_user(self):
+    def _create_user(self, username="purchaser1"):
+        email = "{}@dc.com".format(username)
+        password = "testpassword"
         from django.contrib.auth.models import User
-        u = User.objects.create(username="georgecai904", email="test@test.com")
-        u.set_password("testpassword")
+        u = User.objects.create(username=username, email=email)
+        u.set_password(password)
         u.save()
         return u
 
     def _create_purchaser(self):
-        u = self._create_user()
+        u = self._create_user(username="purchaser1")
         from clients.models import Purchaser
         p = Purchaser.objects.create(
             user=u,

@@ -1,5 +1,5 @@
 from django import forms
-from products.models import Product, PostPrice
+from products.models import Product
 
 
 class BasicForm(forms.ModelForm):
@@ -16,8 +16,3 @@ class NewProductForm(BasicForm):
         model = Product
         exclude = ('purchaser', )
 
-
-class PostPriceForm(BasicForm):
-    class Meta:
-        model = PostPrice
-        exclude = ('product', )

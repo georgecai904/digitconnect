@@ -31,16 +31,16 @@ class PurchaserFunctionalTest(FunctionalTest):
         # 山姆进去之后看到了信息填写页面，山姆将信息依次填写并提交
         self.assertEqual(self.browser.current_url, self.live_server_url+"/auth/signup")
         form = self.browser.find_element_by_tag_name("form")
-        form.find_element_by_id("id_username").send_keys("georgecai904")
+        form.find_element_by_id("id_username").send_keys("purchaser1")
         form.find_element_by_id("id_password").send_keys("testpassword")
         # form.find_element_by_id("id_password_repeat").send_keys("testpassword")
-        form.find_element_by_id("id_email").send_keys("mail@georgecai.com")
+        form.find_element_by_id("id_email").send_keys("purchaser1@dc.com")
         form.find_element_by_id("id_submit").click()
 
         # 山姆注册好了之后，页面跳转到了登陆界面
         self.assertRegex(self.browser.current_url, '/auth/login')
         form = self.browser.find_element_by_tag_name("form")
-        form.find_element_by_id("id_username").send_keys("georgecai904")
+        form.find_element_by_id("id_username").send_keys("purchaser1")
         form.find_element_by_id("id_password").send_keys("testpassword")
         # self._stop()
         form.find_element_by_id("id_sign-in").click()

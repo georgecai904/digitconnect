@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from products.forms import NewProductForm, PostPriceForm
+from products.forms import NewProductForm
 from django.contrib.auth.decorators import login_required
 from directconnect.settings import LOGIN_URL
 # Create your views here.
@@ -43,19 +43,3 @@ def product_list(request):
     products = Product.objects.filter(purchaser=purchaser)
     return render(request, "products/product_list.html", {'products': products})
 
-
-def post_price(request, product_id):
-    product = Product.objects.get(id=product_id)
-    if request.method == "POST":
-        pp = PostPriceForm(request.POST).save(commit=False)
-        pp.product = product
-        pp.save()
-        return render(request, "products/post_price_success.html", {
-            "success_msg": "您的报价已提交，若采购商感兴趣，会进一步与您联系",
-            "pp": pp
-        })
-    return render(request, "products/post_price.html", {
-        "product": product,
-        "action_url": "/products/{}/post-price".format(product_id),
-        "form": PostPriceForm(),
-    })

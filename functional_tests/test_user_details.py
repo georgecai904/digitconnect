@@ -14,7 +14,7 @@ class UserDetailsTest(FunctionalTest):
         self.browser.find_element_by_css_selector("nav .login").click()
 
         self.assertRegex(self.browser.current_url, '/auth/login')
-        self.browser.find_element_by_css_selector("form #id_username").send_keys("georgecai904")
+        self.browser.find_element_by_css_selector("form #id_username").send_keys("purchaser1")
         self.browser.find_element_by_css_selector("form #id_password").send_keys("testpassword")
         self.browser.find_element_by_css_selector("form #id_sign-in").click()
 
@@ -26,15 +26,15 @@ class UserDetailsTest(FunctionalTest):
         # 页面跳转到了用户信息界面，山姆在邮箱的邮编看到了修改按钮
         self.assertRegex(self.browser.current_url, "/auth/details")
         email_container = self.browser.find_element_by_css_selector(".user-details .email")
-        self.assertEqual(email_container.find_element_by_css_selector(".value").text, "test@test.com")
+        self.assertEqual(email_container.find_element_by_css_selector(".value").text, "purchaser1@dc.com")
         email_container.find_element_by_css_selector(".edit").click()
 
         # 于是山姆点了进去，便进行修改，山姆便把自己新的邮箱放了上去，并保存
         self.assertRegex(self.browser.current_url, "/auth/details/email")
         email_input = self.browser.find_element_by_css_selector("form #id_email")
-        self.assertEqual(email_input.get_attribute("value"), "test@test.com")
+        self.assertEqual(email_input.get_attribute("value"), "purchaser1@dc.com")
         email_input.clear()
-        email_input.send_keys("new@test.com")
+        email_input.send_keys("purchaser2@dc.com")
         self.browser.find_element_by_css_selector("form #id_submit").click()
 
         # 页面跳回到了用户信息界面，山姆看见自己的邮箱已经更新成功
@@ -42,7 +42,7 @@ class UserDetailsTest(FunctionalTest):
 
         self.assertEqual(
             self.browser.find_element_by_css_selector(".user-details .email .value").text,
-            "new@test.com"
+            "purchaser2@dc.com"
         )
 
         # 山姆看到密码栏只显示了一个更改按钮, 于是点了进去进行修改，修改完成后
@@ -59,7 +59,7 @@ class UserDetailsTest(FunctionalTest):
 
         # 山姆发现密码已经成功修改，原先的密码不能登陆
         self.assertRegex(self.browser.current_url, "/auth/login")
-        self.browser.find_element_by_css_selector("form #id_username").send_keys("georgecai904")
+        self.browser.find_element_by_css_selector("form #id_username").send_keys("purchaser1")
         self.browser.find_element_by_css_selector("form #id_password").send_keys("newpassword")
         self.browser.find_element_by_css_selector("form #id_sign-in").click()
 

@@ -18,14 +18,11 @@ class ProductFunctionalTest(FunctionalTest):
 
         # 山姆因为还没有登陆过，所以网页跳转到了登陆页面
         # 山姆将自己的登陆信息进去
-        user = User.objects.create(username="georgecai904")
-        user.set_password("testpassword")
-        user.save()
-        Purchaser.objects.create(name="george", user=user)
+        self._create_purchaser()
 
         self.assertRegex(self.browser.current_url, "/auth/login")
         form = self.browser.find_element_by_tag_name('form')
-        form.find_element_by_id("id_username").send_keys("georgecai904")
+        form.find_element_by_id("id_username").send_keys("purchaser1")
         form.find_element_by_id("id_password").send_keys("testpassword")
         form.find_element_by_id("id_sign-in").click()
 

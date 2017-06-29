@@ -22,14 +22,19 @@ import products.views
 urlpatterns = [
     url(r'^$', core.views.index_page),
     url(r'^admin/', admin.site.urls),
+
+    url(r'^clients/select$', clients.views.select_type),
     url(r'^purchasers/new$', clients.views.new_purchaser),
     url(r'^purchasers/edit/(?P<purchaser_id>[0-9]+)$', clients.views.edit_purchaser),
+    url(r'^suppliers/new$', clients.views.new_supplier),
+    url(r'^suppliers/post-price/(?P<product_id>[0-9]+)', clients.views.post_price),
     # url(r'^purchasers/delete/(?P<product_id>[0-9]+)$', purchasers.views.delete_product),
+
     url(r'^products/new$', products.views.new_product),
     url(r'^products/edit/(?P<product_id>[0-9]+)$', products.views.edit_product),
     url(r'^products/delete/(?P<product_id>[0-9]+)$', products.views.delete_product),
-    url(r'^products/(?P<product_id>[0-9]+)/post-price', products.views.post_price),
     url(r'^products/list$', products.views.product_list),
+
     url(r'^auth/login$', core.views.handle_login),
     url(r'^auth/signup$', core.views.handle_signup),
     url(r'^auth/logout$', core.views.handle_logout),

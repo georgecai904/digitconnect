@@ -1,5 +1,5 @@
 from functional_tests.base import FunctionalTest
-
+from unittest import skip
 
 class SupplierFunctionalTest(FunctionalTest):
 
@@ -17,22 +17,55 @@ class SupplierFunctionalTest(FunctionalTest):
         # 华少对山姆的采购需求很感兴趣，便点击报价
         product_container.find_element_by_css_selector(".post-price").click()
 
-        # 页面跳转到了一个表单页面，里面需要填写一些个人信息，华少依次填写下自己的联系方式，报价
-        self.assertRegex(self.browser.current_url, "/products/[0-9]+/post-price")
+        # 页面跳转到了一个登陆页面
+        self.assertRegex(self.browser.current_url, "/auth/login")
+
+        # 华少由于没有对应的账号，于是便注册
+        self.browser.find_element_by_css_selector("form #id_sign-up").click()
+        form = self.browser.find_element_by_tag_name("form")
+        form.find_element_by_id("id_username").send_keys("supplier1")
+        form.find_element_by_id("id_password").send_keys("testpassword")
+        form.find_element_by_id("id_email").send_keys("supplier1@dc.com")
+        form.find_element_by_id("id_submit").click()
+
+        # 注册完了之后，页面跳转到了登陆页面
+        self.assertRegex(self.browser.current_url, '/auth/login')
+        form = self.browser.find_element_by_tag_name("form")
+        form.find_element_by_id("id_username").send_keys("supplier1")
+        form.find_element_by_id("id_password").send_keys("testpassword")
+        form.find_element_by_id("id_sign-in").click()
+
+        # 华少登陆之后进入身份创建页面，华少选择了供应商
+        self.browser.find_element_by_css_selector(".client-supplier").click()
+
+        # 华少对应的填写好了自己所有的信息
+        self.assertRegex(self.browser.current_url, "/suppliers/new")
+        form = self.browser.find_element_by_css_selector("form")
+        form.find_element_by_id('id_name').send_keys("华少供应")
+        form.find_element_by_id('id_phone').send_keys("12839991231")
+        form.find_element_by_id('id_address').send_keys("上海自贸区11号")
+        form.find_element_by_id('id_location').send_keys("江浙沪")
+        form.find_element_by_id('id_license').send_keys("H182119821")
+        form.find_element_by_id('id_area').send_keys('IT行业')
+        form.find_element_by_id('id_submit').click()
+
+        print(self.browser.current_url)
+        self.fail("here")
+        # 页面跳转到了刚刚的报价页面，页面左边显示了商品信息，右边是一个报价表格，里面需要填写最大供应数量及价格
+        self.assertRegex(self.browser.current_url, "/suppliers/post-price")
 
         self.assertEqual(
             self.browser.find_element_by_css_selector(".product-container .product-name .value").text, "B&O音响")
-        form = self.browser.find_element_by_css_selector(".post-price form")
-        # self._stop(20)
-        form.find_element_by_id("id_name").send_keys("华少供应")
-        form.find_element_by_id("id_phone").send_keys("12839991231")
-        form.find_element_by_id("id_email").send_keys("supplier@supplier.com")
-        form.find_element_by_id("id_price").send_keys("1000")
-        form.find_element_by_id("id_submit").click()
+
+        # 华少填写好了这些信息并提交
+        form = self.browser.find_element_by_css_selector("form")
+        form.find_element_by_id("price").send_keys("100")
+        form.find_element_by_id("amount").send_keys("10000")
+        form.find_element_by_id('id_submit').click()
 
         # 华少提交后，页面显示了他刚刚填写的信息以及山姆的采购需求
         # 页面提示华少，他的报价已经提交，并提示华少，若采购商感兴趣，会进一步与您联系
-        # self.assertRegex(self.browser.current_url, "/products/post-price/success")
+        self.assertRegex(self.browser.current_url, "/suppliers/post-price/success")
         self.assertEqual(
             self.browser.find_element_by_css_selector(".product-container .product-name .value").text, "B&O音响")
         self.assertEqual(
