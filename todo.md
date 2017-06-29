@@ -9,3 +9,4 @@
 
 - 在test_post_product这个文件内，需要refactor一下功能测试里关于User，Supplier的提前创建
 
+New Supplier
