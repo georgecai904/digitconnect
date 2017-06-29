@@ -42,17 +42,18 @@ class PurchaserFunctionalTest(FunctionalTest):
         form = self.browser.find_element_by_tag_name("form")
         form.find_element_by_id("id_username").send_keys("georgecai904")
         form.find_element_by_id("id_password").send_keys("testpassword")
+        # self._stop()
         form.find_element_by_id("id_sign-in").click()
 
         # 这是山姆第一次登陆到这个网站，登陆后，页面跳转到了创建页面
         self.assertRegex(self.browser.current_url, "/clients/select")
 
         # 创建页面显示了两个选择，"创建采购商信息"和"创建供应商信息"
-        self.assertEqual(self.browser.find_element_by_css_selector(".client-type:first-child").text, "创建采购商信息")
-        self.assertEqual(self.browser.find_element_by_css_selector(".client-type:nth(2)").text, "创建供应商信息")
+        self.assertEqual(self.browser.find_element_by_css_selector(".client-purchaser").text, "创建采购商信息")
+        self.assertEqual(self.browser.find_element_by_css_selector(".client-supplier").text, "创建供应商信息")
 
         # 由于山姆是一个采购商，于是他点击了采购商按钮，页面跳转到创建采购商细节
-        self.browser.find_element_by_css_selector(".client-type:first-child").click()
+        self.browser.find_element_by_css_selector(".client-purchaser").click()
         self.assertRegex(self.browser.current_url, '/purchasers/new')
         self.assertIn("active", self.browser.find_element_by_css_selector("nav .join-in").get_attribute("class"))
 
