@@ -16,14 +16,14 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 import core.views
-import purchasers.views
+import clients.views
 import products.views
 
 urlpatterns = [
     url(r'^$', core.views.index_page),
     url(r'^admin/', admin.site.urls),
-    url(r'^purchasers/new$', purchasers.views.new_purchaser),
-    url(r'^purchasers/edit/(?P<purchaser_id>[0-9]+)$', purchasers.views.edit_purchaser),
+    url(r'^purchasers/new$', clients.views.new_purchaser),
+    url(r'^purchasers/edit/(?P<purchaser_id>[0-9]+)$', clients.views.edit_purchaser),
     # url(r'^purchasers/delete/(?P<product_id>[0-9]+)$', purchasers.views.delete_product),
     url(r'^products/new$', products.views.new_product),
     url(r'^products/edit/(?P<product_id>[0-9]+)$', products.views.edit_product),

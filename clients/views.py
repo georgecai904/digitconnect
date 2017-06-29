@@ -1,8 +1,8 @@
 from django.shortcuts import render, HttpResponse, redirect
-from purchasers.forms import NewPurchaserForm
+from clients.forms import NewPurchaserForm
 from django.contrib.auth.decorators import login_required
 from directconnect.settings import LOGIN_URL
-from purchasers.models import Purchaser
+from clients.models import Purchaser
 # Create your views here.
 
 

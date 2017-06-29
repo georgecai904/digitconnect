@@ -24,7 +24,7 @@ class FunctionalTest(StaticLiveServerTestCase):
 
     def _create_purchaser(self):
         u = self._create_user()
-        from purchasers.models import Purchaser
+        from clients.models import Purchaser
         p = Purchaser.objects.create(
             user=u,
             name="山姆采购商",

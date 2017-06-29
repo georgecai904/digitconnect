@@ -1,5 +1,5 @@
 from django import forms
-from purchasers.models import Purchaser
+from clients.models import Purchaser
 
 
 class BasicForm(forms.ModelForm):

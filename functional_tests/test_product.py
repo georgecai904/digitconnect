@@ -4,7 +4,7 @@ from functional_tests.base import FunctionalTest
 from unittest import skip
 import time
 
-from purchasers.models import Purchaser
+from clients.models import Purchaser
 
 
 class ProductFunctionalTest(FunctionalTest):

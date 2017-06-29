@@ -1,6 +1,6 @@
 from django.test import TestCase
-from purchasers.forms import NewPurchaserForm
-from purchasers.models import Purchaser
+from clients.forms import NewPurchaserForm
+from clients.models import Purchaser
 from django.contrib.auth.models import User
 from unittest import skip
 

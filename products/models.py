@@ -1,5 +1,5 @@
 from django.db import models
-from purchasers.models import Purchaser
+from clients.models import Purchaser
 # Create your models here.
 
 
