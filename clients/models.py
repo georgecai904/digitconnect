@@ -33,11 +33,8 @@ class Supplier(models.Model):
 
 
 class PostPrice(models.Model):
-    pass
-    # product = models.ForeignKey(Product, default=None)
-    #
-    # name = models.CharField(max_length=20, default="")
-    # phone = models.CharField(max_length=20, default="")
-    # email = models.CharField(max_length=20, default="")
-    #
-    # price = models.CharField(max_length=20, default="")
+    product = models.ForeignKey("products.Product", default=None)
+    supplier = models.ForeignKey(Supplier, default=None)
+    price = models.CharField(max_length=20, default="")
+    amount = models.CharField(max_length=20, default="")
+

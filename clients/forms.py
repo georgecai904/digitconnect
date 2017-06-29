@@ -29,4 +29,4 @@ class NewSupplierForm(BasicForm):
 class PostPriceForm(BasicForm):
     class Meta:
         model = PostPrice
-        exclude = ('product', )
+        exclude = ('product', 'supplier', )

@@ -11,6 +11,7 @@ from products.models import Product
 def select_type(request):
     return render(request, 'clients/select_type.html')
 
+
 @login_required(login_url=LOGIN_URL)
 def new_purchaser(request):
     if request.method == "POST":
@@ -21,7 +22,7 @@ def new_purchaser(request):
     if len(request.user.purchaser_set.all()):
         return redirect('/')
     return render(request, 'purchasers/purchaser_form.html', {'form': NewPurchaserForm(), 'url': request.path,
-                                                           'action_url': '/purchasers/new'})
+                                                              'action_url': '/purchasers/new'})
 
 
 @login_required(login_url=LOGIN_URL)
@@ -32,7 +33,8 @@ def edit_purchaser(request, purchaser_id):
         NewPurchaserForm(request.POST, instance=purchaser).save()
         return redirect("/auth/details")
     return render(request, 'purchasers/purchaser_form.html', {'form': form,
-                                                            'action_url': '/purchasers/edit/{0}'.format(purchaser_id)})
+                                                              'action_url': '/purchasers/edit/{0}'.format(
+                                                                  purchaser_id)})
 
 
 @login_required(login_url=LOGIN_URL)
@@ -45,7 +47,8 @@ def new_supplier(request):
     if len(request.user.supplier_set.all()):
         return redirect('/')
     return render(request, 'suppliers/supplier_form.html', {'form': NewSupplierForm(), 'url': request.path,
-                                                           'action_url': '/suppliers/new'})
+                                                            'action_url': '/suppliers/new'})
+
 
 @login_required(login_url=LOGIN_URL)
 def post_price(request, product_id):
@@ -53,13 +56,14 @@ def post_price(request, product_id):
     if request.method == "POST":
         pp = PostPriceForm(request.POST).save(commit=False)
         pp.product = product
+        pp.supplier = request.user.supplier_set.all()[0]
         pp.save()
-        return render(request, "products/post_price_success.html", {
+        return render(request, "suppliers/post_price_success.html", {
             "success_msg": "您的报价已提交，若采购商感兴趣，会进一步与您联系",
             "pp": pp
         })
-    return render(request, "products/post_price.html", {
+    return render(request, "suppliers/post_price.html", {
         "product": product,
-        "action_url": "/products/{}/post-price".format(product_id),
+        "action_url": "/suppliers/post-price/{}".format(product_id),
         "form": PostPriceForm(),
     })
