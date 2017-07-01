@@ -9,7 +9,9 @@ from products.models import Product
 
 @login_required(login_url=LOGIN_URL)
 def select_type(request):
-    return render(request, 'clients/select_type.html')
+    return render(request, 'clients/select_type.html', {
+        'header': '入驻身份选择'
+    })
 
 
 @login_required(login_url=LOGIN_URL)
@@ -21,7 +23,9 @@ def new_purchaser(request):
         return redirect('/')
     if len(request.user.purchaser_set.all()):
         return redirect('/')
-    return render(request, 'purchasers/purchaser_form.html', {'form': NewPurchaserForm(), 'url': request.path,
+    return render(request, 'purchasers/purchaser_form.html', {'form': NewPurchaserForm(),
+                                                              'url': request.path,
+                                                              'header': '登记采购商信息',
                                                               'action_url': '/purchasers/new'})
 
 
@@ -34,7 +38,9 @@ def edit_purchaser(request, purchaser_id):
         return redirect("/auth/details")
     return render(request, 'purchasers/purchaser_form.html', {'form': form,
                                                               'action_url': '/purchasers/edit/{0}'.format(
-                                                                  purchaser_id)})
+                                                                  purchaser_id),
+                                                              'header': '修改采购商信息',
+                                                              })
 
 
 @login_required(login_url=LOGIN_URL)
@@ -46,8 +52,11 @@ def new_supplier(request):
         return redirect('/')
     if len(request.user.supplier_set.all()):
         return redirect('/')
-    return render(request, 'suppliers/supplier_form.html', {'form': NewSupplierForm(), 'url': request.path,
-                                                            'action_url': '/suppliers/new'})
+    return render(request, 'suppliers/supplier_form.html', {'form': NewSupplierForm(),
+                                                            'url': request.path,
+                                                            'action_url': '/suppliers/new',
+                                                            'header': '登记供应商信息',
+                                                            })
 
 
 @login_required(login_url=LOGIN_URL)
@@ -58,8 +67,10 @@ def edit_supplier(request, supplier_id):
         NewSupplierForm(request.POST, instance=supplier).save()
         return redirect("/auth/details")
     return render(request, 'suppliers/supplier_form.html', {'form': form,
-                                                              'action_url': '/suppliers/edit/{0}'.format(
-                                                                  supplier_id)})
+                                                            'action_url': '/suppliers/edit/{0}'.format(
+                                                                supplier_id),
+                                                            'header': '修改供应商信息',
+                                                            })
 
 
 @login_required(login_url=LOGIN_URL)
@@ -74,10 +85,12 @@ def post_price(request, product_id):
         pp.save()
         return render(request, "suppliers/post_price_success.html", {
             "success_msg": "您的报价已提交，若采购商感兴趣，会进一步与您联系",
-            "pp": pp
+            "pp": pp,
+            'header': "报价成功"
         })
     return render(request, "suppliers/post_price.html", {
         "product": product,
         "action_url": "/suppliers/post-price/{}".format(product_id),
         "form": PostPriceForm(),
+        'header': "报价登记"
     })

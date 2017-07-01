@@ -12,6 +12,14 @@
 {% block messages %}{% endblock %}
 {% include 'core/navbar.html' %}
 
+{% if header %}
+    <div class="container">
+        <h1>{{ header }}</h1>
+        <h3>{{ subheader }}</h3>
+    </div>
+
+{% endif %}
+
 {% block content %}{% endblock %}
 
 <script src="{% static 'jquery.min.js'%}"></script>

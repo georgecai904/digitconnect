@@ -28,7 +28,11 @@ def handle_login(request):
             return redirect(query.get('next', ['/']).pop())
         else:
             return redirect(request.path)
-    return render(request, 'auth/login.html', {'form': LoginInForm(), 'action_url': request.get_full_path()})
+    return render(request, 'auth/login.html', {
+        'form': LoginInForm(),
+        'action_url': request.get_full_path(),
+        'header': "登陆页面"
+    })
 
 
 def handle_signup(request):
@@ -37,7 +41,10 @@ def handle_signup(request):
         user.set_password(request.POST["password"])
         user.save()
         return redirect('/auth/login?next=/clients/select')
-    return render(request, 'auth/signup.html', {'form': NewUserForm()})
+    return render(request, 'auth/signup.html', {
+        'form': NewUserForm(),
+        'header': "注册页面"
+    })
 
 
 def handle_logout(request):

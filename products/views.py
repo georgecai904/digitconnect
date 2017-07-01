@@ -14,7 +14,12 @@ def new_product(request):
         p.purchaser = purchaser
         p.save()
         return redirect('/products/list')
-    return render(request, 'products/product_form.html', {'form': NewProductForm(), 'url': '/products/new', 'action_url': '/products/new'})
+    return render(request, 'products/product_form.html', {
+        'form': NewProductForm(),
+        'url': '/products/new',
+        'action_url': '/products/new',
+        'header': "登记产品信息"
+    })
 
 
 @login_required(login_url=LOGIN_URL)
@@ -26,7 +31,11 @@ def edit_product(request, product_id):
         # p.supplier = old_p.supplier
         # p.save()
         return redirect('/products/list')
-    return render(request, 'products/product_form.html', {'form': form, 'action_url': '/products/edit/'+product_id})
+    return render(request, 'products/product_form.html', {
+        'form': form,
+        'action_url': '/products/edit/'+product_id,
+        'header': '修改产品信息'
+    })
 
 
 def delete_product(request, product_id):
@@ -41,5 +50,8 @@ def product_list(request):
         return redirect('/purchasers/new')
     purchaser = request.user.purchaser_set.first()
     products = Product.objects.filter(purchaser=purchaser)
-    return render(request, "products/product_list.html", {'products': products})
+    return render(request, "products/product_list.html", {
+        'products': products,
+        'header': '产品列表'
+    })
 
