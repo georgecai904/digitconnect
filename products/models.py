@@ -10,5 +10,3 @@ class Product(models.Model):
     category = models.CharField(max_length=20, default="")
     location = models.CharField(max_length=20, default="")
     amount = models.CharField(max_length=20, default="")
-
-
