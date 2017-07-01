@@ -3,8 +3,6 @@ from django.contrib.auth.models import User
 
 
 # Create your models here.
-# from products.models import Product
-
 
 class Purchaser(models.Model):
     user = models.ForeignKey(User, default=None)
@@ -33,8 +31,8 @@ class Supplier(models.Model):
 
 
 class PostPrice(models.Model):
-    product = models.ForeignKey("products.Product", default=None)
-    supplier = models.ForeignKey(Supplier, default=None)
+    product = models.ForeignKey("products.Product", null=True, blank=True)
+    supplier = models.ForeignKey(Supplier, null=True, blank=True)
     price = models.CharField(max_length=20, default="", verbose_name="价格")
     amount = models.CharField(max_length=20, default="", verbose_name="数量")
 

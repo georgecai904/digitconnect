@@ -28,9 +28,8 @@ class ProductFunctionalTest(FunctionalTest):
 
         # 山姆将之前的账号输入进去，页面跳转到了空列表中，右边有一个"发布"按钮
         self.assertRegex(self.browser.current_url, "/products/list")
-
-        table = self.browser.find_element_by_id("product-table")
-        self.assertEqual(table.find_elements_by_css_selector('tbody tr'), [])
+        # table = self.browser.find_element_by_id("product-table")
+        # self.assertEqual(table.find_elements_by_css_selector('tbody tr'), [])
         self.browser.find_element_by_css_selector("a.post").click()
 
         # 点击发布后，页面跳转到了商品发布界面
@@ -87,8 +86,7 @@ class ProductFunctionalTest(FunctionalTest):
         table.find_element_by_css_selector('tbody tr:first-child .delete').click()
 
         # 点击后，商品便自动消失了
-        table = self.browser.find_element_by_id("product-table")
-        self.assertEqual(table.find_elements_by_css_selector('tbody tr'), [])
+        self.assertEqual(self.browser.find_elements_by_id("product-table"), [])
 
         # 再回到首页时，山姆发现产品列表中该产品不存在了
         self.browser.find_element_by_css_selector("nav .homepage").click()
