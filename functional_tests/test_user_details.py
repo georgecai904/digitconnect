@@ -6,7 +6,8 @@ import time
 class UserDetailsTest(FunctionalTest):
 
     def setUp(self):
-        self._create_product()
+        purchaser = self._create_purchaser()
+        self._create_product(purchaser)
 
     def test_user_update_information(self):
         # 山姆打开了网页，点击登陆按钮进入登陆界面

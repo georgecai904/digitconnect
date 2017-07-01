@@ -4,7 +4,8 @@ from unittest import skip
 class SupplierFunctionalTest(FunctionalTest):
 
     def test_supplier_post_price(self):
-        p = self._create_product()
+        purchaser = self._create_purchaser()
+        p = self._create_product(purchaser)
 
         # 华少是一个高端音响制造公司的销售员，他从朋友那里了解到了该网站
         # 华少打开了这个网站

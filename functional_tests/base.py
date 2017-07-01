@@ -24,12 +24,12 @@ class FunctionalTest(StaticLiveServerTestCase):
         u.save()
         return u
 
-    def _create_purchaser(self):
-        u = self._create_user(username="purchaser1")
+    def _create_purchaser(self, username="purchaser1", name="山姆采购商"):
+        u = self._create_user(username=username)
         from clients.models import Purchaser
         p = Purchaser.objects.create(
             user=u,
-            name="山姆采购商",
+            name=name,
             phone="13868892809",
             address="上海市浦东新区罗山路1502号10号楼502室",
             location="江浙沪",
@@ -38,20 +38,51 @@ class FunctionalTest(StaticLiveServerTestCase):
         )
         return p
 
-    def _create_product(self):
-        purchaser = self._create_purchaser()
+    def _create_supplier(self, username, name="华少供应"):
+        u = self._create_user(username=username)
+        from clients.models import Supplier
+        s, created = Supplier.objects.update_or_create(
+            user=u,
+            name=name,
+            phone="12839991231",
+            address="上海自贸区11号",
+            location="江浙沪",
+            license="H182119821",
+            area="IT行业"
+        )
+        return s
+
+    def _create_product(self, purchaser, name='B&O音响', amount=100):
         from products.models import Product
         p = Product.objects.create(
             purchaser=purchaser,
-            name='B&O音响',
+            name=name,
             image='/images/product.jpg',
             category='高档音响',
-            amount='100',
+            amount=amount,
             location='江浙沪',
         )
 
         return p
 
+    def _create_post_price(self, supplier, product, price="100", amount="1000"):
+        from clients.models import PostPrice
+        pp = PostPrice.objects.create(
+            supplier=supplier,
+            product=product,
+            price=price,
+            amount=amount
+        )
+        return pp
+
     def _stop(self, sleep_time=10):
         import time
         time.sleep(sleep_time)
+
+    def _login(self, username, password="testpassword"):
+        self.browser.get(self.live_server_url)
+        self.browser.find_element_by_css_selector("nav .login").click()
+        login_form = self.browser.find_element_by_css_selector("form")
+        login_form.find_element_by_id("id_username").send_keys(username)
+        login_form.find_element_by_id("id_password").send_keys(password)
+        login_form.find_element_by_id("id_submit").click()
