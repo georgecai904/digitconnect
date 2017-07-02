@@ -24,7 +24,7 @@ class ProductFunctionalTest(FunctionalTest):
         form = self.browser.find_element_by_tag_name('form')
         form.find_element_by_id("id_username").send_keys("purchaser1")
         form.find_element_by_id("id_password").send_keys("testpassword")
-        form.find_element_by_id("id_sign-in").click()
+        form.find_element_by_id("id_submit").click()
 
         # 山姆将之前的账号输入进去，页面跳转到了空列表中，右边有一个"发布"按钮
         self.assertRegex(self.browser.current_url, "/products/list")

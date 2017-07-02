@@ -3,7 +3,7 @@ from products.forms import NewProductForm
 from django.contrib.auth.decorators import login_required
 from directconnect.settings import LOGIN_URL
 # Create your views here.
-from products.models import Product
+from products.models import Product, PurchaseOrder, PurchaseOfferLine
 
 
 @login_required(login_url=LOGIN_URL)
@@ -53,5 +53,23 @@ def product_list(request):
     return render(request, "products/product_list.html", {
         'products': products,
         'header': '产品列表'
+    })
+
+
+def manage_purchase_order(request, purchase_order_id):
+    purchase_order = PurchaseOrder.objects.get(id=purchase_order_id)
+    purchase_offers = purchase_order.purchaseofferline_set.all()
+    join_purchases = purchase_order.purchaseorderline_set.exclude(purchaser=purchase_order.initiator)
+    if request.GET:
+        for id in request.GET['id']:
+            p_offer = PurchaseOfferLine.objects.get(id=id)
+            p_offer.is_noticed = True
+            p_offer.save()
+    return render(request, "purchase_orders/manage.html", {
+        'header': "{}采购单细节".format(purchase_order.product.name),
+        'breadcrumb': [{"href": '/auth/my-posts', "name": "我的发布"}],
+        'purchase_order': purchase_order,
+        'purchase_offers': purchase_offers,
+        'join_purchases': join_purchases,
     })
 

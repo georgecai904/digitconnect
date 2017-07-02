@@ -35,7 +35,7 @@ def edit_purchaser(request, purchaser_id):
     form = NewPurchaserForm(instance=purchaser)
     if request.method == "POST":
         NewPurchaserForm(request.POST, instance=purchaser).save()
-        return redirect("/auth/details")
+        return redirect("/auth/personal-info")
     return render(request, 'purchasers/purchaser_form.html', {'form': form,
                                                               'action_url': '/purchasers/edit/{0}'.format(
                                                                   purchaser_id),
@@ -65,7 +65,7 @@ def edit_supplier(request, supplier_id):
     form = NewSupplierForm(instance=supplier)
     if request.method == "POST":
         NewSupplierForm(request.POST, instance=supplier).save()
-        return redirect("/auth/details")
+        return redirect("/auth/personal-info")
     return render(request, 'suppliers/supplier_form.html', {'form': form,
                                                             'action_url': '/suppliers/edit/{0}'.format(
                                                                 supplier_id),
@@ -93,4 +93,11 @@ def post_price(request, product_id):
         "action_url": "/suppliers/post-price/{}".format(product_id),
         "form": PostPriceForm(),
         'header': "报价登记"
+    })
+
+
+def supplier_details_public(request, supplier_id):
+    return render(request, 'suppliers/details_public.html', {
+        'header': '供应商公开信息',
+        'supplier': Supplier.objects.get(id=supplier_id)
     })

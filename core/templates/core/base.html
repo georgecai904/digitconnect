@@ -4,14 +4,23 @@
     <meta charset="utf-8">
     <title>Direct Connect</title>
     <!-- Bootstrap core CSS -->
-    <link href="{% static 'bootstrap/css/bootstrap.min.css'%}" rel="stylesheet">
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
 </head>
 
 <body>
 {% block messages %}{% endblock %}
 {% include 'core/navbar.html' %}
+{% if breadcrumb %}
+    <div class="container">
+        <ol class="breadcrumb">
+            {% for b in breadcrumb %}
+                <li><a href="{{ b.href }}">{{ b.name }}</a></li>
+            {% endfor %}
+        </ol>
+    </div>
 
+{% endif %}
 {% if header %}
     <div class="container">
         <h1>{{ header }}</h1>
@@ -22,7 +31,7 @@
 
 {% block content %}{% endblock %}
 
-<script src="{% static 'jquery.min.js'%}"></script>
+<script src="{% static 'jquery.min.js' %}"></script>
 <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
 {% include 'core/footer.html' %}
 </body>

@@ -1,0 +1,69 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <div class="container">
+        <a href="/auth/my-posts?order_id={{ purchase_order.id }}" class="confirm-order">确认订单</a>
+        <div class="row">
+            <div class="col-md-6 purchase-offer">
+                <h3 class="text-center title">供应商报价</h3>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>供应商姓名</th>
+                        <th>报价</th>
+                        <th>报价数量</th>
+                        <th>是否需要通知</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for purchase_offer in purchase_offers %}
+                        <tr>
+                            <td class="supplier-name">
+                                <a href="/suppliers/details/public/{{ purchase_offer.supplier.id }}">
+                                    {{ purchase_offer.supplier.name }}
+                                </a>
+                            </td>
+                            <td class="offer-price">{{ purchase_offer.price }}</td>
+                            <td class="offer-amount">{{ purchase_offer.offer_amount }}</td>
+                            <td>
+                                {% if not purchase_offer.is_updated %}
+                                    {% if not purchase_offer.is_noticed %}
+                                        <a href="/purchase_order/manage/{{ purchase_offer.purchase_order.id }}?id={{ purchase_offer.id }}"
+                                           class="notice btn btn-default">
+                                            通知工厂</a>
+                                    {% else %}
+                                        <label class="notice btn btn-default">已通知</label>
+                                    {% endif %}
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-6 join-purchase">
+                <h3 class="text-center title">采购商拼购</h3>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>采购商名称</th>
+                        <th>拼购数量</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for join_purchase in join_purchases %}
+                        <tr>
+                            <td class="purchaser-name"><a href="/">{{ join_purchase.purchaser.name }}</a></td>
+                            <td class="purchase-amount">{{ join_purchase.amount }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div class="online-chat">
+            <h3 class="text-center title">在线交流</h3>
+        </div>
+    </div>
+{% endblock %}

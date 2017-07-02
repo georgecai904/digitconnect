@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^suppliers/new$', clients.views.new_supplier),
     url(r'^suppliers/edit/(?P<supplier_id>[0-9]+)$', clients.views.edit_supplier),
     url(r'^suppliers/post-price/(?P<product_id>[0-9]+)', clients.views.post_price),
+    url(r'^suppliers/details/public/(?P<supplier_id>[0-9]+)$', clients.views.supplier_details_public),
     # url(r'^purchasers/delete/(?P<product_id>[0-9]+)$', purchasers.views.delete_product),
 
     url(r'^products/new$', products.views.new_product),
@@ -36,10 +37,14 @@ urlpatterns = [
     url(r'^products/delete/(?P<product_id>[0-9]+)$', products.views.delete_product),
     url(r'^products/list$', products.views.product_list),
 
+    url(r'^purchase_order/manage/(?P<purchase_order_id>[0-9]+)$', products.views.manage_purchase_order),
+
     url(r'^auth/login$', core.views.handle_login),
     url(r'^auth/signup$', core.views.handle_signup),
     url(r'^auth/logout$', core.views.handle_logout),
-    url(r'^auth/details$', core.views.user_details),
+    url(r'^auth/personal-info', core.views.personal_info),
+    url(r'^auth/user-center', core.views.user_center),
+    url(r'^auth/my-posts', core.views.my_posts),
     url(r'^auth/details/email', core.views.user_change_email),
     url(r'^auth/details/password', core.views.user_change_password),
 ]

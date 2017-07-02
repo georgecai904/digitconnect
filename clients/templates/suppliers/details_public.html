@@ -1,0 +1,12 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="container">
+    <dt>名称</dt><dd class="supplier-name">{{ supplier.name }}</dd>
+    <dt>电话</dt><dd class="supplier-phone">{{ supplier.phone }}</dd>
+    <dt>地址</dt><dd class="supplier-address">{{ supplier.address }}</dd>
+    <dt>区域</dt><dd class="supplier-location">{{ supplier.location }}</dd>
+    <dt>营业执照</dt><dd class="supplier-license">{{ supplier.license }}</dd>
+    <dt>领域</dt><dd class="supplier-area">{{ supplier.area }}</dd>
+    <input onclick="window.history.go(-1); return false;" type="button" value="返回" class="btn btn-default back"/>
+</div>
+{% endblock %}

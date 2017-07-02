@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
-from products.models import Product
+from products.models import Product, PurchaseOrder
 from django.contrib.auth import authenticate, login, logout
 from core.forms import LoginInForm, NewUserForm, ChangeEmailForm, ChangePasswordForm
 from django.contrib.auth.models import User
 from urllib import parse
 from django.contrib.auth.decorators import login_required
-from directconnect.settings import LOGIN_URL
+from directconnect.settings import LOGIN_URL, POST_ORDER_STATUS
+
 
 # Create your views here.
 def index_page(request):
@@ -54,11 +55,41 @@ def handle_logout(request):
 
 
 @login_required(login_url=LOGIN_URL)
-def user_details(request):
+def personal_info(request):
     user = request.user
     purchasers = user.purchaser_set.all()
     suppliers = user.supplier_set.all()
-    return render(request, 'auth/user_details.html', {'user': user, 'purchasers': purchasers, 'suppliers': suppliers})
+    return render(request, 'user/personal_info.html', {
+        'user': user,
+        'purchasers': purchasers,
+        'suppliers': suppliers
+    })
+
+
+@login_required(login_url=LOGIN_URL)
+def my_posts(request):
+    user = request.user
+
+    if user.purchaser_set.all():
+        purchaser = user.purchaser_set.all()[0]
+        if request.GET:
+            p_o = PurchaseOrder.objects.get(id=int(request.GET['order_id']))
+            p_o.make_deal()
+        return render(request, 'user/my_posts.html', {
+            'header': '我的订单',
+            'purchase_orders_oc': purchaser.purchaseorder_set.filter(status=POST_ORDER_STATUS[0]),
+            'purchase_orders_or': purchaser.purchaseorder_set.filter(status=POST_ORDER_STATUS[1]),
+            'purchase_orders_cp': purchaser.purchaseorder_set.filter(status=POST_ORDER_STATUS[2]),
+        })
+    else:
+        return redirect("/purchasers/new")
+
+
+@login_required(login_url=LOGIN_URL)
+def user_center(request):
+    return render(request, 'user/center.html', {
+        'header': "我的中心",
+    })
 
 
 @login_required(login_url=LOGIN_URL)
@@ -68,8 +99,8 @@ def user_change_email(request):
     if request.method == "POST":
         u.email = request.POST['email']
         u.save()
-        return redirect("/auth/details")
-    return render(request, 'auth/user_change_email.html', {'form': form, 'action_url': '/auth/details/email'})
+        return redirect("/auth/personal-info")
+    return render(request, 'auth/change_email.html', {'form': form, 'action_url': '/auth/details/email'})
 
 
 @login_required(login_url=LOGIN_URL)
@@ -81,6 +112,6 @@ def user_change_password(request):
             if request.POST['password'] == request.POST['repeated_password']:
                 u.set_password(request.POST['password'])
                 u.save()
-                return redirect("/auth/details")
+                return redirect("/auth/personal-info")
         return redirect("/auth/details/password")
-    return render(request, 'auth/user_change_email.html', {'form': form, 'action_url': '/auth/details/password'})
+    return render(request, 'auth/change_email.html', {'form': form, 'action_url': '/auth/details/password'})

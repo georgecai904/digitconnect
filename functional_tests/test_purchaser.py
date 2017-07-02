@@ -22,7 +22,7 @@ class PurchaserFunctionalTest(FunctionalTest):
         self.assertNotEqual(form.find_elements_by_id("id_username"), None)
         self.assertNotEqual(form.find_elements_by_id("id_password"), None)
         self.assertNotEqual(form.find_elements_by_id("id_forget-password"), None)
-        self.assertNotEqual(form.find_elements_by_id("id_sign-in"), None)
+        self.assertNotEqual(form.find_elements_by_id("id_submit"), None)
         self.assertNotEqual(form.find_elements_by_id("id_sign-up"), None)
 
         # 所以他没有对应的账号登陆, 山姆点击了注册按钮
@@ -43,7 +43,7 @@ class PurchaserFunctionalTest(FunctionalTest):
         form.find_element_by_id("id_username").send_keys("purchaser1")
         form.find_element_by_id("id_password").send_keys("testpassword")
         # self._stop()
-        form.find_element_by_id("id_sign-in").click()
+        form.find_element_by_id("id_submit").click()
 
         # 这是山姆第一次登陆到这个网站，登陆后，页面跳转到了创建页面
         self.assertRegex(self.browser.current_url, "/clients/select")

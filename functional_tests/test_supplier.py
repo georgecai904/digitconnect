@@ -34,7 +34,7 @@ class SupplierFunctionalTest(FunctionalTest):
         form = self.browser.find_element_by_tag_name("form")
         form.find_element_by_id("id_username").send_keys("supplier1")
         form.find_element_by_id("id_password").send_keys("testpassword")
-        form.find_element_by_id("id_sign-in").click()
+        form.find_element_by_id("id_submit").click()
 
         # 华少登陆之后进入身份创建页面，华少选择了供应商
         self.browser.find_element_by_css_selector(".client-supplier").click()

@@ -1,0 +1,78 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 completed">
+                <h3 class="title text-center">已完成</h3>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>产品名称</th>
+                        <th>采购数量</th>
+                        <th>采购价格</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for purchase_order in purchase_orders_cp %}
+                        <tr>
+                            <td class="product-name"><a
+                                    href="/purchase_order/manage/{{ purchase_order.id }}">{{ purchase_order.product.name }}</a></td>
+                            <td class="product-amount">{{ purchase_order.amount }}</td>
+                            <td class="offer-price">{{ purchase_order.offer_price }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-4 on-road">
+                <h3 class="title text-center">待收货</h3>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>产品名称</th>
+                        <th>采购数量</th>
+                        <th>采购价格</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for purchase_order in purchase_orders_or %}
+                        <tr>
+                            <td class="product-name"><a
+                                    href="/purchase_order/manage/{{ purchase_order.id }}">{{ purchase_order.product.name }}</a></td>
+                            <td class="product-amount">{{ purchase_order.amount }}</td>
+                            <td class="offer-price">{{ purchase_order.offer_price }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-4 on-check">
+                <h3 class="title text-center">待确认</h3>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>产品名称</th>
+                        <th>采购数量</th>
+                        <th>报价数量</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for purchase_order in purchase_orders_oc %}
+                        <tr>
+                            <td class="product-name"><a
+                                    href="/purchase_order/manage/{{ purchase_order.id }}">{{ purchase_order.product.name }}</a></td>
+                            <td class="product-amount">{{ purchase_order.amount }}</td>
+                            <td class="offer-amount">{{ purchase_order.offer_amount }}/3</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

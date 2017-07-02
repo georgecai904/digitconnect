@@ -64,9 +64,10 @@ class FunctionalTest(StaticLiveServerTestCase):
 
         return p
 
-    def _create_purchaser_order(self, product):
+    def _create_purchase_order(self, initiator, product):
         from products.models import PurchaseOrder
         po = PurchaseOrder.objects.create(
+            initiator=initiator,
             product=product
         )
         return po
@@ -92,4 +93,8 @@ class FunctionalTest(StaticLiveServerTestCase):
         login_form = self.browser.find_element_by_css_selector("form")
         login_form.find_element_by_id("id_username").send_keys(username)
         login_form.find_element_by_id("id_password").send_keys(password)
+        # self._stop()
         login_form.find_element_by_id("id_submit").click()
+
+    def _refresh(self):
+        self.browser.get(self.browser.current_url)
