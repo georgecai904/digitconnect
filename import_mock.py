@@ -16,7 +16,7 @@ application = get_wsgi_application()
 
 def create_user(username):
     from django.contrib.auth.models import User
-    u, created = User.objects.update_or_create(username=username, email="{}@dc.com".format(username))
+    u, created = User.objects.update_or_create(username=username, email="{}@dc.com".format(username), is_superuser=True)
     u.set_password("1")
     u.save()
     return u
@@ -59,10 +59,8 @@ def create_product(purchaser):
         name='B&O音响',
         image='/images/product.jpg',
         category='高档音响',
-        amount='100',
         location='江浙沪',
     )
-
     return p
 
 

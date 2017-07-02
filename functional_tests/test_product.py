@@ -40,7 +40,6 @@ class ProductFunctionalTest(FunctionalTest):
         form.find_element_by_id('id_name').send_keys('B&O音响')
         form.find_element_by_id('id_image').send_keys('/images/product.jpg')
         form.find_element_by_id('id_category').send_keys('高档音响')
-        form.find_element_by_id('id_amount').send_keys('100')
         form.find_element_by_id('id_location').send_keys('江浙沪')
 
         # 山姆填写并成功提交了
@@ -61,7 +60,6 @@ class ProductFunctionalTest(FunctionalTest):
         self.assertEqual(form.find_element_by_id('id_name').get_attribute('value'), 'B&O音响')
         self.assertEqual(form.find_element_by_id('id_image').get_attribute('value'), '/images/product.jpg')
         self.assertEqual(form.find_element_by_id('id_category').get_attribute('value'), '高档音响')
-        self.assertEqual(form.find_element_by_id('id_amount').get_attribute('value'), '100')
         self.assertEqual(form.find_element_by_id('id_location').get_attribute('value'), '江浙沪')
 
         # 山姆发现商品的名称有些问题，于是更改了商品名称并保存

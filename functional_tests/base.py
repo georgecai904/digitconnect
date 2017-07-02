@@ -52,18 +52,25 @@ class FunctionalTest(StaticLiveServerTestCase):
         )
         return s
 
-    def _create_product(self, purchaser, name='B&O音响', amount=100):
+    def _create_product(self, purchaser, name='B&O音响'):
         from products.models import Product
         p = Product.objects.create(
             purchaser=purchaser,
             name=name,
             image='/images/product.jpg',
             category='高档音响',
-            amount=amount,
             location='江浙沪',
         )
 
         return p
+
+    def _create_purchaser_order(self, product):
+        from products.models import PurchaseOrder
+        po = PurchaseOrder.objects.create(
+            product=product
+        )
+        return po
+
 
     def _create_post_price(self, supplier, product, price="100", amount="1000"):
         from clients.models import PostPrice

@@ -1,12 +1,16 @@
 from functional_tests.base import FunctionalTest
-
+from unittest import skip
 
 class UserCenterTest(FunctionalTest):
+
     def test_user_center_for_supplier(self):
         # 山姆发布了USB的10万个采购需求，采购需求的状态为发布
         sam = self._create_purchaser(username="sam", name="sam")
-        usb_product = self._create_product(purchaser=sam, name="USB", amount=100000)
-        self.assertEqual(usb_product.status, "发布")
+        usb_product = self._create_product(purchaser=sam, name="USB")
+        purchaser_order = self._create_purchaser_order(product=usb_product)
+        purchaser_order.add_purchaser(purchaser=sam, amount=100000)
+
+        self.assertEqual(purchaser_order.status, "发布")
 
         # 山姆今天登陆了网站，网站的右上角有一个我的中心，他点击进入
         self._login(username="sam")
@@ -16,6 +20,8 @@ class UserCenterTest(FunctionalTest):
 
         # 进入网站后，山姆看到了个人信息，我的订单，我的发布三个按钮
         self.assertRegex(self.browser.current_url, "/auth/user-center")
+
+        self.fail("here")
 
         self.assertEqual(self.browser.find_element_by_css_selector(".personal-info").text, "个人信息")
         self.assertRegex(self.browser.find_element_by_css_selector(".personal-info").get_attribute("href"),

@@ -1,7 +1,9 @@
 from functional_tests.base import FunctionalTest
+from unittest import skip
 
 class PostPriceTest(FunctionalTest):
 
+    @skip
     def test_purchaser_receive_suppliers_post(self):
         purchaser = self._create_purchaser()
         supplier1 = self._create_supplier(username="supplier1", name="1号供应商")
