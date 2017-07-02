@@ -1,10 +1,10 @@
 from django.shortcuts import render, HttpResponse, redirect
-from clients.forms import NewPurchaserForm, PostPriceForm, NewSupplierForm
+from clients.forms import NewPurchaserForm, NewSupplierForm
 from django.contrib.auth.decorators import login_required
 from directconnect.settings import LOGIN_URL
 from clients.models import Purchaser, Supplier
 # Create your views here.
-from products.models import Product
+from stocks.models import Product
 
 
 @login_required(login_url=LOGIN_URL)
@@ -26,7 +26,7 @@ def new_purchaser(request):
     return render(request, 'purchasers/purchaser_form.html', {'form': NewPurchaserForm(),
                                                               'url': request.path,
                                                               'header': '登记采购商信息',
-                                                              'action_url': '/purchasers/new'})
+                                                              'action_url': '/clients/purchasers/new'})
 
 
 @login_required(login_url=LOGIN_URL)
@@ -35,9 +35,9 @@ def edit_purchaser(request, purchaser_id):
     form = NewPurchaserForm(instance=purchaser)
     if request.method == "POST":
         NewPurchaserForm(request.POST, instance=purchaser).save()
-        return redirect("/auth/personal-info")
+        return redirect("/auth/account")
     return render(request, 'purchasers/purchaser_form.html', {'form': form,
-                                                              'action_url': '/purchasers/edit/{0}'.format(
+                                                              'action_url': '/clients/purchasers/edit/{0}'.format(
                                                                   purchaser_id),
                                                               'header': '修改采购商信息',
                                                               })
@@ -54,7 +54,7 @@ def new_supplier(request):
         return redirect('/')
     return render(request, 'suppliers/supplier_form.html', {'form': NewSupplierForm(),
                                                             'url': request.path,
-                                                            'action_url': '/suppliers/new',
+                                                            'action_url': '/clients/suppliers/new',
                                                             'header': '登记供应商信息',
                                                             })
 
@@ -67,37 +67,37 @@ def edit_supplier(request, supplier_id):
         NewSupplierForm(request.POST, instance=supplier).save()
         return redirect("/auth/personal-info")
     return render(request, 'suppliers/supplier_form.html', {'form': form,
-                                                            'action_url': '/suppliers/edit/{0}'.format(
+                                                            'action_url': '/clients/suppliers/edit/{0}'.format(
                                                                 supplier_id),
                                                             'header': '修改供应商信息',
                                                             })
 
 
-@login_required(login_url=LOGIN_URL)
-def post_price(request, product_id):
-    product = Product.objects.get(id=product_id)
-    if request.user.supplier_set.count() == 0:
-        return redirect("/suppliers/new")
-    if request.method == "POST":
-        pp = PostPriceForm(request.POST).save(commit=False)
-        pp.product = product
-        pp.supplier = request.user.supplier_set.all()[0]
-        pp.save()
-        return render(request, "suppliers/post_price_success.html", {
-            "success_msg": "您的报价已提交，若采购商感兴趣，会进一步与您联系",
-            "pp": pp,
-            'header': "报价成功"
-        })
-    return render(request, "suppliers/post_price.html", {
-        "product": product,
-        "action_url": "/suppliers/post-price/{}".format(product_id),
-        "form": PostPriceForm(),
-        'header': "报价登记"
-    })
+# @login_required(login_url=LOGIN_URL)
+# def post_price(request, product_id):
+#     product = Product.objects.get(id=product_id)
+#     if request.user.supplier_set.count() == 0:
+#         return redirect("/suppliers/new")
+#     if request.method == "POST":
+#         pp = PostPriceForm(request.POST).save(commit=False)
+#         pp.product = product
+#         pp.supplier = request.user.supplier_set.all()[0]
+#         pp.save()
+#         return render(request, "suppliers/post_price_success.html", {
+#             "success_msg": "您的报价已提交，若采购商感兴趣，会进一步与您联系",
+#             "pp": pp,
+#             'header': "报价成功"
+#         })
+#     return render(request, "suppliers/post_price.html", {
+#         "product": product,
+#         "action_url": "/suppliers/post-price/{}".format(product_id),
+#         "form": PostPriceForm(),
+#         'header': "报价登记"
+#     })
 
 
-def supplier_details_public(request, supplier_id):
-    return render(request, 'suppliers/details_public.html', {
-        'header': '供应商公开信息',
+def supplier_details(request, supplier_id):
+    return render(request, 'suppliers/details.html', {
+        'header': '供应商信息',
         'supplier': Supplier.objects.get(id=supplier_id)
     })

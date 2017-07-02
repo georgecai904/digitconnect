@@ -25,21 +25,22 @@ class UserDetailsTest(FunctionalTest):
         self.browser.find_element_by_css_selector(".personal-info").click()
 
         # 页面跳转到了用户信息界面，山姆在邮箱的邮编看到了修改按钮
-        self.assertRegex(self.browser.current_url, "/auth/personal-info")
+        self.assertRegex(self.browser.current_url, "/auth/account")
         email_container = self.browser.find_element_by_css_selector(".user-details .email")
         self.assertEqual(email_container.find_element_by_css_selector(".value").text, "purchaser1@dc.com")
         email_container.find_element_by_css_selector(".edit").click()
 
         # 于是山姆点了进去，便进行修改，山姆便把自己新的邮箱放了上去，并保存
-        self.assertRegex(self.browser.current_url, "/auth/details/email")
+        self.assertRegex(self.browser.current_url, "/auth/reset/email")
         email_input = self.browser.find_element_by_css_selector("form #id_email")
         self.assertEqual(email_input.get_attribute("value"), "purchaser1@dc.com")
         email_input.clear()
         email_input.send_keys("purchaser2@dc.com")
         self.browser.find_element_by_css_selector("form #id_submit").click()
 
+        # self._stop()
         # 页面跳回到了用户信息界面，山姆看见自己的邮箱已经更新成功
-        self.assertRegex(self.browser.current_url, "/auth/personal-info")
+        self.assertRegex(self.browser.current_url, "/auth/account")
 
         self.assertEqual(
             self.browser.find_element_by_css_selector(".user-details .email .value").text,
@@ -48,7 +49,7 @@ class UserDetailsTest(FunctionalTest):
 
         # 山姆看到密码栏只显示了一个更改按钮, 于是点了进去进行修改，修改完成后
         self.browser.find_element_by_css_selector(".user-details .password .edit").click()
-        self.assertRegex(self.browser.current_url, "/auth/details/password")
+        self.assertRegex(self.browser.current_url, "/auth/reset/password")
         self.browser.find_element_by_css_selector("form #id_old_password").send_keys("testpassword")
         self.browser.find_element_by_css_selector("form #id_password").send_keys("newpassword")
         self.browser.find_element_by_css_selector("form #id_repeated_password").send_keys("newpassword")
@@ -90,8 +91,7 @@ class UserDetailsTest(FunctionalTest):
         purchaser_container.find_element_by_css_selector("tbody tr:first-child .edit").click()
 
         # 页面跳转到了采购商信息修改页面，山姆将自己的信息更新并保存
-        self.assertRegex(self.browser.current_url, "/purchasers/edit")
-
+        self.assertRegex(self.browser.current_url, "/clients/purchasers/edit")
         purchaser_name_input = self.browser.find_element_by_css_selector("form #id_name")
         self.assertEqual(purchaser_name_input.get_attribute("value"), "山姆采购商")
         purchaser_name_input.clear()
@@ -99,7 +99,7 @@ class UserDetailsTest(FunctionalTest):
         self.browser.find_element_by_css_selector("form #id_submit").click()
 
         # 保存后页面跳回到了用户信息界面，确认刚刚更新成功
-        self.assertRegex(self.browser.current_url, "/auth/personal-info")
+        self.assertRegex(self.browser.current_url, "/auth/account")
         purchaser_container = self.browser.find_element_by_css_selector(".purchasers")
         self.assertEqual(
             purchaser_container.find_element_by_css_selector("tbody tr:first-child .purchaser-name").text,
@@ -109,7 +109,7 @@ class UserDetailsTest(FunctionalTest):
         purchaser_container.find_element_by_css_selector("tbody tr:first-child .products").click()
 
         # 页面跳转到了之前的产品列表，里面信息和之前的一致
-        self.assertRegex(self.browser.current_url, "/products/list")
+        self.assertRegex(self.browser.current_url, "/stocks/products/dashboard")
         self.assertEqual(
             self.browser.find_element_by_css_selector("tbody .product-name").text,
             "B&O音响"
@@ -117,5 +117,5 @@ class UserDetailsTest(FunctionalTest):
 
         # 山姆看一些信息都稳妥了，便退出了
         self.browser.find_element_by_css_selector("nav .logout").click()
-        self.browser.get(self.live_server_url+"/auth/user-center")
+        self.browser.get(self.live_server_url+"/auth/center")
         self.assertRegex(self.browser.current_url, "/auth/login")

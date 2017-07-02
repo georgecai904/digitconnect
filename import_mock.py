@@ -53,7 +53,7 @@ def create_supplier():
 
 
 def create_product(purchaser):
-    from products.models import Product
+    from stocks.models import Product
     p, created = Product.objects.update_or_create(
         purchaser=purchaser,
         name='B&O音响',
@@ -64,38 +64,31 @@ def create_product(purchaser):
     return p
 
 
-def _create_purchaser_order(self, initiator, product):
-    from products.models import PurchaseOrder
-    po = PurchaseOrder.objects.create(
-        initiator=initiator,
-        product=product
-    )
-
-
 def create_purchase_order(initiator, product):
-    from products.models import PurchaseOrder
+    from deals.models import PurchaseOrder
     po = PurchaseOrder.objects.create(
         initiator=initiator,
         product=product
     )
     return po
 
-def create_post_price(supplier, product):
-    from clients.models import PostPrice
-    pp, created = PostPrice.objects.update_or_create(
-        product=product,
-        supplier=supplier,
-        price="1000",
-        amount="10"
 
-    )
-    return pp
+# def create_post_price(supplier, product):
+#     from clients.models import PostPrice
+#     pp, created = PostPrice.objects.update_or_create(
+#         product=product,
+#         supplier=supplier,
+#         price="1000",
+#         amount="10"
+#
+#     )
+#     return pp
 
 
 supplier = create_supplier()
 purchaser = create_purchaser()
 product = create_product(purchaser=purchaser)
-create_post_price(supplier=supplier, product=product)
+# create_post_price(supplier=supplier, product=product)
 po = create_purchase_order(initiator=purchaser, product=product)
 po.add_purchaser(purchaser=purchaser, amount=100000)
 po.add_supplier(supplier=supplier, price=19.99)

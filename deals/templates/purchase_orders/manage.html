@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="container">
-        <a href="/auth/my-posts?order_id={{ purchase_order.id }}" class="confirm-order">确认订单</a>
+        <a href="/deals/purchase_orders/dashboard?order_id={{ purchase_order.id }}" class="confirm-order">确认订单</a>
         <div class="row">
             <div class="col-md-6 purchase-offer">
                 <h3 class="text-center title">供应商报价</h3>
@@ -19,7 +19,7 @@
                     {% for supply_offer in supply_offers %}
                         <tr>
                             <td class="supplier-name">
-                                <a href="/suppliers/details/public/{{ supply_offer.supplier.id }}">
+                                <a href="/clients/suppliers/details/{{ supply_offer.supplier.id }}">
                                     {{ supply_offer.supplier.name }}
                                 </a>
                             </td>
@@ -28,7 +28,7 @@
                             <td>
                                 {% if not supply_offer.is_updated %}
                                     {% if not supply_offer.is_noticed %}
-                                        <a href="/purchase_order/manage/{{ supply_offer.purchase_order.id }}?id={{ supply_offer.id }}"
+                                        <a href="/deals/purchase_orders/manage/{{ supply_offer.purchase_order.id }}?id={{ supply_offer.id }}"
                                            class="notice btn btn-default">
                                             通知工厂</a>
                                     {% else %}

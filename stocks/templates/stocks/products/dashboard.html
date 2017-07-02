@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <a class="post btn btn-block btn-default" href="/products/new">发布</a>
+        <a class="post btn btn-block btn-default" href="/stocks/products/new">发布</a>
     </div>
     {% if products %}
     <table id="product-table" class="table table-hover">
@@ -24,8 +24,8 @@
                 <td class="product-category">{{ product.category }}</td>
                 <td class="product-location">{{ product.location }}</td>
                 <td>
-                    <a href="/products/edit/{{ product.id }}" class="btn btn-default edit">修改</a>
-                    <a href="/products/delete/{{ product.id }}" class="btn btn-default delete">删除</a>
+                    <a href="/stocks/products/edit/{{ product.id }}" class="btn btn-default edit">修改</a>
+                    <a href="/stocks/products/delete/{{ product.id }}" class="btn btn-default delete">删除</a>
                 </td>
             </tr>
         {% endfor %}

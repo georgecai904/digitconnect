@@ -18,7 +18,7 @@
                     {% for purchase_order in purchase_orders_cp %}
                         <tr>
                             <td class="product-name"><a
-                                    href="/purchase_order/manage/{{ purchase_order.id }}">{{ purchase_order.product.name }}</a></td>
+                                    href="/deals/purchase_orders/manage/{{ purchase_order.id }}">{{ purchase_order.product.name }}</a></td>
                             <td class="product-amount">{{ purchase_order.amount }}</td>
                             <td class="offer-price">{{ purchase_order.offer_price }}</td>
                         </tr>
@@ -41,7 +41,7 @@
                     {% for purchase_order in purchase_orders_or %}
                         <tr>
                             <td class="product-name"><a
-                                    href="/purchase_order/manage/{{ purchase_order.id }}">{{ purchase_order.product.name }}</a></td>
+                                    href="/deals/purchase_orders/manage/{{ purchase_order.id }}">{{ purchase_order.product.name }}</a></td>
                             <td class="product-amount">{{ purchase_order.amount }}</td>
                             <td class="offer-price">{{ purchase_order.offer_price }}</td>
                         </tr>
@@ -64,7 +64,7 @@
                     {% for purchase_order in purchase_orders_oc %}
                         <tr>
                             <td class="product-name"><a
-                                    href="/purchase_order/manage/{{ purchase_order.id }}">{{ purchase_order.product.name }}</a></td>
+                                    href="/deals/purchase_orders/manage/{{ purchase_order.id }}">{{ purchase_order.product.name }}</a></td>
                             <td class="product-amount">{{ purchase_order.amount }}</td>
                             <td class="offer-amount">{{ purchase_order.offer_amount }}/3</td>
                         </tr>

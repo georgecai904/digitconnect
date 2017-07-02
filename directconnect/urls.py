@@ -13,38 +13,29 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
 import core.views
-import clients.views
-import products.views
 
 urlpatterns = [
+
+    # Home Page
     url(r'^$', core.views.index_page),
+
+    # [Module] admin
     url(r'^admin/', admin.site.urls),
 
-    url(r'^clients/select$', clients.views.select_type),
-    url(r'^purchasers/new$', clients.views.new_purchaser),
-    url(r'^purchasers/edit/(?P<purchaser_id>[0-9]+)$', clients.views.edit_purchaser),
-    url(r'^suppliers/new$', clients.views.new_supplier),
-    url(r'^suppliers/edit/(?P<supplier_id>[0-9]+)$', clients.views.edit_supplier),
-    url(r'^suppliers/post-price/(?P<product_id>[0-9]+)', clients.views.post_price),
-    url(r'^suppliers/details/public/(?P<supplier_id>[0-9]+)$', clients.views.supplier_details_public),
-    # url(r'^purchasers/delete/(?P<product_id>[0-9]+)$', purchasers.views.delete_product),
+    # [Module] core
+    url(r'^auth/', include("core.urls")),
 
-    url(r'^products/new$', products.views.new_product),
-    url(r'^products/edit/(?P<product_id>[0-9]+)$', products.views.edit_product),
-    url(r'^products/delete/(?P<product_id>[0-9]+)$', products.views.delete_product),
-    url(r'^products/list$', products.views.product_list),
+    # [Module] deals
+    url(r'deals/', include("deals.urls")),
 
-    url(r'^purchase_order/manage/(?P<purchase_order_id>[0-9]+)$', products.views.manage_purchase_order),
+    # [Module] stocks
+    url(r'stocks/', include("stocks.urls")),
 
-    url(r'^auth/login$', core.views.handle_login),
-    url(r'^auth/signup$', core.views.handle_signup),
-    url(r'^auth/logout$', core.views.handle_logout),
-    url(r'^auth/personal-info', core.views.personal_info),
-    url(r'^auth/user-center', core.views.user_center),
-    url(r'^auth/my-posts', core.views.my_posts),
-    url(r'^auth/details/email', core.views.user_change_email),
-    url(r'^auth/details/password', core.views.user_change_password),
+    # [Module] clients
+    url(r'clients/', include("clients.urls")),
+
+    # url(r'^purchase_order/manage/(?P<purchase_order_id>[0-9]+)$', deals.views.manage_purchase_order),
 ]

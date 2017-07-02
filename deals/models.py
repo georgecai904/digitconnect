@@ -1,18 +1,9 @@
 from django.db import models
+
+# Create your models here.
 from clients.models import Purchaser, Supplier
 from directconnect.settings import POST_ORDER_STATUS
-# Create your models here.
-
-
-class Product(models.Model):
-    purchaser = models.ForeignKey(Purchaser, default=None)
-    name = models.CharField(max_length=20, default="", verbose_name="名称")
-    image = models.CharField(max_length=20, default="", verbose_name="图片")
-    category = models.CharField(max_length=20, default="", verbose_name="类型")
-    location = models.CharField(max_length=20, default="", verbose_name="地区")
-
-    def __str__(self):
-        return self.name
+from stocks.models import Product
 
 
 class PurchaseOrder(models.Model):

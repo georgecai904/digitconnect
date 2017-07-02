@@ -3,6 +3,7 @@ from unittest import skip
 
 class SupplierFunctionalTest(FunctionalTest):
 
+    @skip
     def test_supplier_post_price(self):
         purchaser = self._create_purchaser()
         p = self._create_product(purchaser)

@@ -19,7 +19,6 @@ class ProductFunctionalTest(FunctionalTest):
         # 山姆因为还没有登陆过，所以网页跳转到了登陆页面
         # 山姆将自己的登陆信息进去
         self._create_purchaser()
-
         self.assertRegex(self.browser.current_url, "/auth/login")
         form = self.browser.find_element_by_tag_name('form')
         form.find_element_by_id("id_username").send_keys("purchaser1")
@@ -27,13 +26,13 @@ class ProductFunctionalTest(FunctionalTest):
         form.find_element_by_id("id_submit").click()
 
         # 山姆将之前的账号输入进去，页面跳转到了空列表中，右边有一个"发布"按钮
-        self.assertRegex(self.browser.current_url, "/products/list")
+        self.assertRegex(self.browser.current_url, "/stocks/products/dashboard")
         # table = self.browser.find_element_by_id("product-table")
         # self.assertEqual(table.find_elements_by_css_selector('tbody tr'), [])
         self.browser.find_element_by_css_selector("a.post").click()
 
         # 点击发布后，页面跳转到了商品发布界面
-        self.assertEqual(self.browser.current_url, self.live_server_url + "/products/new")
+        self.assertEqual(self.browser.current_url, self.live_server_url + "/stocks/products/new")
         form = self.browser.find_element_by_tag_name('form')
 
         # 山姆将他想要发布的商品以此都填写进去
@@ -46,7 +45,7 @@ class ProductFunctionalTest(FunctionalTest):
         form.find_element_by_id('id_submit').click()
 
         # 提交后，网页跳到了一个产品页面，在这个页面里显示了刚刚发布的商品
-        self.assertRegex(self.browser.current_url, "/products/list")
+        self.assertRegex(self.browser.current_url, "/stocks/products/dashboard")
         table = self.browser.find_element_by_id("product-table")
         self.assertEqual(table.find_element_by_css_selector('tbody tr:first-child .product-name').text, "B&O音响")
 
@@ -54,7 +53,7 @@ class ProductFunctionalTest(FunctionalTest):
         table.find_element_by_css_selector('tr:first-child .edit').click()
 
         # 页面跳转到了修改页面, 里面显示了该商品的所有信息
-        self.assertRegex(self.browser.current_url, self.live_server_url + "/products/edit")
+        self.assertRegex(self.browser.current_url, "/stocks/products/edit")
         form = self.browser.find_element_by_tag_name('form')
 
         self.assertEqual(form.find_element_by_id('id_name').get_attribute('value'), 'B&O音响')
@@ -68,7 +67,7 @@ class ProductFunctionalTest(FunctionalTest):
         form.find_element_by_id('id_submit').click()
 
         # 提交后，页面回到了原来的商品列表内，并发现商品名称已经更改成功
-        self.assertRegex(self.browser.current_url, self.live_server_url + "/products/list")
+        self.assertRegex(self.browser.current_url, "/stocks/products/dashboard")
         table = self.browser.find_element_by_id("product-table")
         self.assertEqual(table.find_element_by_css_selector('tbody tr:first-child .product-name').text, "B&O 降噪系列音响")
 

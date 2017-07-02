@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
-from products.models import Product, PurchaseOrder
+
+from deals.models import PurchaseOrder
+from stocks.models import Product
 from django.contrib.auth import authenticate, login, logout
 from core.forms import LoginInForm, NewUserForm, ChangeEmailForm, ChangePasswordForm
 from django.contrib.auth.models import User
@@ -55,34 +57,15 @@ def handle_logout(request):
 
 
 @login_required(login_url=LOGIN_URL)
-def personal_info(request):
+def account_details(request):
     user = request.user
     purchasers = user.purchaser_set.all()
     suppliers = user.supplier_set.all()
-    return render(request, 'user/personal_info.html', {
+    return render(request, 'user/account.html', {
         'user': user,
         'purchasers': purchasers,
         'suppliers': suppliers
     })
-
-
-@login_required(login_url=LOGIN_URL)
-def my_posts(request):
-    user = request.user
-
-    if user.purchaser_set.all():
-        purchaser = user.purchaser_set.all()[0]
-        if request.GET:
-            p_o = PurchaseOrder.objects.get(id=int(request.GET['order_id']))
-            p_o.make_deal()
-        return render(request, 'user/my_posts.html', {
-            'header': '我的订单',
-            'purchase_orders_oc': purchaser.purchaseorder_set.filter(status=POST_ORDER_STATUS[0]),
-            'purchase_orders_or': purchaser.purchaseorder_set.filter(status=POST_ORDER_STATUS[1]),
-            'purchase_orders_cp': purchaser.purchaseorder_set.filter(status=POST_ORDER_STATUS[2]),
-        })
-    else:
-        return redirect("/purchasers/new")
 
 
 @login_required(login_url=LOGIN_URL)
@@ -93,18 +76,18 @@ def user_center(request):
 
 
 @login_required(login_url=LOGIN_URL)
-def user_change_email(request):
+def reset_email(request):
     u = User.objects.get(username=request.user.username)
     form = ChangeEmailForm(instance=u)
     if request.method == "POST":
         u.email = request.POST['email']
         u.save()
-        return redirect("/auth/personal-info")
-    return render(request, 'auth/change_email.html', {'form': form, 'action_url': '/auth/details/email'})
+        return redirect("/auth/account")
+    return render(request, 'auth/reset_email.html', {'form': form, 'action_url': '/auth/reset/email'})
 
 
 @login_required(login_url=LOGIN_URL)
-def user_change_password(request):
+def reset_password(request):
     u = User.objects.get(username=request.user.username)
     form = ChangePasswordForm()
     if request.method == "POST":
@@ -112,6 +95,6 @@ def user_change_password(request):
             if request.POST['password'] == request.POST['repeated_password']:
                 u.set_password(request.POST['password'])
                 u.save()
-                return redirect("/auth/personal-info")
-        return redirect("/auth/details/password")
-    return render(request, 'auth/change_email.html', {'form': form, 'action_url': '/auth/details/password'})
+                return redirect("/auth/account")
+        return redirect("/auth/reset/password")
+    return render(request, 'auth/reset_email.html', {'form': form, 'action_url': '/auth/reset/password'})

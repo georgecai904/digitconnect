@@ -29,10 +29,3 @@ class Supplier(models.Model):
     def __str__(self):
         return self.name
 
-
-class PostPrice(models.Model):
-    product = models.ForeignKey("products.Product", null=True, blank=True)
-    supplier = models.ForeignKey(Supplier, null=True, blank=True)
-    price = models.CharField(max_length=20, default="", verbose_name="价格")
-    amount = models.CharField(max_length=20, default="", verbose_name="数量")
-

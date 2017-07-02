@@ -53,7 +53,7 @@ class FunctionalTest(StaticLiveServerTestCase):
         return s
 
     def _create_product(self, purchaser, name='B&O音响'):
-        from products.models import Product
+        from stocks.models import Product
         p = Product.objects.create(
             purchaser=purchaser,
             name=name,
@@ -65,7 +65,7 @@ class FunctionalTest(StaticLiveServerTestCase):
         return p
 
     def _create_purchase_order(self, initiator, product):
-        from products.models import PurchaseOrder
+        from deals.models import PurchaseOrder
         po = PurchaseOrder.objects.create(
             initiator=initiator,
             product=product

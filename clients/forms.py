@@ -1,5 +1,5 @@
 from django import forms
-from clients.models import Purchaser, PostPrice, Supplier
+from clients.models import Purchaser, Supplier
 
 
 class BasicForm(forms.ModelForm):
@@ -25,8 +25,8 @@ class NewSupplierForm(BasicForm):
         # fields = '__all__'
         exclude = ('user',)
 
-
-class PostPriceForm(BasicForm):
-    class Meta:
-        model = PostPrice
-        exclude = ('product', 'supplier', )
+#
+# class PostPriceForm(BasicForm):
+#     class Meta:
+#         model = PostPrice
+#         exclude = ('product', 'supplier', )

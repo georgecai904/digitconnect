@@ -22,26 +22,26 @@ class UserCenterTest(FunctionalTest):
         user_center.click()
 
         # 进入网站后，山姆看到了个人信息，我的订单，我的发布三个按钮
-        self.assertRegex(self.browser.current_url, "/auth/user-center")
+        self.assertRegex(self.browser.current_url, "/auth/center")
         # print(self.browser.current_url)
         # self._stop(30)
         self.assertEqual(self.browser.find_element_by_css_selector(".personal-info").text, "个人信息")
         self.assertRegex(self.browser.find_element_by_css_selector(".personal-info").get_attribute("href"),
-                         "/auth/personal-info")
+                         "/auth/account")
 
         self.assertEqual(self.browser.find_element_by_css_selector(".my-orders").text, "我的订单")
         self.assertRegex(self.browser.find_element_by_css_selector(".my-orders").get_attribute("href"),
                          "/auth/my-orders")
 
-        self.assertEqual(self.browser.find_element_by_css_selector(".my-posts").text, "我的发布")
-        self.assertRegex(self.browser.find_element_by_css_selector(".my-posts").get_attribute("href"),
-                         "/auth/my-posts")
+        self.assertEqual(self.browser.find_element_by_css_selector(".orders-dashboard").text, "我的发布")
+        self.assertRegex(self.browser.find_element_by_css_selector(".orders-dashboard").get_attribute("href"),
+                         "/deals/purchase_orders/dashboard")
 
-        # 山姆点击了我的发布
-        self.browser.find_element_by_css_selector(".my-posts").click()
+        # 山姆点击了我的发布`
+        self.browser.find_element_by_css_selector(".orders-dashboard").click()
 
         # 网页转到了一个三栏的页面，分别是已完成，待收货，待确认
-        self.assertRegex(self.browser.current_url, "/auth/my-posts")
+        self.assertRegex(self.browser.current_url, "/deals/purchase_orders/dashboard")
         self.assertEqual(self.browser.find_element_by_css_selector(".completed .title").text, "已完成")
         self.assertEqual(self.browser.find_element_by_css_selector(".on-road .title").text, "待收货")
         self.assertEqual(self.browser.find_element_by_css_selector(".on-check .title").text, "待确认")
@@ -57,7 +57,7 @@ class UserCenterTest(FunctionalTest):
         first_row.find_element_by_css_selector(".product-name a").click()
 
         # 页面跳转到了采购细节页面, 页面同样的显示了三栏，分别是报价／加入采购／在线交流
-        self.assertRegex(self.browser.current_url, "/purchase_order/manage")
+        self.assertRegex(self.browser.current_url, "/deals/purchase_orders/manage")
         self.assertEqual(self.browser.find_element_by_css_selector(".purchase-offer .title").text, "供应商报价")
         self.assertEqual(self.browser.find_element_by_css_selector(".join-purchase .title").text, "采购商拼购")
         self.assertEqual(self.browser.find_element_by_css_selector(".online-chat .title").text, "在线交流")
@@ -88,7 +88,7 @@ class UserCenterTest(FunctionalTest):
 
         # 点击缩略地图里面的我的发布，山姆回到了我的发布界面
         self.browser.find_element_by_css_selector(".breadcrumb li:first-child a").click()
-        self.assertRegex(self.browser.current_url, "/auth/my-posts")
+        self.assertRegex(self.browser.current_url, "/deals/purchase_orders/dashboard")
 
         # 山姆发现在刚刚的USB的报价数量变成了3/3
         on_check_table = self.browser.find_element_by_css_selector(".on-check table")
@@ -106,7 +106,7 @@ class UserCenterTest(FunctionalTest):
         # 此时山姆又点击了USB采购需求
         first_row = on_check_table.find_element_by_css_selector("tbody tr:first-child")
         first_row.find_element_by_css_selector(".product-name a").click()
-        self.assertRegex(self.browser.current_url, "/purchase_order/manage")
+        self.assertRegex(self.browser.current_url, "/deals/purchase_orders/manage")
 
         # 在加入采购这栏里面，他发现有两个采购商加入了采购
         join_purchase_table = self.browser.find_element_by_css_selector(".join-purchase table")
@@ -146,6 +146,8 @@ class UserCenterTest(FunctionalTest):
         notice_btn = row.find_element_by_css_selector(".notice")
         self.assertEqual(notice_btn.text, "通知工厂")
         notice_btn.click()
+
+        self.browser.refresh()
         purchase_offer_table = self.browser.find_element_by_css_selector(".purchase-offer table")
         self.assertEqual(purchase_offer_table.find_element_by_css_selector("tbody tr:nth-child(3) .notice").text, "已通知")
 
@@ -156,7 +158,7 @@ class UserCenterTest(FunctionalTest):
         # 由于工厂3的价格最低，山姆查看了工厂3的具体信息（TODO: 需要添加确认环节）
         purchase_offer_table = self.browser.find_element_by_css_selector(".purchase-offer table")
         purchase_offer_table.find_element_by_css_selector("tbody tr:nth-child(3) .supplier-name a").click()
-        self.assertRegex(self.browser.current_url, "/suppliers/details/public")
+        self.assertRegex(self.browser.current_url, "/clients/suppliers/details")
         self.assertEqual(self.browser.find_element_by_css_selector(".supplier-name").text, "工厂3")
 
         # (TODO: 需要修改为投票环节）
@@ -165,11 +167,11 @@ class UserCenterTest(FunctionalTest):
         self.browser.refresh()
 
         # 返回当刚刚页面后，点击确定生成订单，订单状态为采购成立 (TODO: 考虑是否需要加入机制确保所有的工厂都已更新价格后才能生成订单）
-        self.assertRegex(self.browser.current_url, "/purchase_order/manage")
+        self.assertRegex(self.browser.current_url, "/deals/purchase_orders/manage")
         self.browser.find_element_by_css_selector(".confirm-order").click()
 
         # 页面跳回到了刚刚的我的发布页面，刚刚的采购需求从原来的待确认进入到了待收货
-        self.assertRegex(self.browser.current_url, "/auth/my-posts")
+        self.assertRegex(self.browser.current_url, "/deals/purchase_orders/dashboard")
 
         self.assertEqual(len(self.browser.find_elements_by_css_selector(".on-check tbody tr")), 0)
         self.assertEqual(len(self.browser.find_elements_by_css_selector(".on-road tbody tr")), 1)
