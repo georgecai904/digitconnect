@@ -33,12 +33,12 @@ class PurchaseOrder(models.Model):
         )
         if len(self.purchaseorderline_set.all()) > 1:
             # self.status = POST_ORDER_STATUS[2]
-            for purchase_offer in self.purchaseofferline_set.all():
-                purchase_offer.is_updated = False
-                purchase_offer.save()
+            for supply_offer in self.supplyoffer_set.all():
+                supply_offer.is_updated = False
+                supply_offer.save()
 
     def add_supplier(self, supplier, price):
-        a = PurchaseOfferLine.objects.get_or_create(
+        a = SupplyOffer.objects.get_or_create(
             purchase_order=self,
             supplier=supplier,
             price=price,
@@ -49,20 +49,20 @@ class PurchaseOrder(models.Model):
         return int(self.purchaseorderline_set.get(purchaser=purchaser).amount)
 
     def supplier_update_price(self, supplier, price):
-        p_offer = self.purchaseofferline_set.get(id=supplier.id)
-        p_offer.price = price
-        p_offer.is_updated = True
-        p_offer.offer_amount = self.total_amount
-        p_offer.save()
+        supply_offer = self.supplyoffer_set.get(id=supplier.id)
+        supply_offer.price = price
+        supply_offer.is_updated = True
+        supply_offer.offer_amount = self.total_amount
+        supply_offer.save()
         # if set([p.is_updated for p in self.purchaseofferline_set.all()]) == {True}:
             # self.status = POST_ORDER_STATUS[3]
 
     def make_deal(self):
         # TODO: 先暂时默认价格最低的为最后的交易价格
         self.status = POST_ORDER_STATUS[1]
-        purchase_offer = PurchaseOfferLine.objects.all().order_by('price')[0]
-        self.offer_price = purchase_offer.price
-        self.supplier = purchase_offer.supplier
+        supply_offer = SupplyOffer.objects.all().order_by('price')[0]
+        self.offer_price = supply_offer.price
+        self.supplier = supply_offer.supplier
         self.save()
 
     def get_all_purchasers(self):
@@ -74,7 +74,7 @@ class PurchaseOrder(models.Model):
 
     @property
     def offer_amount(self):
-        return len(self.purchaseofferline_set.all())
+        return len(self.supplyoffer_set.all())
 
     @property
     def amount(self):
@@ -90,16 +90,10 @@ class PurchaseOrderLine(models.Model):
     # TODO：当出现拼购后，拼购用户的产品库内会自动添加他拼购过的商品，并且是独立与原产品发布者
 
 
-class PurchaseOfferLine(models.Model):
+class SupplyOffer(models.Model):
     purchase_order = models.ForeignKey(PurchaseOrder, null=False, blank=False, default=None)
     supplier = models.ForeignKey(Supplier, null=False, blank=False, default=None)
     price = models.DecimalField(default=0, max_digits=10, decimal_places=2, verbose_name="报价")
     offer_amount = models.CharField(max_length=10, default=0)
     is_updated = models.BooleanField(default=True)
     is_noticed = models.BooleanField(default=False)
-
-    # def save(self, *args, **kwargs):
-        # if self.purchase_order.status == POST_ORDER_STATUS[0]:
-            # self.purchase_order.status = POST_ORDER_STATUS[1]
-        # super(PurchaseOfferLine, self).save(*args, **kwargs)
-

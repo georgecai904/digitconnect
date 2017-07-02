@@ -16,19 +16,19 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for purchase_offer in purchase_offers %}
+                    {% for supply_offer in supply_offers %}
                         <tr>
                             <td class="supplier-name">
-                                <a href="/suppliers/details/public/{{ purchase_offer.supplier.id }}">
-                                    {{ purchase_offer.supplier.name }}
+                                <a href="/suppliers/details/public/{{ supply_offer.supplier.id }}">
+                                    {{ supply_offer.supplier.name }}
                                 </a>
                             </td>
-                            <td class="offer-price">{{ purchase_offer.price }}</td>
-                            <td class="offer-amount">{{ purchase_offer.offer_amount }}</td>
+                            <td class="offer-price">{{ supply_offer.price }}</td>
+                            <td class="offer-amount">{{ supply_offer.offer_amount }}</td>
                             <td>
-                                {% if not purchase_offer.is_updated %}
-                                    {% if not purchase_offer.is_noticed %}
-                                        <a href="/purchase_order/manage/{{ purchase_offer.purchase_order.id }}?id={{ purchase_offer.id }}"
+                                {% if not supply_offer.is_updated %}
+                                    {% if not supply_offer.is_noticed %}
+                                        <a href="/purchase_order/manage/{{ supply_offer.purchase_order.id }}?id={{ supply_offer.id }}"
                                            class="notice btn btn-default">
                                             通知工厂</a>
                                     {% else %}
