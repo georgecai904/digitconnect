@@ -1,0 +1,8 @@
+server {
+    listen 80;
+    server_name 54.199.168.129;
+
+    location / {
+        proxy_pass http://localhost:8000;
+    }
+}
