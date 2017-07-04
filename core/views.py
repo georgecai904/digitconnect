@@ -63,8 +63,8 @@ def account_details(request):
     suppliers = user.supplier_set.all()
     return render(request, 'user/account.html', {
         'user': user,
-        'purchasers': purchasers,
-        'suppliers': suppliers
+        'purchaser': purchasers[0] if purchasers else None,
+        'supplier': suppliers[0] if suppliers else None
     })
 
 
