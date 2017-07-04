@@ -8,7 +8,6 @@ from stocks.models import Product
 
 class PurchaseOrder(models.Model):
     initiator = models.ForeignKey(Purchaser, null=False, blank=False, default=None, verbose_name="发起人")
-    title = models.CharField(max_length=20, default="", verbose_name="标题", blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
     product = models.ForeignKey(Product, null=False, blank=False, default=None)
     status = models.CharField(max_length=10, default=POST_ORDER_STATUS[0], verbose_name="状态")

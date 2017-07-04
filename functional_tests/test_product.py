@@ -9,11 +9,11 @@ from clients.models import Purchaser
 
 class ProductFunctionalTest(FunctionalTest):
 
-    def test_post_new_product(self):
-        # 山姆登陆到了首页，看到了"产品发布"，便点了进去
+    def test_manage_product(self):
+        # 山姆登陆到了首页，看到了"发布订单"，便点了进去
         self.browser.get(self.live_server_url)
-        post_product_link = self.browser.find_element_by_css_selector("nav .post-product")
-        self.assertIn("产品发布", post_product_link.text)
+        post_product_link = self.browser.find_element_by_css_selector("nav .release-order")
+        self.assertIn("发布订单", post_product_link.text)
         post_product_link.click()
 
         # 山姆因为还没有登陆过，所以网页跳转到了登陆页面
@@ -32,7 +32,7 @@ class ProductFunctionalTest(FunctionalTest):
         self.browser.find_element_by_css_selector("a.post").click()
 
         # 点击发布后，页面跳转到了商品发布界面
-        self.assertEqual(self.browser.current_url, self.live_server_url + "/stocks/products/new")
+        self.assertRegex(self.browser.current_url, "/stocks/products/new")
         form = self.browser.find_element_by_tag_name('form')
 
         # 山姆将他想要发布的商品以此都填写进去
@@ -46,7 +46,7 @@ class ProductFunctionalTest(FunctionalTest):
 
         # 提交后，网页跳到了一个产品页面，在这个页面里显示了刚刚发布的商品
         self.assertRegex(self.browser.current_url, "/stocks/products/dashboard")
-        table = self.browser.find_element_by_id("product-table")
+        table = self.browser.find_element_by_css_selector(".product-table")
         self.assertEqual(table.find_element_by_css_selector('tbody tr:first-child .product-name').text, "B&O音响")
 
         # 在表格的最右边，山姆看到了修改按钮便点进去
@@ -68,25 +68,13 @@ class ProductFunctionalTest(FunctionalTest):
 
         # 提交后，页面回到了原来的商品列表内，并发现商品名称已经更改成功
         self.assertRegex(self.browser.current_url, "/stocks/products/dashboard")
-        table = self.browser.find_element_by_id("product-table")
+        table = self.browser.find_element_by_css_selector(".product-table")
         self.assertEqual(table.find_element_by_css_selector('tbody tr:first-child .product-name').text, "B&O 降噪系列音响")
 
-        # 山姆点击回到首页的商品列表里面看到了他刚刚发布的产品
-        self.browser.find_element_by_css_selector("nav .homepage").click()
-        self.assertEqual(self.browser.current_url, self.live_server_url + "/")
-        container = self.browser.find_element_by_css_selector(".product-container:first-child")
-        self.assertEqual(container.find_element_by_css_selector(".product-name .value").text, 'B&O 降噪系列音响')
-
         # 山姆觉得这个商品已经过时，想删掉，于是他点回到产品发布
-        self.browser.find_element_by_css_selector("nav .post-product").click()
-        table = self.browser.find_element_by_id("product-table")
+        self.browser.find_element_by_css_selector("nav .release-order").click()
+        table = self.browser.find_element_by_css_selector(".product-table")
         table.find_element_by_css_selector('tbody tr:first-child .delete').click()
 
         # 点击后，商品便自动消失了
         self.assertEqual(self.browser.find_elements_by_id("product-table"), [])
-
-        # 再回到首页时，山姆发现产品列表中该产品不存在了
-        self.browser.find_element_by_css_selector("nav .homepage").click()
-        self.assertRegex(self.browser.current_url, "/")
-        # container = self.browser.find_element_by_css_selector(".product-container:first-child")
-        self.assertEqual(self.browser.find_elements_by_css_selector(".product-container"), [])
