@@ -24,11 +24,13 @@ class PurchaseOrderTest(FunctionalTest):
 
         # 点击发布订单后，页面跳转到了表单页面
         table = self.browser.find_element_by_css_selector(".product-table")
-        table.find_element_by_css_selector("tbody tr:nth-child(2) .release-order").click()
+        release_order = table.find_element_by_css_selector("tbody tr:nth-child(2) .release-order")
+        self.assertEqual(release_order.text, "发布订单")
+        release_order.click()
         self.assertRegex(self.browser.current_url, "/deals/purchase_orders/new")
 
         # 页面的左边是商品的信息
-        self.assertEqual(self.browser.find_element_by_css_selector(".product-info .product-name").text, "USB 64GB")
+        self.assertEqual(self.browser.find_element_by_css_selector(".product-container .product-name dd").text, "USB 64GB")
 
         # 页面的右边需要山姆填写需要采购的数量（TODO：可以添加是否支持拼购）
         form = self.browser.find_element_by_css_selector("form")
@@ -41,10 +43,10 @@ class PurchaseOrderTest(FunctionalTest):
         self.assertRegex(self.browser.current_url, "/deals/purchase_orders/confirm")
 
         # 山姆查看了一下信息，发现他选错了USB的型号
-        self.assertFalse(self.browser.find_element_by_css_selector(".product-info .product-name").text == "USB 32GB")
+        self.assertFalse(self.browser.find_element_by_css_selector(".product-container .product-name dd").text == "USB 32GB")
 
         # 于是他点击返回商品库
-        self.browser.find_element_by_css_selector(".products_dashboard").click()
+        self.browser.find_element_by_css_selector(".back").click()
 
         # 山姆重新选择了正确型号的USB，点击发布按钮
         self.assertRegex(self.browser.current_url, "/stocks/products/dashboard")
@@ -54,17 +56,18 @@ class PurchaseOrderTest(FunctionalTest):
         self.assertRegex(self.browser.current_url, "/deals/purchase_orders/new")
         form = self.browser.find_element_by_css_selector("form")
         form.find_element_by_id("id_amount").send_keys(5000)
+        form.find_element_by_id("id_submit").click()
 
         # 页面再次来到确认页面，山姆这次确认信息都正确，山姆点击确认发布
         self.assertRegex(self.browser.current_url, "/deals/purchase_orders/confirm")
-        self.assertEqual(self.browser.find_element_by_css_selector(".product-info .product-name").text, "USB 32GB")
-        self.browser.find_element_by_css_selector(".confirm").click()
+        self.assertEqual(self.browser.find_element_by_css_selector(".product-container .product-name dd").text, "USB 32GB")
+        self.browser.find_element_by_id("id_submit").click()
 
         # 发布后，页面跳转到了用户中心的我的发布页面，山姆看到了刚刚发布的采购订单出现在了“待确认”这栏
         self.assertRegex(self.browser.current_url, "/deals/purchase_orders/dashboard")
         on_check_table = self.browser.find_element_by_css_selector(".on-check table")
         first_row = on_check_table.find_element_by_css_selector("tbody tr:first-child")
-        self.assertEqual(first_row.find_element_by_css_selector(".product-name").text, "USB")
+        self.assertEqual(first_row.find_element_by_css_selector(".product-name").text, "USB 32GB")
 
         # 山姆查看了这个订单的数量与自己发布的一致
         self.assertEqual(first_row.find_element_by_css_selector(".product-amount").text, "5000")

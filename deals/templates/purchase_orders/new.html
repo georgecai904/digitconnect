@@ -1,0 +1,52 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="product-container col-md-3">
+                <div class="product-image">
+                    <img src="{% static product.image %}" class="img-responsive">
+                </div>
+                <dl>
+                    <div class="product-name">
+                        <dt>名称：</dt>
+                        <dd>{{ product.name }}</dd>
+                    </div>
+                    <div class="product-category">
+                        <dt>种类：</dt>
+                        <dd>{{ product.category }}</dd>
+                    </div>
+                    <div class="product-location">
+                        <dt>送货地点：</dt>
+                        <dd>{{ product.location }}</dd>
+                    </div>
+                </dl>
+            </div>
+
+            <div class="col-md-9">
+                {% if form %}
+                <form action="{{ action_url }}" method="POST">
+                    {{ form }}
+                    {% csrf_token %}
+                    <hr>
+                    <button class="btn btn-default" type="submit" id="id_submit">发布</button>
+                    <a href="/stocks/products/dashboard" class="btn btn-default back">返回</a>
+                </form>
+                {% else %}
+                <form action="{{ action_url }}" method="POST">
+                    <h3>您需要采购的产品数量为: {{ amount }}</h3>
+                    {% csrf_token %}
+                    <hr>
+                    <input type="hidden" name="amount" value="{{ amount }}">
+                    <button class="btn btn-default" type="submit" id="id_submit">确认</button>
+                    <a href="/stocks/products/dashboard" class="btn btn-default back">返回</a>
+                </form>
+                {% endif %}
+
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from deals.models import PurchaseOrder, SupplyOffer
+from deals.forms import NewPurchaseOrderForm
+from deals.models import PurchaseOrder, SupplyOffer, PurchaseOrderLine
 from directconnect.settings import POST_ORDER_STATUS
+from stocks.models import Product
 
 
 def manage_purchase_order(request, purchase_order_id):
@@ -39,3 +41,33 @@ def purchase_orders_dashboard(request):
         })
     else:
         return redirect("/clients/purchasers/new")
+
+
+def new_purchase_order(request, product_id):
+    product = Product.objects.get(id=product_id)
+    if request.method == "POST":
+        purchaser = request.user.purchaser_set.all()[0]
+        purchase_order = PurchaseOrder.objects.create(initiator=purchaser, product=product)
+        purchase_order_line = PurchaseOrderLine.objects.create(purchaser=purchaser, purchase_order=purchase_order)
+        purchase_order_line.amount = request.POST['amount']
+        purchase_order_line.save()
+        purchase_order.save()
+        return redirect("/deals/purchase_orders/dashboard")
+
+    return render(request, "purchase_orders/new.html", {
+        "header": "发布采购订单",
+        "product": product,
+        "form": NewPurchaseOrderForm(),
+        "action_url": "/deals/purchase_orders/confirm/{}".format(product.id)
+    })
+
+
+def confirm_purchase_order(request, product_id):
+    product = Product.objects.get(id=product_id)
+    if request.method == "POST":
+        return render(request, "purchase_orders/new.html", {
+            "header": "确认采购订单",
+            "product": product,
+            "amount": request.POST["amount"],
+            "action_url": "/deals/purchase_orders/new/{}".format(product.id)
+        })

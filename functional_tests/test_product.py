@@ -46,7 +46,7 @@ class ProductFunctionalTest(FunctionalTest):
 
         # 提交后，网页跳到了一个产品页面，在这个页面里显示了刚刚发布的商品
         self.assertRegex(self.browser.current_url, "/stocks/products/dashboard")
-        table = self.browser.find_element_by_id("product-table")
+        table = self.browser.find_element_by_css_selector(".product-table")
         self.assertEqual(table.find_element_by_css_selector('tbody tr:first-child .product-name').text, "B&O音响")
 
         # 在表格的最右边，山姆看到了修改按钮便点进去
@@ -68,12 +68,12 @@ class ProductFunctionalTest(FunctionalTest):
 
         # 提交后，页面回到了原来的商品列表内，并发现商品名称已经更改成功
         self.assertRegex(self.browser.current_url, "/stocks/products/dashboard")
-        table = self.browser.find_element_by_id("product-table")
+        table = self.browser.find_element_by_css_selector(".product-table")
         self.assertEqual(table.find_element_by_css_selector('tbody tr:first-child .product-name').text, "B&O 降噪系列音响")
 
         # 山姆觉得这个商品已经过时，想删掉，于是他点回到产品发布
         self.browser.find_element_by_css_selector("nav .release-order").click()
-        table = self.browser.find_element_by_id("product-table")
+        table = self.browser.find_element_by_css_selector(".product-table")
         table.find_element_by_css_selector('tbody tr:first-child .delete').click()
 
         # 点击后，商品便自动消失了
