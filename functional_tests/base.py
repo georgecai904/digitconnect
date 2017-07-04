@@ -87,9 +87,12 @@ class FunctionalTest(StaticLiveServerTestCase):
         import time
         time.sleep(sleep_time)
 
-    def _login(self, username, password="testpassword"):
-        self.browser.get(self.live_server_url)
-        self.browser.find_element_by_css_selector("nav .login").click()
+    def _login(self, username, password="testpassword", login_url=None):
+        if not login_url:
+            self.browser.get(self.live_server_url)
+            self.browser.find_element_by_css_selector("nav .login").click()
+        else:
+            self.browser.get(login_url)
         login_form = self.browser.find_element_by_css_selector("form")
         login_form.find_element_by_id("id_username").send_keys(username)
         login_form.find_element_by_id("id_password").send_keys(password)

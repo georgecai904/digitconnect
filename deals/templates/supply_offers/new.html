@@ -6,20 +6,24 @@
         <div class="row">
             <div class="product-container col-md-3">
                 <div class="product-image">
-                    <img src="{% static product.image %}" class="img-responsive">
+                    <img src="{% static purchase_order.product.image %}" class="img-responsive">
                 </div>
                 <dl>
                     <div class="product-name">
                         <dt>名称：</dt>
-                        <dd>{{ product.name }}</dd>
+                        <dd>{{ purchase_order.product.name }}</dd>
                     </div>
                     <div class="product-category">
                         <dt>种类：</dt>
-                        <dd>{{ product.category }}</dd>
+                        <dd>{{ purchase_order.product.category }}</dd>
                     </div>
                     <div class="product-location">
                         <dt>送货地点：</dt>
-                        <dd>{{ product.location }}</dd>
+                        <dd>{{ purchase_order.product.location }}</dd>
+                    </div>
+                    <div class="purchase_order_amount">
+                        <dt>采购数量：</dt>
+                        <dd>{{ purchase_order.total_amount }}</dd>
                     </div>
                 </dl>
             </div>
@@ -30,21 +34,19 @@
                     {{ form }}
                     {% csrf_token %}
                     <hr>
-                    <button class="btn btn-default" type="submit" id="id_submit">发布</button>
-                    <a href="/stocks/products/dashboard" class="btn btn-default back">返回</a>
+                    <button class="btn btn-default" type="submit" id="id_submit">报价</button>
+                    <a href="/" class="btn btn-default back">返回</a>
                 </form>
                 {% else %}
                 <form action="{{ action_url }}" method="POST">
-                    <h3>您需要采购的产品数量为: <span class="order-amount">{{ amount }}</span></h3>
+                    <h3>您的报价为: <span class="offer-price">{{ price }}</span></h3>
                     {% csrf_token %}
                     <hr>
-                    <input type="hidden" name="amount" value="{{ amount }}">
+                    <input type="hidden" name="price" value="{{ price }}">
                     <button class="btn btn-default" type="submit" id="id_submit">确认</button>
-                    <a href="/stocks/products/dashboard" class="btn btn-default back">返回</a>
+                    <a href="/" class="btn btn-default back">返回</a>
                 </form>
                 {% endif %}
-
-
             </div>
         </div>
     </div>

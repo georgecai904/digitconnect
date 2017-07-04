@@ -3,7 +3,7 @@ from unittest import skip
 
 class UserCenterTest(FunctionalTest):
 
-    def test_user_center_for_supplier(self):
+    def test_orders_dashboard(self):
         self.browser.get(self.live_server_url)
 
         # 山姆发布了USB的10万个采购需求，采购需求的状态为待确认
@@ -21,7 +21,7 @@ class UserCenterTest(FunctionalTest):
         self.assertEqual(user_center.text, "我的中心")
         user_center.click()
 
-        # 进入网站后，山姆看到了个人信息，我的订单，我的发布三个按钮
+        # 进入网站后，山姆看到了个人信息，我的报价，我的发布三个按钮
         self.assertRegex(self.browser.current_url, "/auth/center")
         # print(self.browser.current_url)
         # self._stop(30)
@@ -29,9 +29,9 @@ class UserCenterTest(FunctionalTest):
         self.assertRegex(self.browser.find_element_by_css_selector(".personal-info").get_attribute("href"),
                          "/auth/account")
 
-        self.assertEqual(self.browser.find_element_by_css_selector(".my-orders").text, "我的订单")
-        self.assertRegex(self.browser.find_element_by_css_selector(".my-orders").get_attribute("href"),
-                         "/auth/my-orders")
+        self.assertEqual(self.browser.find_element_by_css_selector(".offers-dashboard").text, "我的报价")
+        self.assertRegex(self.browser.find_element_by_css_selector(".offers-dashboard").get_attribute("href"),
+                         "/deals/supply_offers/dashboard")
 
         self.assertEqual(self.browser.find_element_by_css_selector(".orders-dashboard").text, "我的发布")
         self.assertRegex(self.browser.find_element_by_css_selector(".orders-dashboard").get_attribute("href"),
@@ -61,7 +61,6 @@ class UserCenterTest(FunctionalTest):
         self.assertEqual(self.browser.find_element_by_css_selector(".purchase-offer .title").text, "供应商报价")
         self.assertEqual(self.browser.find_element_by_css_selector(".join-purchase .title").text, "采购商拼购")
         self.assertEqual(self.browser.find_element_by_css_selector(".online-chat .title").text, "在线交流")
-
 
         # 在报价这栏，里面显示了三个个供应商的报价，供应商的名称，联系方式，以及他们的报价，已经他们报价时的采购数目
         supplier1 = self._create_supplier(username="supplier1", name="工厂1")
