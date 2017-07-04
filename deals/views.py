@@ -1,9 +1,11 @@
+
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from deals.forms import NewPurchaseOrderForm
+from deals.forms import NewPurchaseOrderForm, NewSupplyOfferForm
 from deals.models import PurchaseOrder, SupplyOffer, PurchaseOrderLine
-from directconnect.settings import POST_ORDER_STATUS
+from directconnect.settings import POST_ORDER_STATUS, LOGIN_URL
 from stocks.models import Product
 
 
@@ -45,12 +47,11 @@ def purchase_orders_dashboard(request):
 
 def new_purchase_order(request, product_id):
     product = Product.objects.get(id=product_id)
+
     if request.method == "POST":
         purchaser = request.user.purchaser_set.all()[0]
         purchase_order = PurchaseOrder.objects.create(initiator=purchaser, product=product)
-        purchase_order_line = PurchaseOrderLine.objects.create(purchaser=purchaser, purchase_order=purchase_order)
-        purchase_order_line.amount = request.POST['amount']
-        purchase_order_line.save()
+        purchase_order.add_purchaser(purchaser=purchaser, amount=request.POST['amount'])
         purchase_order.save()
         return redirect("/deals/purchase_orders/dashboard")
 
@@ -64,10 +65,39 @@ def new_purchase_order(request, product_id):
 
 def confirm_purchase_order(request, product_id):
     product = Product.objects.get(id=product_id)
+
     if request.method == "POST":
         return render(request, "purchase_orders/new.html", {
             "header": "确认采购订单",
             "product": product,
             "amount": request.POST["amount"],
             "action_url": "/deals/purchase_orders/new/{}".format(product.id)
+        })
+
+
+@login_required(login_url=LOGIN_URL)
+def new_supply_offer(request, purchase_order_id):
+    purchase_order = PurchaseOrder.objects.get(id=purchase_order_id)
+
+    if request.method == "POST":
+        supplier = request.user.supplier_set.all()[0]
+        purchase_order.add_supplier(supplier=supplier, price=request.POST["price"])
+        return redirect("/deals/supply_offers/dashboard")
+
+    return render(request, "supply_offers/new.html", {
+        "header": "报价页面",
+        "purchase_order": purchase_order,
+        "form": NewSupplyOfferForm(),
+        "action_url": "/deals/supply_offers/confirm/{}".format(purchase_order_id)
+    })
+
+
+def confirm_supply_offer(request, purchase_order_id):
+    purchase_order = PurchaseOrder.objects.get(id=purchase_order_id)
+    if request.method == "POST":
+        return render(request, "supply_offers/new.html", {
+            "header": "确认报价",
+            "purchase_order": purchase_order,
+            "price": request.POST["price"],
+            "action_url": "/deals/supply_offers/new/{}".format(purchase_order_id)
         })

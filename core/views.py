@@ -12,11 +12,11 @@ from directconnect.settings import LOGIN_URL, POST_ORDER_STATUS
 
 # Create your views here.
 def index_page(request):
-    products = Product.objects.all()
+    purchase_orders = PurchaseOrder.objects.all()
     return render(request, "core/index.html", {
         'mock_list': range(6),
         'url': request.path,
-        'products': products
+        'purchase_orders': purchase_orders
     })
 
 

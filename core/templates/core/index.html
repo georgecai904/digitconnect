@@ -17,36 +17,36 @@
         <hr>
         <div class="product-list">
             <div class="row">
-                {% for product in products %}
+                {% for purchase_order in purchase_orders %}
                     <div class="product-container col-md-3">
                         <div class="row product-wrapper">
                             <div class="product-image">
-                                <img src="{% static product.image %}" class="img-responsive">
+                                <img src="{% static purchase_order.product.image %}" class="img-responsive">
                             </div>
                             <div class="col-md-12">
                                 <div class="purchaser-name">
                                     <span class="title">采购商：</span>
-                                    <span class="value">{{ product.purchaser.name }}</span>
+                                    <span class="value">{{ purchase_order.product.purchaser.name }}</span>
                                 </div>
                                 <div class="product-name">
                                     <span class="title">名称：</span>
-                                    <span class="value">{{ product.name }}</span>
+                                    <span class="value">{{ purchase_order.product.name }}</span>
                                 </div>
                                 <div class="product-category">
                                     <span class="title">种类：</span>
-                                    <span class="value">{{ product.category }}</span>
+                                    <span class="value">{{ purchase_order.product.category }}</span>
                                 </div>
                                 <div class="product-amount right">
                                     <span class="title">数量：</span>
-                                    <span class="value">{{ product.amount }}</span>
+                                    <span class="value">{{ purchase_order.total_amount }}</span>
                                 </div>
                                 <div class="product-location">
                                     <span class="title">送货地点：</span>
-                                    <span class="value">{{ product.location }}</span>
+                                    <span class="value">{{ purchase_order.product.location }}</span>
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <a class="btn btn-sm btn-default post-price" href="/suppliers/post-price/{{ product.id }}">报价</a>
+                                <a class="btn btn-sm btn-default make-offer" href="/deals/supply_offers/new/{{ purchase_order.id }}">报价</a>
                                 <a class="btn btn-sm btn-default">加入采购</a>
                                 <a class="btn btn-sm btn-default">在线交流</a>
                             </div>

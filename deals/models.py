@@ -83,7 +83,7 @@ class PurchaseOrderLine(models.Model):
 class SupplyOffer(models.Model):
     purchase_order = models.ForeignKey(PurchaseOrder, null=False, blank=False, default=None)
     supplier = models.ForeignKey(Supplier, null=False, blank=False, default=None)
-    price = models.DecimalField(default=0, max_digits=10, decimal_places=2, verbose_name="报价")
+    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="报价")
     offer_amount = models.CharField(max_length=10, default=0)
     is_updated = models.BooleanField(default=True)
     is_noticed = models.BooleanField(default=False)

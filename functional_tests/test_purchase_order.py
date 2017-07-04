@@ -61,6 +61,7 @@ class PurchaseOrderTest(FunctionalTest):
         # 页面再次来到确认页面，山姆这次确认信息都正确，山姆点击确认发布
         self.assertRegex(self.browser.current_url, "/deals/purchase_orders/confirm")
         self.assertEqual(self.browser.find_element_by_css_selector(".product-container .product-name dd").text, "USB 32GB")
+        self.assertEqual(self.browser.find_element_by_css_selector(".order-amount").text, '5000')
         self.browser.find_element_by_id("id_submit").click()
 
         # 发布后，页面跳转到了用户中心的我的发布页面，山姆看到了刚刚发布的采购订单出现在了“待确认”这栏
