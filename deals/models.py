@@ -19,7 +19,10 @@ class PurchaseOrder(models.Model):
         PurchaseOrderLine.objects.get_or_create(
             purchase_order=self,
             purchaser=purchaser,
-            amount=amount
+            defaults={
+                "amount": amount
+            }
+
         )
         if len(self.purchaseorderline_set.all()) > 1:
             # self.status = POST_ORDER_STATUS[2]
@@ -29,17 +32,19 @@ class PurchaseOrder(models.Model):
 
     def add_supplier(self, supplier, price):
         a = SupplyOffer.objects.get_or_create(
-            purchase_order=self,
             supplier=supplier,
-            price=price,
-            offer_amount=self.total_amount
+            purchase_order=self,
+            defaults={
+                "price": price,
+                "offer_amount": self.total_amount
+            }
          )
 
     def get_amount_by_purchaser(self, purchaser):
         return int(self.purchaseorderline_set.get(purchaser=purchaser).amount)
 
     def supplier_update_price(self, supplier, price):
-        supply_offer = self.supplyoffer_set.get(id=supplier.id)
+        supply_offer = self.supplyoffer_set.get(supplier=supplier)
         supply_offer.price = price
         supply_offer.is_updated = True
         supply_offer.offer_amount = self.total_amount
@@ -47,16 +52,21 @@ class PurchaseOrder(models.Model):
         # if set([p.is_updated for p in self.purchaseofferline_set.all()]) == {True}:
             # self.status = POST_ORDER_STATUS[3]
 
-    def make_deal(self):
-        # TODO: 先暂时默认价格最低的为最后的交易价格
+    def make_deal(self, supplier=None):
+        # 如果没有指定供应商的话，先暂时默认价格最低的为最后的交易价格
         self.status = POST_ORDER_STATUS[1]
-        supply_offer = SupplyOffer.objects.all().order_by('price')[0]
+
+        if supplier:
+            supply_offer = self.supplyoffer_set.get(supplier=supplier)
+        else:
+            supply_offer = SupplyOffer.objects.all().order_by('price')[0]
+
         self.offer_price = supply_offer.price
         self.supplier = supply_offer.supplier
         self.save()
 
     def get_all_purchasers(self):
-        return [i.purhcaser for i in self.purchaseorderline_set.all()]
+        return [i.purchaser for i in self.purchaseorderline_set.all()]
 
     @property
     def total_amount(self):

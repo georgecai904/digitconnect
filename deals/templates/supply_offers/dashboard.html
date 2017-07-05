@@ -1,0 +1,62 @@
+{% extends 'core/base.html' %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="adopted-offers col-md-6">
+                <h3>被采纳报价</h3>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>采购发起人</th>
+                        <th>产品</th>
+                        <th>采购总数量</th>
+                        <th>采购价格</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for supply_offer in adopted_supply_offers %}
+                        <tr>
+                            <td class="order-initiator">
+                                <a href="/deals/supply_offers/adopt/{{ supply_offer.id }}">
+                                    {{ supply_offer.purchase_order.initiator.name }}</a>
+                            </td>
+                            <td class="product-name">{{ supply_offer.purchase_order.product.name }}</td>
+                            <td class="order-amount">{{ supply_offer.offer_amount }}</td>
+                            <td class="offer-price">{{ supply_offer.price }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="ongoing-offers col-md-6">
+                <h3>正在报价中</h3>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>采购发起人</th>
+                        <th>产品</th>
+                        <th>采购总数量</th>
+                        <th>采购时数量</th>
+                        <th>最近报价</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for supply_offer in ongoing_supply_offers %}
+                        <tr>
+                            <td class="order-initiator">
+                                <a href="/deals/supply_offers/details/{{ supply_offer.id }}">
+                                    {{ supply_offer.purchase_order.initiator.name }}</a>
+                            </td>
+                            <td class="product-name">{{ supply_offer.purchase_order.product.name }}</td>
+                            <td class="order-amount">{{ supply_offer.purchase_order.total_amount }}</td>
+                            <td class="offer-amount">{{ supply_offer.offer_amount }}</td>
+                            <td class="offer-price">{{ supply_offer.price }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
