@@ -5,6 +5,7 @@
     <div class="container">
         <div class="row">
             <div class="product-container col-md-3">
+                <h3>商品信息</h3>
                 <div class="product-image">
                     <img src="{% static product.image %}" class="img-responsive">
                 </div>
@@ -25,6 +26,7 @@
             </div>
 
             <div class="col-md-9">
+                <h3>采购信息</h3>
                 {% if form %}
                 <form action="{{ action_url }}" method="POST">
                     {{ form }}
@@ -35,7 +37,7 @@
                 </form>
                 {% else %}
                 <form action="{{ action_url }}" method="POST">
-                    <h3>您需要采购的产品数量为: <span class="order-amount">{{ amount }}</span></h3>
+                    <h4>您需要采购的产品数量为: <span class="order-amount">{{ amount }}</span></h4>
                     {% csrf_token %}
                     <hr>
                     <input type="hidden" name="amount" value="{{ amount }}">

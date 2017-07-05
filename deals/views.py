@@ -75,6 +75,15 @@ def confirm_purchase_order(request, product_id):
         })
 
 
+def supply_offers_dashboard(request):
+    supplier = request.user.supplier_set.all()[0]
+    return render(request, "supply_offers/dashboard.html", {
+        "header": "我的报价",
+        "adopted_supply_offers": SupplyOffer.objects.filter(purchase_order__status=POST_ORDER_STATUS[1]).filter(supplier=supplier),
+        "ongoing_supply_offers": SupplyOffer.objects.filter(purchase_order__status=POST_ORDER_STATUS[0]).filter(supplier=supplier)
+    })
+
+
 @login_required(login_url=LOGIN_URL)
 def new_supply_offer(request, purchase_order_id):
     purchase_order = PurchaseOrder.objects.get(id=purchase_order_id)
@@ -92,7 +101,7 @@ def new_supply_offer(request, purchase_order_id):
     })
 
 
-def confirm_supply_offer(request, purchase_order_id):
+def confirm_new_supply_offer(request, purchase_order_id):
     purchase_order = PurchaseOrder.objects.get(id=purchase_order_id)
     if request.method == "POST":
         return render(request, "supply_offers/new.html", {
@@ -101,3 +110,52 @@ def confirm_supply_offer(request, purchase_order_id):
             "price": request.POST["price"],
             "action_url": "/deals/supply_offers/new/{}".format(purchase_order_id)
         })
+
+
+def supply_offer_details(request, supply_offer_id):
+    supply_offer = SupplyOffer.objects.get(id=supply_offer_id)
+
+    if request.method == "POST":
+        supply_offer.price = request.POST['price']
+        supply_offer.offer_amount = supply_offer.purchase_order.total_amount
+        supply_offer.save()
+        return redirect("/deals/supply_offers/dashboard")
+
+    return render(request, "supply_offers/details.html", {
+        "header": "报价详情",
+        "purchase_order": supply_offer.purchase_order,
+        "supply_offer": supply_offer,
+        "form": NewSupplyOfferForm(instance=supply_offer),
+        "action_url": "/deals/supply_offers/edit/confirm/{}".format(supply_offer.id)
+    })
+
+
+def confirm_edit_supply_offer(request, supply_offer_id):
+    supply_offer = SupplyOffer.objects.get(id=supply_offer_id)
+    if request.method == "POST":
+        return render(request, "supply_offers/details.html", {
+            "header": "确认报价修改",
+            "purchase_order": supply_offer.purchase_order,
+            "supply_offer": supply_offer,
+            "price": request.POST["price"],
+            "action_url": "/deals/supply_offers/details/{}".format(supply_offer.id),
+            "btn_content": "确认修改"
+        })
+
+
+def adopt_supply_offer(request, supply_offer_id):
+    supply_offer = SupplyOffer.objects.get(id=supply_offer_id)
+
+    if request.method == "POST":
+        supply_offer.purchase_order.status = POST_ORDER_STATUS[2]
+        supply_offer.save()
+        return redirect("/deals/production_orders/dashboard")
+
+    return render(request, "supply_offers/details.html", {
+        "header": "确认生产",
+        "purchase_order": supply_offer.purchase_order,
+        "supply_offer": supply_offer,
+        "price": supply_offer.price,
+        "action_url": "/deals/supply_offers/adopt/{}".format(supply_offer.id),
+        "btn_content": "确认生产",
+    })

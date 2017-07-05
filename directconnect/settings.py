@@ -129,6 +129,7 @@ LOGIN_URL = '/auth/login'
 POST_ORDER_STATUS = (
     "待确认",
     "待收货",
+    "生产中",
     "已完成"
     # "发布",
     # "工厂报价",

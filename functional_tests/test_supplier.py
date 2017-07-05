@@ -7,8 +7,7 @@ class SupplierFunctionalTest(FunctionalTest):
         purchaser = self._create_purchaser()
         purchaser = self._create_purchaser(username="purchaser2", name="山姆采购商")
         product = self._create_product(purchaser=purchaser, name="USB 64GB")
-        purchase_offer = self._create_purchase_order(initiator=purchaser, product=product)
-        purchase_offer.add_purchaser(purchaser=purchaser, amount=1000)
+        purchase_offer = self._create_purchase_order(initiator=purchaser, product=product, amount=1000)
 
         # 华少是一个高端音响制造公司的销售员，他从朋友那里了解到了该网站
         # 华少打开了这个网站

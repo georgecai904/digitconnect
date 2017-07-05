@@ -64,24 +64,15 @@ class FunctionalTest(StaticLiveServerTestCase):
 
         return p
 
-    def _create_purchase_order(self, initiator, product):
+    def _create_purchase_order(self, initiator, product, amount):
         from deals.models import PurchaseOrder
         po = PurchaseOrder.objects.create(
             initiator=initiator,
             product=product
         )
+        po.add_purchaser(purchaser=initiator, amount=amount)
         return po
 
-
-    def _create_post_price(self, supplier, product, price="100", amount="1000"):
-        from clients.models import PostPrice
-        pp = PostPrice.objects.create(
-            supplier=supplier,
-            product=product,
-            price=price,
-            amount=amount
-        )
-        return pp
 
     def _stop(self, sleep_time=10):
         import time

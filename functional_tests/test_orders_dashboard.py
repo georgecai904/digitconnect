@@ -1,16 +1,15 @@
 from functional_tests.base import FunctionalTest
 from unittest import skip
 
-class UserCenterTest(FunctionalTest):
 
+class OrdersDashboardTest(FunctionalTest):
     def test_orders_dashboard(self):
         self.browser.get(self.live_server_url)
 
         # 山姆发布了USB的10万个采购需求，采购需求的状态为待确认
         sam = self._create_purchaser(username="sam", name="sam")
         usb_product = self._create_product(purchaser=sam, name="USB")
-        purchase_order = self._create_purchase_order(initiator=sam, product=usb_product)
-        purchase_order.add_purchaser(purchaser=sam, amount=100000)
+        purchase_order = self._create_purchase_order(initiator=sam, product=usb_product, amount=100000)
 
         self.assertEqual(purchase_order.status, "待确认")
 
@@ -125,6 +124,7 @@ class UserCenterTest(FunctionalTest):
         # 工厂1和工厂2都已经根据目前最新的采购需求将价格已经更新，工厂3目前的报价仍然为当时10万个数量的报价
         purchase_order.supplier_update_price(supplier=supplier1, price=16.95)
         purchase_order.supplier_update_price(supplier=supplier2, price=16.99)
+
         self.browser.refresh()
         post_price_table = self.browser.find_element_by_css_selector(".purchase-offer table")
         row = post_price_table.find_element_by_css_selector("tbody tr:first-child")
@@ -182,29 +182,6 @@ class UserCenterTest(FunctionalTest):
             self.browser.find_element_by_css_selector(".on-road tbody tr:first-child .offer-price").text, "15.99")
 
         # 山姆看到后确认一切无误并关闭了网页
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         # 山姆返回到刚才的页面，点击进入创建投票流程（TODO: 需要更改为在线交流）

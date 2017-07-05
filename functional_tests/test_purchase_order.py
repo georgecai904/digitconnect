@@ -82,3 +82,7 @@ class PurchaseOrderTest(FunctionalTest):
 
         # 山姆确认无误，并关闭了网站
         self.browser.quit()
+
+
+    def test_join_purchase_order(self):
+        pass

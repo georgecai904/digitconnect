@@ -5,6 +5,7 @@
     <div class="container">
         <div class="row">
             <div class="product-container col-md-3">
+                 <h3>商品信息</h3>
                 <div class="product-image">
                     <img src="{% static purchase_order.product.image %}" class="img-responsive">
                 </div>
@@ -21,7 +22,7 @@
                         <dt>送货地点：</dt>
                         <dd>{{ purchase_order.product.location }}</dd>
                     </div>
-                    <div class="purchase_order_amount">
+                    <div class="purchase-order-amount">
                         <dt>采购数量：</dt>
                         <dd>{{ purchase_order.total_amount }}</dd>
                     </div>
@@ -39,7 +40,8 @@
                 </form>
                 {% else %}
                 <form action="{{ action_url }}" method="POST">
-                    <h3>您的报价为: <span class="offer-price">{{ price }}</span></h3>
+                    <h3>报价信息</h3>
+                    <h4>您的报价为: <span class="offer-price">{{ price }}</span></h4>
                     {% csrf_token %}
                     <hr>
                     <input type="hidden" name="price" value="{{ price }}">
