@@ -5,8 +5,7 @@ class SupplyOfferTest(FunctionalTest):
     def test_create_supply_offer(self):
         purchaser = self._create_purchaser(username="purchaser1")
         product = self._create_product(purchaser=purchaser, name="USB 64GB")
-        purchase_offer = self._create_purchase_order(initiator=purchaser, product=product)
-        purchase_offer.add_purchaser(purchaser=purchaser, amount=1000)
+        purchase_offer = self._create_purchase_order(initiator=purchaser, product=product, amount=1000)
 
         self.browser.get(self.live_server_url)
 
