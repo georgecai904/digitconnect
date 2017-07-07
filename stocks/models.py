@@ -1,6 +1,7 @@
 from django.db import models
 from clients.models import Purchaser, Supplier
 # Create your models here.
+from copy import deepcopy
 
 
 class Product(models.Model):
@@ -12,3 +13,9 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    def add_to_purchaser(self, purchaser):
+        new_product = deepcopy(self)
+        new_product.pk = None
+        new_product.purchaser = purchaser
+        new_product.save()

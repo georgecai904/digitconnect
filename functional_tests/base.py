@@ -90,5 +90,8 @@ class FunctionalTest(StaticLiveServerTestCase):
         # self._stop()
         login_form.find_element_by_id("id_submit").click()
 
+    def _logout(self):
+        self.browser.get(self.live_server_url+"/auth/logout")
+
     def _refresh(self):
         self.browser.get(self.browser.current_url)

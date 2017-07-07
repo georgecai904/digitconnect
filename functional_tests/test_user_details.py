@@ -22,7 +22,7 @@ class UserDetailsTest(FunctionalTest):
         # 山姆登陆网站后想更新一下自己的邮箱信息，便点击了右上角的用户信息
         self.assertRegex(self.browser.current_url, '/')
         self.browser.find_element_by_css_selector("nav .user-center").click()
-        self.browser.find_element_by_css_selector(".personal-info").click()
+        self.browser.find_element_by_css_selector(".account-dashboard").click()
 
         # 页面跳转到了用户信息界面，山姆在邮箱的邮编看到了修改按钮
         self.assertRegex(self.browser.current_url, "/auth/account")
@@ -68,7 +68,7 @@ class UserDetailsTest(FunctionalTest):
         # 山姆很开心，于是又回到了用户信息界面
         self.assertRegex(self.browser.current_url, "/")
         self.browser.find_element_by_css_selector("nav .user-center").click()
-        self.browser.find_element_by_css_selector(".personal-info").click()
+        self.browser.find_element_by_css_selector(".account-dashboard").click()
 
         # 山姆发现在用户信息界面的下方有一个表格显示采购商信息表格
         purchaser_container = self.browser.find_element_by_css_selector(".purchasers")

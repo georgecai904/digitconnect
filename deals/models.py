@@ -87,6 +87,12 @@ class PurchaseOrderLine(models.Model):
     purchaser = models.ForeignKey(Purchaser, null=False, blank=False, default=None)
     amount = models.CharField(max_length=20, default="", verbose_name="数量")
 
+    def save(self, *args, **kwargs):
+        product = self.purchase_order.product
+        if product not in self.purchaser.product_set.all():
+            product.add_to_purchaser(purchaser=self.purchaser)
+        super(PurchaseOrderLine, self).save(*args, **kwargs)
+
     # TODO：当出现拼购后，拼购用户的产品库内会自动添加他拼购过的商品，并且是独立与原产品发布者
 
 

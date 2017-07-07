@@ -1,0 +1,74 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 product-container">
+                <h3>商品信息</h3>
+                <div class="product-image">
+                    <img src="{% static purchase_order.product.image %}" class="img-responsive">
+                </div>
+                <dl>
+                    <div class="product-name">
+                        <dt>名称：</dt>
+                        <dd>{{ purchase_order.product.name }}</dd>
+                    </div>
+                    <div class="product-category">
+                        <dt>种类：</dt>
+                        <dd>{{ purchase_order.product.category }}</dd>
+                    </div>
+                    <div class="product-location">
+                        <dt>送货地点：</dt>
+                        <dd>{{ purchase_order.product.location }}</dd>
+                    </div>
+                </dl>
+            </div>
+            <div class="col-md-4 join-purchase-container">
+                <h3>采购商拼购</h3>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>采购商名称</th>
+                        <th>采购数量</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for purchase_order_line in purchase_order.purchaseorderline_set.all %}
+                            <tr>
+                                <td class="purchaser-name">{{ purchase_order_line.purchaser.name }}</td>
+                                <td class="purchase-amount">{{ purchase_order_line.amount }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>总数量</td>
+                            <td class="total-amount">{{ purchase_order.total_amount }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="col-md-4 join-purchase-container">
+                <h3>参与拼购</h3>
+                {% if form %}
+                <form action="{{ action_url }}" method="POST">
+                    {{ form }}
+                    {% csrf_token %}
+                    <hr>
+                    <button class="btn btn-default" type="submit" id="id_submit">拼购</button>
+                </form>
+                {% else %}
+                <form action="{{ action_url }}" method="POST">
+                    <h4>您拼购的数量为: <span class="amount">{{ amount }}</span></h4>
+                    {% csrf_token %}
+                    <hr>
+                    <input type="hidden" name="amount" value="{{ amount }}">
+                    <button class="btn btn-default" type="submit" id="id_submit">{{ btn_content }}</button>
+                    <a href="/deals/join_purchases/new/{{ purchase_order.id }}" class="btn btn-default back">返回</a>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -12,3 +12,9 @@ class NewSupplyOfferForm(BasicForm):
     class Meta:
         model = SupplyOffer
         fields = ('price', )
+
+
+class JoinPurchaseForm(BasicForm):
+    class Meta:
+        model = PurchaseOrderLine
+        fields = ('amount', )

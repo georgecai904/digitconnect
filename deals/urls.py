@@ -13,6 +13,9 @@ urlpatterns = [
     url(r'^supply_offers/details/(?P<supply_offer_id>[0-9]+)$', views.supply_offer_details),
     url(r'^supply_offers/edit/confirm/(?P<supply_offer_id>[0-9]+)$', views.confirm_edit_supply_offer),
     url(r'^supply_offers/adopt/(?P<supply_offer_id>[0-9]+)$', views.adopt_supply_offer),
+
+    url(r'^join_purchases/new/(?P<purchase_order_id>[0-9]+)$', views.new_join_purchase),
+    url(r'^join_purchases/confirm/(?P<purchase_order_id>[0-9]+)$', views.confirm_new_join_purchase),
     # url(r'^purchase_orders/edit', views.edit_purchase_order),
     # url(r'^purchase_orders/details', views.purchase_order_details),
 ]

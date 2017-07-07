@@ -49,7 +49,7 @@ def products_dashboard(request):
     if len(request.user.purchaser_set.all()) == 0:
         return redirect('/clients/purchasers/new')
     purchaser = request.user.purchaser_set.first()
-    products = Product.objects.filter(purchaser=purchaser)
+    products = purchaser.product_set.all()
     return render(request, "stocks/products/dashboard.html", {
         'products': products,
         'header': '产品列表'
