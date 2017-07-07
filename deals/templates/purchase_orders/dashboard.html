@@ -15,12 +15,14 @@
                     </thead>
                     <tbody>
 
-                    {% for purchase_order in purchase_orders_cp %}
+                    {% for purchase_order_line in purchase_order_lines_cp %}
                         <tr>
                             <td class="product-name"><a
-                                    href="/deals/purchase_orders/manage/{{ purchase_order.id }}">{{ purchase_order.product.name }}</a></td>
-                            <td class="product-amount">{{ purchase_order.amount }}</td>
-                            <td class="offer-price">{{ purchase_order.offer_price }}</td>
+                                    href="/deals/purchase_orders/manage/{{ purchase_order_line.purchase_order.id }}">
+                                {{ purchase_order_line.purchase_order.product.name }}</a>
+                            </td>
+                            <td class="product-amount">{{ purchase_order_line.amount }}</td>
+                            <td class="offer-price">{{ purchase_order_line.purchase_order.offer_price }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -38,12 +40,13 @@
                     </thead>
                     <tbody>
 
-                    {% for purchase_order in purchase_orders_or %}
+                    {% for purchase_order_line in purchase_order_lines_or %}
                         <tr>
                             <td class="product-name"><a
-                                    href="/deals/purchase_orders/manage/{{ purchase_order.id }}">{{ purchase_order.product.name }}</a></td>
-                            <td class="product-amount">{{ purchase_order.amount }}</td>
-                            <td class="offer-price">{{ purchase_order.offer_price }}</td>
+                                    href="/deals/purchase_orders/manage/{{ purchase_order_line.purchase_order.id }}">{{ purchase_order_line.purchase_order.product.name }}</a>
+                            </td>
+                            <td class="product-amount">{{ purchase_order_line.amount }}</td>
+                            <td class="offer-price">{{ purchase_order_line.purchase_order.offer_price }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -61,12 +64,13 @@
                     </thead>
                     <tbody>
 
-                    {% for purchase_order in purchase_orders_oc %}
+                    {% for purchase_order_line in purchase_order_lines_oc %}
                         <tr>
                             <td class="product-name"><a
-                                    href="/deals/purchase_orders/manage/{{ purchase_order.id }}">{{ purchase_order.product.name }}</a></td>
-                            <td class="product-amount">{{ purchase_order.amount }}</td>
-                            <td class="offer-amount">{{ purchase_order.offer_amount }}/3</td>
+                                    href="/deals/purchase_orders/manage/{{ purchase_order_line.purchase_order.id }}">{{ purchase_order_line.purchase_order.product.name }}</a>
+                            </td>
+                            <td class="product-amount">{{ purchase_order_line.amount }}</td>
+                            <td class="offer-amount">{{ purchase_order_line.purchase_order.offer_amount }}/3</td>
                         </tr>
                     {% endfor %}
                     </tbody>

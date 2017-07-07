@@ -65,7 +65,7 @@ def edit_supplier(request, supplier_id):
     form = NewSupplierForm(instance=supplier)
     if request.method == "POST":
         NewSupplierForm(request.POST, instance=supplier).save()
-        return redirect("/auth/personal-info")
+        return redirect("/auth/account")
     return render(request, 'suppliers/supplier_form.html', {'form': form,
                                                             'action_url': '/clients/suppliers/edit/{0}'.format(
                                                                 supplier_id),

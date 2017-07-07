@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from deals.forms import NewPurchaseOrderForm, NewSupplyOfferForm
+from deals.forms import NewPurchaseOrderForm, NewSupplyOfferForm, JoinPurchaseForm
 from deals.models import PurchaseOrder, SupplyOffer, PurchaseOrderLine
 from directconnect.settings import POST_ORDER_STATUS, LOGIN_URL
 from stocks.models import Product
@@ -37,9 +37,9 @@ def purchase_orders_dashboard(request):
             p_o.make_deal()
         return render(request, 'purchase_orders/dashboard.html', {
             'header': '我的订单',
-            'purchase_orders_oc': purchaser.purchaseorder_set.filter(status=POST_ORDER_STATUS[0]),
-            'purchase_orders_or': purchaser.purchaseorder_set.filter(status=POST_ORDER_STATUS[1]),
-            'purchase_orders_cp': purchaser.purchaseorder_set.filter(status=POST_ORDER_STATUS[2]),
+            'purchase_order_lines_oc': purchaser.purchaseorderline_set.filter(purchase_order__status=POST_ORDER_STATUS[0]),
+            'purchase_order_lines_or': purchaser.purchaseorderline_set.filter(purchase_order__status=POST_ORDER_STATUS[1]),
+            'purchase_order_lines_cp': purchaser.purchaseorderline_set.filter(purchase_order__status=POST_ORDER_STATUS[2]),
         })
     else:
         return redirect("/clients/purchasers/new")
@@ -159,3 +159,31 @@ def adopt_supply_offer(request, supply_offer_id):
         "action_url": "/deals/supply_offers/adopt/{}".format(supply_offer.id),
         "btn_content": "确认生产",
     })
+
+
+@login_required(login_url=LOGIN_URL)
+def new_join_purchase(request, purchase_order_id):
+    purchase_order = PurchaseOrder.objects.get(id=purchase_order_id)
+
+    if request.method == "POST":
+        purchaser = request.user.purchaser_set.all()[0]
+        purchase_order.add_purchaser(purchaser=purchaser, amount=request.POST["amount"])
+        return redirect("/deals/purchase_orders/dashboard")
+
+    return render(request, "join_purchases/new.html", {
+        "header": "拼购采购",
+        "form": JoinPurchaseForm(),
+        "purchase_order": purchase_order,
+        "action_url": "/deals/join_purchases/confirm/{}".format(purchase_order_id)
+    })
+
+
+def confirm_new_join_purchase(request, purchase_order_id):
+    purchase_order = PurchaseOrder.objects.get(id=purchase_order_id)
+    if request.method == "POST":
+        return render(request, "join_purchases/new.html", {
+            "header": "确认拼购",
+            "purchase_order": purchase_order,
+            "amount": request.POST["amount"],
+            "action_url": "/deals/join_purchases/new/{}".format(purchase_order_id)
+        })

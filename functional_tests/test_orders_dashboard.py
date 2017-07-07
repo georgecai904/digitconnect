@@ -24,8 +24,8 @@ class OrdersDashboardTest(FunctionalTest):
         self.assertRegex(self.browser.current_url, "/auth/center")
         # print(self.browser.current_url)
         # self._stop(30)
-        self.assertEqual(self.browser.find_element_by_css_selector(".personal-info").text, "个人信息")
-        self.assertRegex(self.browser.find_element_by_css_selector(".personal-info").get_attribute("href"),
+        self.assertEqual(self.browser.find_element_by_css_selector(".account-dashboard").text, "个人信息")
+        self.assertRegex(self.browser.find_element_by_css_selector(".account-dashboard").get_attribute("href"),
                          "/auth/account")
 
         self.assertEqual(self.browser.find_element_by_css_selector(".offers-dashboard").text, "我的报价")
@@ -57,7 +57,7 @@ class OrdersDashboardTest(FunctionalTest):
 
         # 页面跳转到了采购细节页面, 页面同样的显示了三栏，分别是报价／加入采购／在线交流
         self.assertRegex(self.browser.current_url, "/deals/purchase_orders/manage")
-        self.assertEqual(self.browser.find_element_by_css_selector(".purchase-offer .title").text, "供应商报价")
+        self.assertEqual(self.browser.find_element_by_css_selector(".supply-offer .title").text, "供应商报价")
         self.assertEqual(self.browser.find_element_by_css_selector(".join-purchase .title").text, "采购商拼购")
         self.assertEqual(self.browser.find_element_by_css_selector(".online-chat .title").text, "在线交流")
 
@@ -70,7 +70,7 @@ class OrdersDashboardTest(FunctionalTest):
         purchase_order.add_supplier(supplier=supplier3, price=20.00)
         # self._stop(30)
         self.browser.refresh()
-        purchase_offer_table = self.browser.find_element_by_css_selector(".purchase-offer table")
+        purchase_offer_table = self.browser.find_element_by_css_selector(".supply-offer table")
         row = purchase_offer_table.find_element_by_css_selector("tbody tr:first-child")
         self.assertEqual(row.find_element_by_css_selector(".supplier-name").text, "工厂1")
         self.assertEqual(row.find_element_by_css_selector(".offer-price").text, "19.99")
@@ -126,7 +126,7 @@ class OrdersDashboardTest(FunctionalTest):
         purchase_order.supplier_update_price(supplier=supplier2, price=16.99)
 
         self.browser.refresh()
-        post_price_table = self.browser.find_element_by_css_selector(".purchase-offer table")
+        post_price_table = self.browser.find_element_by_css_selector(".supply-offer table")
         row = post_price_table.find_element_by_css_selector("tbody tr:first-child")
         self.assertEqual(row.find_element_by_css_selector(".supplier-name").text, "工厂1")
         self.assertEqual(row.find_element_by_css_selector(".offer-price").text, "16.95")
@@ -147,7 +147,7 @@ class OrdersDashboardTest(FunctionalTest):
         notice_btn.click()
 
         self.browser.refresh()
-        purchase_offer_table = self.browser.find_element_by_css_selector(".purchase-offer table")
+        purchase_offer_table = self.browser.find_element_by_css_selector(".supply-offer table")
         self.assertEqual(purchase_offer_table.find_element_by_css_selector("tbody tr:nth-child(3) .notice").text, "已通知")
 
         # 工厂3及时更改了价格
@@ -155,7 +155,7 @@ class OrdersDashboardTest(FunctionalTest):
 
         self.browser.refresh()
         # 由于工厂3的价格最低，山姆查看了工厂3的具体信息（TODO: 需要添加确认环节）
-        purchase_offer_table = self.browser.find_element_by_css_selector(".purchase-offer table")
+        purchase_offer_table = self.browser.find_element_by_css_selector(".supply-offer table")
         purchase_offer_table.find_element_by_css_selector("tbody tr:nth-child(3) .supplier-name a").click()
         self.assertRegex(self.browser.current_url, "/clients/suppliers/details")
         self.assertEqual(self.browser.find_element_by_css_selector(".supplier-name").text, "工厂3")
