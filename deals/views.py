@@ -3,8 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from deals.forms import NewPurchaseOrderForm, NewSupplyOfferForm, JoinPurchaseForm
-from deals.models import PurchaseOrder, SupplyOffer, PurchaseOrderLine
+from deals.forms import NewPurchaseOrderForm, NewSupplyOfferForm, JoinPurchaseForm, ProductionRecordForm
+from deals.models import PurchaseOrder, SupplyOffer, PurchaseOrderLine, Production, ProductionRecord
 from directconnect.settings import POST_ORDER_STATUS, LOGIN_URL
 from stocks.models import Product
 
@@ -24,6 +24,16 @@ def manage_purchase_order(request, purchase_order_id):
         'purchase_order': purchase_order,
         'supply_offers': supply_offers,
         'join_purchases': join_purchases,
+    })
+
+
+def on_road_purchase_order(request, purchase_order_id):
+    purchase_order = PurchaseOrder.objects.get(id=purchase_order_id)
+    pol = purchase_order.purchaseorderline_set.get(purchaser=request.user.purchaser_set.first())
+    return render(request, "purchase_orders/on_road.html", {
+        "header": "待收货订单详情",
+        "purchase_order_line": pol,
+        "production": purchase_order.production_set.first(),
     })
 
 
@@ -149,7 +159,14 @@ def adopt_supply_offer(request, supply_offer_id):
     if request.method == "POST":
         supply_offer.purchase_order.status = POST_ORDER_STATUS[2]
         supply_offer.save()
-        return redirect("/deals/production_orders/dashboard")
+        supplier = supply_offer.supplier
+        if supplier.manufacturer_set.count() == 0:
+            return redirect("/clients/manufacturers/new/{}".format(supply_offer.purchase_order.id))
+        production = Production.objects.create(
+            purchase_order=supply_offer.purchase_order,
+            manufacturer=supplier.manufacturer_set.first()
+        )
+        return redirect("/deals/production/details/{}".format(production.id))
 
     return render(request, "supply_offers/details.html", {
         "header": "确认生产",
@@ -187,3 +204,48 @@ def confirm_new_join_purchase(request, purchase_order_id):
             "amount": request.POST["amount"],
             "action_url": "/deals/join_purchases/new/{}".format(purchase_order_id)
         })
+
+
+def production_details(request, production_id):
+    production = Production.objects.get(id=production_id)
+    return render(request, "production/details.html", {
+        "header": "生产信息",
+        "production": production,
+    })
+
+
+def production_dashboard(request):
+    manufacturer = request.user.manufacturer_set.first()
+    if not manufacturer:
+        manufacturer = request.user.supplier_set.first().manufacturer_set.first()
+    productions = Production.objects.filter(manufacturer=manufacturer)
+    return render(request, "production/dashboard.html", {
+        "header": "生产管理",
+        "productions": productions
+    })
+
+
+def new_production_record(request, production_id):
+    production = Production.objects.get(id=production_id)
+    if request.method == "POST":
+        pr = ProductionRecordForm(request.POST).save(commit=False)
+        pr.production = production
+        pr.save()
+        return redirect("/deals/production/details/{}".format(production_id))
+    return render(request, "production/records/form.html", {
+        "header": "登记生产记录",
+        "action_url": request.path,
+        "form": ProductionRecordForm()
+    })
+
+
+def edit_production_record(request, record_id):
+    pr = ProductionRecord.objects.get(id=record_id)
+    if request.method == "POST":
+        pr = ProductionRecordForm(request.POST, instance=pr).save()
+        return redirect("/deals/production/details/{}".format(pr.production.id))
+    return render(request, "production/records/form.html", {
+        "header": "修改生产记录",
+        "action_url": request.path,
+        "form": ProductionRecordForm(instance=pr)
+    })

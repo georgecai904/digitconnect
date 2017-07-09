@@ -87,7 +87,6 @@ class FunctionalTest(StaticLiveServerTestCase):
         login_form = self.browser.find_element_by_css_selector("form")
         login_form.find_element_by_id("id_username").send_keys(username)
         login_form.find_element_by_id("id_password").send_keys(password)
-        # self._stop()
         login_form.find_element_by_id("id_submit").click()
 
     def _logout(self):

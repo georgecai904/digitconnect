@@ -153,6 +153,6 @@ class OffersDashBoardTest(FunctionalTest):
 
         self.assertRegex(self.browser.current_url, "/deals/supply_offers/adopt")
 
-        # 华少点击确认订单，页面跳转到了生产订单管理页面
+        # 华少点击确认订单，页面跳转到了工厂账号创建页面
         self.browser.find_element_by_id("id_submit").click()
-        self.assertRegex(self.browser.current_url, "/deals/production_orders/dashboard")
+        self.assertRegex(self.browser.current_url, "/clients/manufacturers/new")

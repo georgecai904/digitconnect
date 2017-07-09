@@ -1,4 +1,4 @@
-from deals.models import PurchaseOrderLine, SupplyOffer
+from deals.models import PurchaseOrderLine, SupplyOffer, ProductionRecord
 from directconnect.forms import BasicForm
 
 
@@ -18,3 +18,9 @@ class JoinPurchaseForm(BasicForm):
     class Meta:
         model = PurchaseOrderLine
         fields = ('amount', )
+
+
+class ProductionRecordForm(BasicForm):
+    class Meta:
+        model = ProductionRecord
+        exclude = ('production', )
