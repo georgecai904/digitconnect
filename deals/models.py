@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-from clients.models import Purchaser, Supplier
+from clients.models import Purchaser, Supplier, Manufacturer
 from directconnect.settings import POST_ORDER_STATUS
 from stocks.models import Product
 
@@ -68,6 +68,10 @@ class PurchaseOrder(models.Model):
     def get_all_purchasers(self):
         return [i.purchaser for i in self.purchaseorderline_set.all()]
 
+    def confirm_by_supplier(self):
+        self.status = POST_ORDER_STATUS[2]
+        self.save()
+
     @property
     def total_amount(self):
         return sum(int(i.amount) for i in self.purchaseorderline_set.all())
@@ -103,3 +107,32 @@ class SupplyOffer(models.Model):
     offer_amount = models.CharField(max_length=10, default=0)
     is_updated = models.BooleanField(default=True)
     is_noticed = models.BooleanField(default=False)
+
+
+class Production(models.Model):
+    purchase_order = models.ForeignKey(PurchaseOrder, default=None)
+    manufacturer = models.ForeignKey(Manufacturer, default=None)
+
+    def save(self, *args, **kwargs):
+        import datetime
+        super(Production, self).save(*args, **kwargs)
+        ProductionRecord.objects.create(
+            production=self,
+            code="PO0001",
+            title="生产订单已确认",
+            date_intended=datetime.date.today(),
+            date_estimate=datetime.date.today(),
+            date_complete=datetime.date.today(),
+        )
+
+
+class ProductionRecord(models.Model):
+    production = models.ForeignKey(Production, default=None)
+    code = models.CharField(max_length=20, default='', verbose_name="节点代码")
+    title = models.CharField(max_length=20, default='', verbose_name="节点名称")
+    date_intended = models.CharField(max_length=20, default='', verbose_name="计划日期")
+    date_estimate = models.CharField(max_length=20, default='', verbose_name="期望日期")
+    date_complete = models.CharField(max_length=20, default='', verbose_name="完成日期")
+
+    def __str__(self):
+        return self.title

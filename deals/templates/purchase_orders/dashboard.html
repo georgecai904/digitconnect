@@ -43,7 +43,7 @@
                     {% for purchase_order_line in purchase_order_lines_or %}
                         <tr>
                             <td class="product-name"><a
-                                    href="/deals/purchase_orders/manage/{{ purchase_order_line.purchase_order.id }}">{{ purchase_order_line.purchase_order.product.name }}</a>
+                                    href="/deals/purchase_orders/on_road/{{ purchase_order_line.purchase_order.id }}">{{ purchase_order_line.purchase_order.product.name }}</a>
                             </td>
                             <td class="product-amount">{{ purchase_order_line.amount }}</td>
                             <td class="offer-price">{{ purchase_order_line.purchase_order.offer_price }}</td>

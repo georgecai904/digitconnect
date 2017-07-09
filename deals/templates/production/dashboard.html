@@ -1,0 +1,27 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="container">
+<div class="row production">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>产品名称</th>
+            <th>订单数量</th>
+            <th>节点名称</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for production in productions %}
+            <tr>
+                <td class="product-name"><a href="/deals/production/details/{{ production.id }}">{{ production.purchase_order.product.name }}</a></td>
+                <td class="order-amount">{{ production.purchase_order.total_amount }}</td>
+                <td class="record-title">{{ production.productionrecord_set.last }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+</div>
+
+
+{% endblock %}

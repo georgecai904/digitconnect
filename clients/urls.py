@@ -13,4 +13,6 @@ urlpatterns = [
     url(r'^suppliers/new', views.new_supplier),
     url(r'^suppliers/edit/(?P<supplier_id>[0-9]+)$', views.edit_supplier),
     url(r'^suppliers/details/(?P<supplier_id>[0-9]+)$', views.supplier_details),
+
+    url(r'^manufacturers/new/(?P<purchase_order_id>[0-9]+)$', views.new_manufacturer),
 ]

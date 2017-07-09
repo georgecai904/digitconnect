@@ -1,10 +1,12 @@
-from django.shortcuts import render, HttpResponse, redirect
-from clients.forms import NewPurchaserForm, NewSupplierForm
+from django.shortcuts import render, redirect
+from clients.forms import NewPurchaserForm, NewSupplierForm, ManufacturerForm
 from django.contrib.auth.decorators import login_required
+
+from deals.models import Production, PurchaseOrder
 from directconnect.settings import LOGIN_URL
-from clients.models import Purchaser, Supplier
+from clients.models import Purchaser, Supplier, Manufacturer
+from django.contrib.auth.models import User
 # Create your views here.
-from stocks.models import Product
 
 
 @login_required(login_url=LOGIN_URL)
@@ -73,31 +75,33 @@ def edit_supplier(request, supplier_id):
                                                             })
 
 
-# @login_required(login_url=LOGIN_URL)
-# def post_price(request, product_id):
-#     product = Product.objects.get(id=product_id)
-#     if request.user.supplier_set.count() == 0:
-#         return redirect("/suppliers/new")
-#     if request.method == "POST":
-#         pp = PostPriceForm(request.POST).save(commit=False)
-#         pp.product = product
-#         pp.supplier = request.user.supplier_set.all()[0]
-#         pp.save()
-#         return render(request, "suppliers/post_price_success.html", {
-#             "success_msg": "您的报价已提交，若采购商感兴趣，会进一步与您联系",
-#             "pp": pp,
-#             'header': "报价成功"
-#         })
-#     return render(request, "suppliers/post_price.html", {
-#         "product": product,
-#         "action_url": "/suppliers/post-price/{}".format(product_id),
-#         "form": PostPriceForm(),
-#         'header': "报价登记"
-#     })
-
-
 def supplier_details(request, supplier_id):
     return render(request, 'suppliers/details.html', {
         'header': '供应商信息',
         'supplier': Supplier.objects.get(id=supplier_id)
+    })
+
+
+def new_manufacturer(request, purchase_order_id):
+    if request.method == "POST":
+        supplier = request.user.supplier_set.first()
+        user = User.objects.create(username=request.POST["username"])
+        user.set_password(request.POST["password"])
+        user.save()
+        manufacturer = Manufacturer.objects.create(
+            name=request.POST['name'],
+            address=request.POST['address'],
+            user=user,
+            supplier=supplier
+        )
+        production = Production.objects.create(
+            purchase_order=PurchaseOrder.objects.get(id=purchase_order_id),
+            manufacturer=manufacturer
+        )
+        return redirect("/deals/production/details/{}".format(production.id))
+
+    return render(request, "manufacturers/form.html", {
+        "header": "登记工厂信息",
+        "action_url": "/clients/manufacturers/new/{}".format(purchase_order_id),
+        "form": ManufacturerForm()
     })

@@ -1,15 +1,7 @@
+
+from clients.models import Purchaser, Supplier, Manufacturer
 from django import forms
-from clients.models import Purchaser, Supplier
-
-
-class BasicForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(BasicForm, self).__init__(*args, **kwargs)
-        for field in iter(self.fields):
-            # print(self.fields[field].widget['class'])
-            self.fields[field].widget.attrs.update({
-                'class': 'form-control'
-            })
+from directconnect.forms import BasicForm
 
 
 class NewPurchaserForm(BasicForm):
@@ -24,6 +16,15 @@ class NewSupplierForm(BasicForm):
         model = Supplier
         # fields = '__all__'
         exclude = ('user',)
+
+
+class ManufacturerForm(BasicForm):
+    username = forms.CharField(label="登陆账号")
+    password = forms.CharField(widget=forms.PasswordInput, label="登陆密码")
+
+    class Meta:
+        model = Manufacturer
+        exclude = ('user', 'supplier', )
 
 #
 # class PostPriceForm(BasicForm):

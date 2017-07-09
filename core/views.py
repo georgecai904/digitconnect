@@ -53,6 +53,8 @@ def handle_signup(request):
 def handle_logout(request):
     if request.user:
         logout(request)
+        query = parse.parse_qs(parse.urlparse(request.get_full_path()).query)
+        return redirect(query.get('next', ['/']).pop())
     return redirect("/")
 
 

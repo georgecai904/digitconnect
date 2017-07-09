@@ -1,0 +1,55 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <p class="warning"></p>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <h3>产品名称</h3>
+            <p class="product-name">{{ purchase_order_line.purchase_order.product }}</p>
+        </div>
+        <div class="col-md-4">
+            <h3>订单数量</h3>
+            <p class="order-amount">{{ purchase_order_line.amount }}</p>
+        </div>
+        <div class="col-md-4">
+            <h3>订单报价</h3>
+            <p class="offer-price">{{ purchase_order_line.purchase_order.offer_price }}</p>
+        </div>
+    </div>
+    <hr>
+    <div class="row production-records">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>节点代码</th>
+                    <th>节点名称</th>
+                    <th>计划日期</th>
+                    <th>期望日期</th>
+                    <th>完成日期</th>
+                    {% if user.manufacturer_set.count %}
+                    <th></th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in production.productionrecord_set.all %}
+                    <tr>
+                        <td class="record-code">{{ record.code }}</td>
+                        <td class="record-title">{{ record.title }}</td>
+                        <td class="date-intended">{{ record.date_intended }}</td>
+                        <td class="date-estimate">{{ record.date_estimate }}</td>
+                        <td class="date-complete">{{ record.date_complete }}</td>
+                        {% if user.manufacturer_set.count %}
+                        <td><a href="/deals/production/records/edit/{{ record.id }}" class="edit btn btn-default">修改</a></td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}
