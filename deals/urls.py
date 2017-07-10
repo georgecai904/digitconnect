@@ -3,7 +3,7 @@ from . import views
 
 urlpatterns = [
     url(r'^purchase_orders/dashboard', views.purchase_orders_dashboard),
-    url(r'^purchase_orders/manage/(?P<purchase_order_id>[0-9]+)$', views.manage_purchase_order),
+    url(r'^purchase_orders/details/(?P<purchase_order_id>[0-9]+)$', views.purchase_order_details),
     url(r'^purchase_orders/on_road/(?P<purchase_order_id>[0-9]+)$', views.on_road_purchase_order),
     url(r'^purchase_orders/new/(?P<product_id>[0-9]+)$', views.new_purchase_order),
     url(r'^purchase_orders/confirm/(?P<product_id>[0-9]+)$', views.confirm_purchase_order),

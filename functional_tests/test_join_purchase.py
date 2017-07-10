@@ -106,7 +106,7 @@ class JoinPurchaseTest(FunctionalTest):
 
         # 山姆点击了这个订单
         row.find_element_by_css_selector(".product-name a").click()
-        self.assertRegex(self.browser.current_url, "/deals/purchase_orders/manage")
+        self.assertRegex(self.browser.current_url, "/deals/purchase_orders/details")
 
         # 山姆看见所有的工厂都还没有更新价格，并出现通知工厂的按钮
         supply_offer_table = self.browser.find_element_by_css_selector(".supply-offer table")

@@ -9,7 +9,7 @@ from directconnect.settings import POST_ORDER_STATUS, LOGIN_URL
 from stocks.models import Product
 
 
-def manage_purchase_order(request, purchase_order_id):
+def purchase_order_details(request, purchase_order_id):
     purchase_order = PurchaseOrder.objects.get(id=purchase_order_id)
     supply_offers = purchase_order.supplyoffer_set.all()
     join_purchases = purchase_order.purchaseorderline_set.exclude(purchaser=purchase_order.initiator)
@@ -18,7 +18,7 @@ def manage_purchase_order(request, purchase_order_id):
             supply_offer = SupplyOffer.objects.get(id=id)
             supply_offer.is_noticed = True
             supply_offer.save()
-    return render(request, "purchase_orders/manage.html", {
+    return render(request, "purchase_orders/details.html", {
         'header': "{}采购单细节".format(purchase_order.product.name),
         'breadcrumb': [{"href": '/deals/purchase_orders/dashboard', "name": "我的发布"}],
         'purchase_order': purchase_order,

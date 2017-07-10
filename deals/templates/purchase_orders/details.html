@@ -28,7 +28,7 @@
                             <td>
                                 {% if not supply_offer.is_updated %}
                                     {% if not supply_offer.is_noticed %}
-                                        <a href="/deals/purchase_orders/manage/{{ supply_offer.purchase_order.id }}?id={{ supply_offer.id }}"
+                                        <a href="/deals/purchase_orders/details/{{ supply_offer.purchase_order.id }}?id={{ supply_offer.id }}"
                                            class="notice btn btn-default">
                                             通知工厂</a>
                                     {% else %}

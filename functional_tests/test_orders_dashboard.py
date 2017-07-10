@@ -56,7 +56,7 @@ class OrdersDashboardTest(FunctionalTest):
         first_row.find_element_by_css_selector(".product-name a").click()
 
         # 页面跳转到了采购细节页面, 页面同样的显示了三栏，分别是报价／加入采购／在线交流
-        self.assertRegex(self.browser.current_url, "/deals/purchase_orders/manage")
+        self.assertRegex(self.browser.current_url, "/deals/purchase_orders/details")
         self.assertEqual(self.browser.find_element_by_css_selector(".supply-offer .title").text, "供应商报价")
         self.assertEqual(self.browser.find_element_by_css_selector(".join-purchase .title").text, "采购商拼购")
         self.assertEqual(self.browser.find_element_by_css_selector(".online-chat .title").text, "在线交流")
@@ -104,7 +104,7 @@ class OrdersDashboardTest(FunctionalTest):
         # 此时山姆又点击了USB采购需求
         first_row = on_check_table.find_element_by_css_selector("tbody tr:first-child")
         first_row.find_element_by_css_selector(".product-name a").click()
-        self.assertRegex(self.browser.current_url, "/deals/purchase_orders/manage")
+        self.assertRegex(self.browser.current_url, "/deals/purchase_orders/details")
 
         # 在加入采购这栏里面，他发现有两个采购商加入了采购
         join_purchase_table = self.browser.find_element_by_css_selector(".join-purchase table")
@@ -146,6 +146,8 @@ class OrdersDashboardTest(FunctionalTest):
         self.assertEqual(notice_btn.text, "通知工厂")
         notice_btn.click()
 
+        self._stop()
+
         self.browser.refresh()
         purchase_offer_table = self.browser.find_element_by_css_selector(".supply-offer table")
         self.assertEqual(purchase_offer_table.find_element_by_css_selector("tbody tr:nth-child(3) .notice").text, "已通知")
@@ -166,7 +168,7 @@ class OrdersDashboardTest(FunctionalTest):
         self.browser.refresh()
 
         # 返回当刚刚页面后，点击确定生成订单，订单状态为采购成立 (TODO: 考虑是否需要加入机制确保所有的工厂都已更新价格后才能生成订单）
-        self.assertRegex(self.browser.current_url, "/deals/purchase_orders/manage")
+        self.assertRegex(self.browser.current_url, "/deals/purchase_orders/details")
         self.browser.find_element_by_css_selector(".confirm-order").click()
 
         # 页面跳回到了刚刚的我的发布页面，刚刚的采购需求从原来的待确认进入到了待收货
