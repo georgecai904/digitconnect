@@ -1,5 +1,6 @@
 from functional_tests.base import FunctionalTest
 from django.test.utils import override_settings
+import datetime
 
 class ProductionDashboardTest(FunctionalTest):
 
@@ -15,6 +16,8 @@ class ProductionDashboardTest(FunctionalTest):
 
         # 乔治再一次登陆了网页
         self._login(username="george")
+
+        today = str(datetime.date.today())
 
         # 乔治点击进入了我的中心->我的报价
         self.browser.find_element_by_css_selector("nav .user-center").click()
@@ -71,9 +74,9 @@ class ProductionDashboardTest(FunctionalTest):
         self.assertEqual(row.find_element_by_css_selector(".record-code").text, "PO0001")
         self.assertEqual(row.find_element_by_css_selector(".record-title").text, "生产订单已确认")
 
-        self.assertEqual(row.find_element_by_css_selector(".date-intended").text, "2017-07-09")
-        self.assertEqual(row.find_element_by_css_selector(".date-estimate").text, "2017-07-09")
-        self.assertEqual(row.find_element_by_css_selector(".date-complete").text, "2017-07-09")
+        self.assertEqual(row.find_element_by_css_selector(".date-intended").text, today)
+        self.assertEqual(row.find_element_by_css_selector(".date-estimate").text, today)
+        self.assertEqual(row.find_element_by_css_selector(".date-complete").text, today)
 
         # 乔治在右上角看见了工厂登陆的按钮，乔治点击
         self.browser.find_element_by_css_selector("nav .manufacturer-login").click()
@@ -119,9 +122,9 @@ class ProductionDashboardTest(FunctionalTest):
         row = record_table.find_element_by_css_selector("tbody tr:first-child")
         self.assertEqual(row.find_element_by_css_selector(".record-code").text, "PO0001")
         self.assertEqual(row.find_element_by_css_selector(".record-title").text, "生产订单已确认")
-        self.assertEqual(row.find_element_by_css_selector(".date-intended").text, "2017-07-09")
-        self.assertEqual(row.find_element_by_css_selector(".date-estimate").text, "2017-07-09")
-        self.assertEqual(row.find_element_by_css_selector(".date-complete").text, "2017-07-09")
+        self.assertEqual(row.find_element_by_css_selector(".date-intended").text, today)
+        self.assertEqual(row.find_element_by_css_selector(".date-estimate").text, today)
+        self.assertEqual(row.find_element_by_css_selector(".date-complete").text, today)
 
         # 页面右上角，乔治看到了发布生产状态按钮
         self.browser.find_element_by_css_selector(".add-record").click()
@@ -133,9 +136,9 @@ class ProductionDashboardTest(FunctionalTest):
         form = self.browser.find_element_by_css_selector("form")
         form.find_element_by_id("id_code").send_keys("PO0002")
         form.find_element_by_id("id_title").send_keys("采购原材料")
-        form.find_element_by_id("id_date_intended").send_keys("2017-07-09")
-        form.find_element_by_id("id_date_estimate").send_keys("2017-07-09")
-        form.find_element_by_id("id_date_complete").send_keys("2017-07-09")
+        form.find_element_by_id("id_date_intended").send_keys(today)
+        form.find_element_by_id("id_date_estimate").send_keys(today)
+        form.find_element_by_id("id_date_complete").send_keys(today)
         form.find_element_by_id("id_submit").click()
 
         # 发布后，页面又跳回到了刚刚详情页面
