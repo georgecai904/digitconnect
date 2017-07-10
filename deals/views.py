@@ -54,7 +54,7 @@ def purchase_orders_dashboard(request):
             'purchase_order_lines_cp': purchaser.purchaseorderline_set.filter(purchase_order__status=POST_ORDER_STATUS[2]),
         })
     else:
-        return redirect("/clients/purchasers/new")
+        return redirect(reverse('purchasers.new'))
 
 
 def new_purchase_order(request, product_id):
@@ -65,13 +65,13 @@ def new_purchase_order(request, product_id):
         purchase_order = PurchaseOrder.objects.create(initiator=purchaser, product=product)
         purchase_order.add_purchaser(purchaser=purchaser, amount=request.POST['amount'])
         purchase_order.save()
-        return redirect(reverse('purchase_order.dashboard'))
+        return redirect(reverse('purchase_orders.dashboard'))
 
     return render(request, "purchase_orders/form.html", {
         "header": "发布采购订单",
         "product": product,
         "form": PurchaseOrderForm(),
-        "action_url": reverse('purchase_order.confirm.new', args=(product_id,))
+        "action_url": reverse('purchase_orders.confirm.new', args=(product_id,))
     })
 
 
@@ -83,7 +83,7 @@ def confirm_purchase_order(request, product_id):
             "header": "确认采购订单",
             "product": product,
             "amount": request.POST["amount"],
-            "action_url": reverse('purchase_order.new', args=(product_id,))
+            "action_url": reverse('purchase_orders.new', args=(product_id,))
         })
 
 
@@ -103,13 +103,13 @@ def new_supply_offer(request, purchase_order_id):
     if request.method == "POST":
         supplier = request.user.supplier_set.all()[0]
         purchase_order.add_supplier(supplier=supplier, price=request.POST["price"])
-        return redirect(reverse('supply_offer.dashboard'))
+        return redirect(reverse('supply_offers.dashboard'))
 
     return render(request, "supply_offers/form.html", {
         "header": "报价页面",
         "purchase_order": purchase_order,
         "form": SupplyOfferForm(),
-        "action_url": reverse('supply_offer.confirm.new', args=(purchase_order_id,))
+        "action_url": reverse('supply_offers.confirm.new', args=(purchase_order_id,))
     })
 
 
@@ -120,7 +120,7 @@ def confirm_new_supply_offer(request, purchase_order_id):
             "header": "确认报价",
             "purchase_order": purchase_order,
             "price": request.POST["price"],
-            "action_url": reverse('supply_offer.new', args=(purchase_order_id,))
+            "action_url": reverse('supply_offers.new', args=(purchase_order_id,))
         })
 
 
@@ -131,14 +131,14 @@ def supply_offer_details(request, supply_offer_id):
         supply_offer.price = request.POST['price']
         supply_offer.offer_amount = supply_offer.purchase_order.total_amount
         supply_offer.save()
-        return redirect(reverse('supply_offer.dashboard'))
+        return redirect(reverse('supply_offers.dashboard'))
 
     return render(request, "supply_offers/details.html", {
         "header": "报价详情",
         "purchase_order": supply_offer.purchase_order,
         "supply_offer": supply_offer,
         "form": SupplyOfferForm(instance=supply_offer),
-        "action_url": reverse('supply_offer.confirm.edit', args=(supply_offer_id, ))
+        "action_url": reverse('supply_offers.confirm.edit', args=(supply_offer_id, ))
     })
 
 
@@ -150,7 +150,7 @@ def confirm_edit_supply_offer(request, supply_offer_id):
             "purchase_order": supply_offer.purchase_order,
             "supply_offer": supply_offer,
             "price": request.POST["price"],
-            "action_url": reverse('supply_offer.details', args=(supply_offer_id,)),
+            "action_url": reverse('supply_offers.details', args=(supply_offer_id,)),
             "btn_content": "确认修改"
         })
 
@@ -163,7 +163,7 @@ def adopt_supply_offer(request, supply_offer_id):
         supply_offer.save()
         supplier = supply_offer.supplier
         if supplier.manufacturer_set.count() == 0:
-            return redirect(reverse('manufacturer.new', args=(supply_offer.purchase_order.id,)))
+            return redirect(reverse('manufacturers.new', args=(supply_offer.purchase_order.id,)))
         production = Production.objects.create(
             purchase_order=supply_offer.purchase_order,
             manufacturer=supplier.manufacturer_set.first()
@@ -187,13 +187,13 @@ def new_join_purchase(request, purchase_order_id):
     if request.method == "POST":
         purchaser = request.user.purchaser_set.all()[0]
         purchase_order.add_purchaser(purchaser=purchaser, amount=request.POST["amount"])
-        return redirect(reverse('purchase_order.dashboard'))
+        return redirect(reverse('purchase_orders.dashboard'))
 
     return render(request, "join_purchases/new.html", {
         "header": "拼购采购",
         "form": JoinPurchaseForm(),
         "purchase_order": purchase_order,
-        "action_url": reverse('join_purchase.confirm.new', args=(purchase_order_id,))
+        "action_url": reverse('join_purchases.confirm.new', args=(purchase_order_id,))
     })
 
 
@@ -204,7 +204,7 @@ def confirm_new_join_purchase(request, purchase_order_id):
             "header": "确认拼购",
             "purchase_order": purchase_order,
             "amount": request.POST["amount"],
-            "action_url": reverse('join_purchase.new', args=(purchase_order_id,))
+            "action_url": reverse('join_purchases.new', args=(purchase_order_id,))
         })
 
 

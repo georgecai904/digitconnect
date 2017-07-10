@@ -66,7 +66,7 @@
                     <hr>
                     <input type="hidden" name="price" value="{{ price }}">
                     <button class="btn btn-default" type="submit" id="id_submit">{{ btn_content }}</button>
-                    <a href="/deals/supply_offers/details/{{ supply_offer.id }}" class="btn btn-default back">返回</a>
+                    <a href="{% url 'supply_offers.details' supply_offer.id %}" class="btn btn-default back">返回</a>
                 </form>
                 {% endif %}
             </div>

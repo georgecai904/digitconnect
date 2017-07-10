@@ -30,8 +30,6 @@ def edit_product(request, product_id):
     form = ProductForm(instance=old_p)
     if request.method == "POST":
         ProductForm(request.POST, instance=old_p).save()
-        # p.supplier = old_p.supplier
-        # p.save()
         return redirect(reverse('products.dashboard'))
     return render(request, 'stocks/products/form.html', {
         'form': form,

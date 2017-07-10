@@ -102,7 +102,7 @@ def new_manufacturer(request, purchase_order_id):
             purchase_order=PurchaseOrder.objects.get(id=purchase_order_id),
             manufacturer=manufacturer
         )
-        return redirect("/deals/production/details/{}".format(production.id))
+        return redirect(reverse('production.details', args=(production.id, )))
 
     return render(request, "manufacturers/form.html", {
         "header": "登记工厂信息",

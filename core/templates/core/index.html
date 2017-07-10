@@ -47,9 +47,9 @@
                             </div>
                             <div class="col-md-12">
                                 <a class="btn btn-sm btn-default make-offer"
-                                   href="/deals/supply_offers/new/{{ purchase_order.id }}">报价</a>
+                                   href="{% url 'supply_offers.new' purchase_order.id %}">报价</a>
                                 <a class="btn btn-sm btn-default join-purchase"
-                                   href="/deals/join_purchases/new/{{ purchase_order.id }}">加入采购</a>
+                                   href="{% url 'join_purchases.new' purchase_order.id %}">加入采购</a>
                                 <a class="btn btn-sm btn-default">在线交流</a>
                             </div>
                         </div>

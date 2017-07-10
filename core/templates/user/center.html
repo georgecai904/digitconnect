@@ -3,13 +3,13 @@
 {% block content %}
 <div class="container">
 <div class="row">
-    <a class="account-dashboard btn btn-default col-md-4" href="/auth/account">个人信息</a>
+    <a class="account-dashboard btn btn-default col-md-4" href="{% url 'auth.account' %}">个人信息</a>
     {% if user.supplier_set.count or user.purchaser_set.all %}
-        <a class="offers-dashboard  btn btn-default col-md-4" href="/deals/supply_offers/dashboard">我的报价</a>
-        <a class="products-dashboard btn btn-default col-md-4" href="/stocks/products/dashboard">我的产品</a>
-        <a class="orders-dashboard btn btn-default col-md-4" href="/deals/purchase_orders/dashboard">我的发布</a>
+        <a class="offers-dashboard  btn btn-default col-md-4" href="{% url 'supply_offers.dashboard' %}">我的报价</a>
+        <a class="products-dashboard btn btn-default col-md-4" href="{% url 'products.dashboard' %}">我的产品</a>
+        <a class="orders-dashboard btn btn-default col-md-4" href="{% url 'purchase_orders.dashboard' %}">我的发布</a>
     {% endif %}
-    <a class="production-dashboard btn btn-default col-md-4" href="/deals/production/dashboard">生产管理</a>
+    <a class="production-dashboard btn btn-default col-md-4" href="{% url 'production.dashboard' %}">生产管理</a>
 </div>
 </div>
 

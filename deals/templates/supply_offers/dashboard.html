@@ -17,7 +17,7 @@
                     {% for supply_offer in adopted_supply_offers %}
                         <tr>
                             <td class="order-initiator">
-                                <a href="/deals/supply_offers/adopt/{{ supply_offer.id }}">
+                                <a href="{% url 'supply_offers.adopt' supply_offer.id %}">
                                     {{ supply_offer.purchase_order.initiator.name }}</a>
                             </td>
                             <td class="product-name">{{ supply_offer.purchase_order.product.name }}</td>
@@ -44,7 +44,7 @@
                     {% for supply_offer in ongoing_supply_offers %}
                         <tr>
                             <td class="order-initiator">
-                                <a href="/deals/supply_offers/details/{{ supply_offer.id }}">
+                                <a href="{% url 'supply_offers.details' supply_offer.id %}">
                                     {{ supply_offer.purchase_order.initiator.name }}</a>
                             </td>
                             <td class="product-name">{{ supply_offer.purchase_order.product.name }}</td>

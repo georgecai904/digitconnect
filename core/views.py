@@ -59,7 +59,7 @@ def handle_logout(request):
         logout(request)
         query = parse.parse_qs(parse.urlparse(request.get_full_path()).query)
         return redirect(query.get('next', ['/']).pop())
-    return redirect("/")
+    return redirect(reverse("homepage"))
 
 
 @login_required(login_url=LOGIN_URL)
