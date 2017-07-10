@@ -44,7 +44,7 @@ def handle_signup(request):
         user = User.objects.create(username=request.POST["username"], email=request.POST["email"])
         user.set_password(request.POST["password"])
         user.save()
-        return redirect('{}?next={}'.format(reverse("auth.login"), reverse("client.select")))
+        return redirect('{}?next={}'.format(reverse("auth.login"), reverse("clients.select")))
 
     return render(request, 'auth/form.html', {
         'form': NewUserForm(),
