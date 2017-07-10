@@ -1,7 +1,10 @@
+from django.test import override_settings
+
 from functional_tests.base import FunctionalTest
 
 class OffersDashBoardTest(FunctionalTest):
 
+    @override_settings(DEBUG=True)
     def test_offers_dashboard(self):
         # python manage.py test functional_tests.test_user_center.UserCenterTest.test_offers_dashboard
         # 前提条件设立
@@ -85,6 +88,7 @@ class OffersDashBoardTest(FunctionalTest):
 
         # 页面跳转到了确认页面，华少点击了取消，页面回到了刚刚的报价详情页面
         self.assertRegex(self.browser.current_url, "/deals/supply_offers/edit/confirm")
+        # self._stop(30)
         self.browser.find_element_by_css_selector(".back").click()
         self.assertRegex(self.browser.current_url, "deals/supply_offers/details")
 

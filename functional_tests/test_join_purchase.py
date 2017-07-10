@@ -1,7 +1,10 @@
+from django.test import override_settings
+
 from functional_tests.base import FunctionalTest
 
 class JoinPurchaseTest(FunctionalTest):
 
+    @override_settings(DEBUG=True)
     def test_join_purchase(self):
 
         # 黛安娜登陆到了网页
@@ -54,7 +57,7 @@ class JoinPurchaseTest(FunctionalTest):
         form.find_element_by_id("id_submit").click()
 
         # 页面跳转到了确认拼购页面，黛安娜确认了商品信息以及采购数量是否正确
-        self.assertRegex(self.browser.current_url, "/deals/join_purchases/confirm")
+        self.assertRegex(self.browser.current_url, "/deals/join_purchases/new/confirm")
         self.assertEqual(self.browser.find_element_by_css_selector(".join-purchase-container .amount").text, "200000")
 
         # 黛安娜点击确定按钮

@@ -31,7 +31,7 @@ class SupplyOfferTest(FunctionalTest):
         form.find_element_by_id("id_submit").click()
 
         # 页面跳转到了确认报价页面
-        self.assertRegex(self.browser.current_url, "/deals/supply_offers/confirm")
+        self.assertRegex(self.browser.current_url, "/deals/supply_offers/new/confirm")
 
         # 华少检查了自己的报价，并点击确认按钮
         self.assertEqual(self.browser.find_element_by_css_selector(".product-container .product-name dd").text,

@@ -41,7 +41,7 @@ def edit_purchaser(request, purchaser_id):
     form = PurchaserForm(instance=purchaser)
     if request.method == "POST":
         PurchaserForm(request.POST, instance=purchaser).save()
-        return redirect("/auth/account")
+        return redirect(reverse('auth.account'))
     return render(request, 'purchasers/form.html', {
         'form': form,
         'action_url': request.path,
@@ -71,7 +71,7 @@ def edit_supplier(request, supplier_id):
     form = SupplierForm(instance=supplier)
     if request.method == "POST":
         SupplierForm(request.POST, instance=supplier).save()
-        return redirect("/auth/account")
+        return redirect(reverse('auth.account'))
     return render(request, 'suppliers/form.html', {
         'form': form,
         'action_url': request.path,
