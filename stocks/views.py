@@ -17,7 +17,7 @@ def new_product(request):
     return render(request, 'stocks/products/form.html', {
         'form': ProductForm(),
         'url': '/stocks/products/new',
-        'action_url': '/stocks/products/new',
+        'action_url': request.path,
         'header': "登记产品信息"
     })
 
@@ -33,7 +33,7 @@ def edit_product(request, product_id):
         return redirect('/stocks/products/dashboard')
     return render(request, 'stocks/products/form.html', {
         'form': form,
-        'action_url': '/stocks/products/edit/'+product_id,
+        'action_url': request.path,
         'header': '修改产品信息'
     })
 

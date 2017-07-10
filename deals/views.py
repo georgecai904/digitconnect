@@ -173,7 +173,7 @@ def adopt_supply_offer(request, supply_offer_id):
         "purchase_order": supply_offer.purchase_order,
         "supply_offer": supply_offer,
         "price": supply_offer.price,
-        "action_url": "/deals/supply_offers/adopt/{}".format(supply_offer.id),
+        "action_url": request.path,
         "btn_content": "确认生产",
     })
 

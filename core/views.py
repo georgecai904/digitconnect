@@ -15,7 +15,6 @@ def index_page(request):
     purchase_orders = PurchaseOrder.objects.all()
     return render(request, "core/index.html", {
         'mock_list': range(6),
-        'url': request.path,
         'purchase_orders': purchase_orders
     })
 
