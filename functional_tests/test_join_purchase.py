@@ -122,7 +122,7 @@ class JoinPurchaseTest(FunctionalTest):
 
         row1.find_element_by_css_selector(".notice").click()
 
-        self.assertRegex(self.browser.current_url, "deals/purchase_orders/manage")
+        self.assertRegex(self.browser.current_url, "/deals/purchase_orders/details")
         supply_offer_table = self.browser.find_element_by_css_selector(".supply-offer table")
         row1 = supply_offer_table.find_element_by_css_selector("tbody tr:nth-child(1)")
         self.assertEqual(row1.find_element_by_css_selector(".notice").text, "已通知")

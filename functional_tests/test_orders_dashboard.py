@@ -146,8 +146,6 @@ class OrdersDashboardTest(FunctionalTest):
         self.assertEqual(notice_btn.text, "通知工厂")
         notice_btn.click()
 
-        self._stop()
-
         self.browser.refresh()
         purchase_offer_table = self.browser.find_element_by_css_selector(".supply-offer table")
         self.assertEqual(purchase_offer_table.find_element_by_css_selector("tbody tr:nth-child(3) .notice").text, "已通知")

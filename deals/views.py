@@ -65,7 +65,7 @@ def new_purchase_order(request, product_id):
         purchase_order.save()
         return redirect("/deals/purchase_orders/dashboard")
 
-    return render(request, "purchase_orders/new.html", {
+    return render(request, "purchase_orders/form.html", {
         "header": "发布采购订单",
         "product": product,
         "form": PurchaseOrderForm(),
@@ -77,7 +77,7 @@ def confirm_purchase_order(request, product_id):
     product = Product.objects.get(id=product_id)
 
     if request.method == "POST":
-        return render(request, "purchase_orders/new.html", {
+        return render(request, "purchase_orders/form.html", {
             "header": "确认采购订单",
             "product": product,
             "amount": request.POST["amount"],
@@ -103,7 +103,7 @@ def new_supply_offer(request, purchase_order_id):
         purchase_order.add_supplier(supplier=supplier, price=request.POST["price"])
         return redirect("/deals/supply_offers/dashboard")
 
-    return render(request, "supply_offers/new.html", {
+    return render(request, "supply_offers/form.html", {
         "header": "报价页面",
         "purchase_order": purchase_order,
         "form": SupplyOfferForm(),
@@ -114,7 +114,7 @@ def new_supply_offer(request, purchase_order_id):
 def confirm_new_supply_offer(request, purchase_order_id):
     purchase_order = PurchaseOrder.objects.get(id=purchase_order_id)
     if request.method == "POST":
-        return render(request, "supply_offers/new.html", {
+        return render(request, "supply_offers/form.html", {
             "header": "确认报价",
             "purchase_order": purchase_order,
             "price": request.POST["price"],

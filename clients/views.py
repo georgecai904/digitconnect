@@ -25,7 +25,7 @@ def new_purchaser(request):
         return redirect('/')
     if len(request.user.purchaser_set.all()):
         return redirect('/')
-    return render(request, 'purchasers/purchaser_form.html', {'form': PurchaserForm(),
+    return render(request, 'purchasers/form.html', {'form': PurchaserForm(),
                                                               'url': request.path,
                                                               'header': '登记采购商信息',
                                                               'action_url': '/clients/purchasers/new'})
@@ -38,11 +38,11 @@ def edit_purchaser(request, purchaser_id):
     if request.method == "POST":
         PurchaserForm(request.POST, instance=purchaser).save()
         return redirect("/auth/account")
-    return render(request, 'purchasers/purchaser_form.html', {'form': form,
+    return render(request, 'purchasers/form.html', {'form': form,
                                                               'action_url': '/clients/purchasers/edit/{0}'.format(
                                                                   purchaser_id),
                                                               'header': '修改采购商信息',
-                                                              })
+                                                    })
 
 
 @login_required(login_url=LOGIN_URL)
@@ -54,11 +54,11 @@ def new_supplier(request):
         return redirect('/')
     if len(request.user.supplier_set.all()):
         return redirect('/')
-    return render(request, 'suppliers/supplier_form.html', {'form': SupplierForm(),
+    return render(request, 'suppliers/form.html', {'form': SupplierForm(),
                                                             'url': request.path,
                                                             'action_url': '/clients/suppliers/new',
                                                             'header': '登记供应商信息',
-                                                            })
+                                                   })
 
 
 @login_required(login_url=LOGIN_URL)
@@ -68,11 +68,11 @@ def edit_supplier(request, supplier_id):
     if request.method == "POST":
         SupplierForm(request.POST, instance=supplier).save()
         return redirect("/auth/account")
-    return render(request, 'suppliers/supplier_form.html', {'form': form,
+    return render(request, 'suppliers/form.html', {'form': form,
                                                             'action_url': '/clients/suppliers/edit/{0}'.format(
                                                                 supplier_id),
                                                             'header': '修改供应商信息',
-                                                            })
+                                                   })
 
 
 def supplier_details(request, supplier_id):
