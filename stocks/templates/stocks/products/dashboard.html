@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <a class="post btn btn-block btn-default" href="/stocks/products/new">发布</a>
+        <a class="post btn btn-block btn-default" href="{% url 'products.new' %}">发布</a>
     </div>
     {% if products %}
     <table class="table table-hover product-table">
@@ -25,11 +25,11 @@
                 <td class="product-category">{{ product.category }}</td>
                 <td class="product-location">{{ product.location }}</td>
                 <td>
-                    <a href="/deals/purchase_orders/new/{{ product.id }}" class="btn btn-default release-order">发布订单</a>
+                    <a href="{% url 'purchase_orders.new' product.id %}" class="btn btn-default release-order">发布订单</a>
                 </td>
                 <td>
-                    <a href="/stocks/products/edit/{{ product.id }}" class="btn btn-default edit">修改</a>
-                    <a href="/stocks/products/delete/{{ product.id }}" class="btn btn-default delete">删除</a>
+                    <a href="{% url 'products.edit' product.id %}" class="btn btn-default edit">修改</a>
+                    <a href="{% url 'products.delete' product.id %}" class="btn btn-default delete">删除</a>
                 </td>
             </tr>
         {% endfor %}

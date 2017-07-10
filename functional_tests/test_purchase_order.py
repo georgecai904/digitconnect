@@ -40,7 +40,7 @@ class PurchaseOrderTest(FunctionalTest):
         form.find_element_by_id("id_submit").click()
 
         # 页面跳转到确认页面，上面提示山姆商品信息是否正确
-        self.assertRegex(self.browser.current_url, "/deals/purchase_orders/confirm")
+        self.assertRegex(self.browser.current_url, "/deals/purchase_orders/new/confirm")
 
         # 山姆查看了一下信息，发现他选错了USB的型号
         self.assertFalse(self.browser.find_element_by_css_selector(".product-container .product-name dd").text == "USB 32GB")
@@ -59,7 +59,7 @@ class PurchaseOrderTest(FunctionalTest):
         form.find_element_by_id("id_submit").click()
 
         # 页面再次来到确认页面，山姆这次确认信息都正确，山姆点击确认发布
-        self.assertRegex(self.browser.current_url, "/deals/purchase_orders/confirm")
+        self.assertRegex(self.browser.current_url, "/deals/purchase_orders/new/confirm")
         self.assertEqual(self.browser.find_element_by_css_selector(".product-container .product-name dd").text, "USB 32GB")
         self.assertEqual(self.browser.find_element_by_css_selector(".order-amount").text, '5000')
         self.browser.find_element_by_id("id_submit").click()

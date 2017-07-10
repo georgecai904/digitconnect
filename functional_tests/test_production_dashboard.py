@@ -4,7 +4,7 @@ import datetime
 
 class ProductionDashboardTest(FunctionalTest):
 
-    @override_settings(DEBUG=True)
+    # @override_settings(DEBUG=True)
     def test_production_dashboard(self):
         sam = self._create_purchaser(username="sam", name="sam")
         george = self._create_supplier(username="george", name="george")

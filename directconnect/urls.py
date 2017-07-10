@@ -20,7 +20,7 @@ import core.views
 urlpatterns = [
 
     # Home Page
-    url(r'^$', core.views.index_page),
+    url(r'^$', core.views.index_page, name="homepage"),
 
     # [Module] admin
     url(r'^admin/', admin.site.urls),

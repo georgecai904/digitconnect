@@ -1,8 +1,11 @@
+from django.test import override_settings
+
 from functional_tests.base import FunctionalTest
 from unittest import skip
 
 class SupplierFunctionalTest(FunctionalTest):
 
+    @override_settings(DEBUG=True)
     def test_supplier_register_in(self):
         purchaser = self._create_purchaser()
         purchaser = self._create_purchaser(username="purchaser2", name="山姆采购商")

@@ -42,7 +42,7 @@
                         <td class="date-estimate">{{ record.date_estimate }}</td>
                         <td class="date-complete">{{ record.date_complete }}</td>
                         {% if user.manufacturer_set.count %}
-                        <td><a href="/deals/production/records/edit/{{ record.id }}" class="edit btn btn-default">修改</a></td>
+                        <td><a href="{% url 'production.records.edit' record.id %}" class="edit btn btn-default">修改</a></td>
                         {% endif %}
                     </tr>
                 {% endfor %}

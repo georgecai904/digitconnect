@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 
 from deals.models import PurchaseOrder
 from stocks.models import Product
@@ -15,7 +16,6 @@ def index_page(request):
     purchase_orders = PurchaseOrder.objects.all()
     return render(request, "core/index.html", {
         'mock_list': range(6),
-        'url': request.path,
         'purchase_orders': purchase_orders
     })
 
@@ -31,10 +31,11 @@ def handle_login(request):
             return redirect(query.get('next', ['/']).pop())
         else:
             return redirect(request.path)
+
     return render(request, 'auth/login.html', {
+        'header': "登陆页面",
         'form': LoginInForm(),
-        'action_url': request.get_full_path(),
-        'header': "登陆页面"
+        'action_url': request.get_full_path()
     })
 
 
@@ -43,10 +44,13 @@ def handle_signup(request):
         user = User.objects.create(username=request.POST["username"], email=request.POST["email"])
         user.set_password(request.POST["password"])
         user.save()
-        return redirect('/auth/login?next=/clients/select')
-    return render(request, 'auth/signup.html', {
+        return redirect('{}?next={}'.format(reverse("auth.login"), reverse("clients.select")))
+
+    return render(request, 'auth/form.html', {
         'form': NewUserForm(),
-        'header': "注册页面"
+        'header': "注册页面",
+        'action_url': request.path,
+        'btn_name': "注册"
     })
 
 
@@ -55,7 +59,7 @@ def handle_logout(request):
         logout(request)
         query = parse.parse_qs(parse.urlparse(request.get_full_path()).query)
         return redirect(query.get('next', ['/']).pop())
-    return redirect("/")
+    return redirect(reverse("homepage"))
 
 
 @login_required(login_url=LOGIN_URL)
@@ -84,8 +88,12 @@ def reset_email(request):
     if request.method == "POST":
         u.email = request.POST['email']
         u.save()
-        return redirect("/auth/account")
-    return render(request, 'auth/reset_email.html', {'form': form, 'action_url': '/auth/reset/email'})
+        return redirect(reverse("auth.account"))
+    return render(request, 'auth/form.html', {
+        'form': form,
+        'action_url': request.path,
+        'btn_name': "修改"
+    })
 
 
 @login_required(login_url=LOGIN_URL)
@@ -97,6 +105,10 @@ def reset_password(request):
             if request.POST['password'] == request.POST['repeated_password']:
                 u.set_password(request.POST['password'])
                 u.save()
-                return redirect("/auth/account")
-        return redirect("/auth/reset/password")
-    return render(request, 'auth/reset_email.html', {'form': form, 'action_url': '/auth/reset/password'})
+                return redirect(reverse("auth.account"))
+        return redirect(reverse("auth.reset.password"))
+    return render(request, 'auth/form.html', {
+        'form': form,
+        'action_url': request.path,
+        'btn_name': "修改"
+    })

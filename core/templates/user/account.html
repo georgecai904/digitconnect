@@ -10,12 +10,12 @@
                 </tr>
                 <tr class="password">
                     <td>密码</td>
-                    <td><a href="/auth/reset/password" class="edit">更改密码</a></td>
+                    <td><a href="{% url 'auth.reset.password' %}" class="edit">更改密码</a></td>
                 </tr>
                 <tr class="email">
                     <td>邮箱</td>
                     <td>
-                        <span class="value">{{ user.email }}</span>(<a href="/auth/reset/email" class="edit">更改邮箱</a>)
+                        <span class="value">{{ user.email }}</span>(<a href="{% url 'auth.reset.email' %}" class="edit">更改邮箱</a>)
                     </td>
                 </tr>
             </table>
@@ -50,8 +50,8 @@
                         <td class="purchaser-area">{{ purchaser.area }}</td>
                     </tr>
                     <tr>
-                        <td><a href="/stocks/products/dashboard" class="products">产品列表</a></td>
-                        <td><a href="/clients/purchasers/edit/{{ purchaser.id }}" class="edit">修改</a></td>
+                        <td><a href="{% url 'products.dashboard' %}" class="products">产品列表</a></td>
+                        <td><a href="{% url 'purchasers.edit' purchaser.id %}" class="edit">修改</a></td>
                     </tr>
                 </table>
             </div>
@@ -85,8 +85,8 @@
                         <td class="supplier-area">{{ supplier.area }}</td>
                     </tr>
                     <tr>
-                        <td><a href="/stocks/products/dashboard" class="products">产品列表</a></td>
-                        <td><a href="/clients/suppliers/edit/{{ supplier.id }}" class="edit">修改</a></td>
+                        <td><a href="{% url 'products.dashboard' %}" class="products">产品列表</a></td>
+                        <td><a href="{% url 'suppliers.edit' supplier.id %}" class="edit">修改</a></td>
                     </tr>
                 </table>
             </div>

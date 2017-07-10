@@ -33,7 +33,7 @@
                     {% csrf_token %}
                     <hr>
                     <button class="btn btn-default" type="submit" id="id_submit">发布</button>
-                    <a href="/stocks/products/dashboard" class="btn btn-default back">返回</a>
+                    <a href="{% url 'products.dashboard' %}" class="btn btn-default back">返回</a>
                 </form>
                 {% else %}
                 <form action="{{ action_url }}" method="POST">
@@ -42,7 +42,7 @@
                     <hr>
                     <input type="hidden" name="amount" value="{{ amount }}">
                     <button class="btn btn-default" type="submit" id="id_submit">确认</button>
-                    <a href="/stocks/products/dashboard" class="btn btn-default back">返回</a>
+                    <a href="{% url 'products.dashboard' %}" class="btn btn-default back">返回</a>
                 </form>
                 {% endif %}
 

@@ -4,14 +4,14 @@ from django import forms
 from directconnect.forms import BasicForm
 
 
-class NewPurchaserForm(BasicForm):
+class PurchaserForm(BasicForm):
     class Meta:
         model = Purchaser
         # fields = '__all__'
         exclude = ('user',)
 
 
-class NewSupplierForm(BasicForm):
+class SupplierForm(BasicForm):
     class Meta:
         model = Supplier
         # fields = '__all__'

@@ -1,3 +1,5 @@
+from django.test import override_settings
+
 from functional_tests.base import FunctionalTest
 import unittest
 import time
@@ -5,6 +7,7 @@ import time
 
 class PurchaserFunctionalTest(FunctionalTest):
 
+    # @override_settings(DEBUG=True)
     def test_purchaser_register_in(self):
 
         # 山姆是一个采购商，他登陆了网站

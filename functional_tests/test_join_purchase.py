@@ -1,7 +1,10 @@
+from django.test import override_settings
+
 from functional_tests.base import FunctionalTest
 
 class JoinPurchaseTest(FunctionalTest):
 
+    @override_settings(DEBUG=True)
     def test_join_purchase(self):
 
         # 黛安娜登陆到了网页
@@ -54,7 +57,7 @@ class JoinPurchaseTest(FunctionalTest):
         form.find_element_by_id("id_submit").click()
 
         # 页面跳转到了确认拼购页面，黛安娜确认了商品信息以及采购数量是否正确
-        self.assertRegex(self.browser.current_url, "/deals/join_purchases/confirm")
+        self.assertRegex(self.browser.current_url, "/deals/join_purchases/new/confirm")
         self.assertEqual(self.browser.find_element_by_css_selector(".join-purchase-container .amount").text, "200000")
 
         # 黛安娜点击确定按钮
@@ -106,7 +109,7 @@ class JoinPurchaseTest(FunctionalTest):
 
         # 山姆点击了这个订单
         row.find_element_by_css_selector(".product-name a").click()
-        self.assertRegex(self.browser.current_url, "/deals/purchase_orders/manage")
+        self.assertRegex(self.browser.current_url, "/deals/purchase_orders/details")
 
         # 山姆看见所有的工厂都还没有更新价格，并出现通知工厂的按钮
         supply_offer_table = self.browser.find_element_by_css_selector(".supply-offer table")
@@ -122,7 +125,7 @@ class JoinPurchaseTest(FunctionalTest):
 
         row1.find_element_by_css_selector(".notice").click()
 
-        self.assertRegex(self.browser.current_url, "deals/purchase_orders/manage")
+        self.assertRegex(self.browser.current_url, "/deals/purchase_orders/details")
         supply_offer_table = self.browser.find_element_by_css_selector(".supply-offer table")
         row1 = supply_offer_table.find_element_by_css_selector("tbody tr:nth-child(1)")
         self.assertEqual(row1.find_element_by_css_selector(".notice").text, "已通知")

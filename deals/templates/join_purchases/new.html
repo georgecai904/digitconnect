@@ -64,7 +64,7 @@
                     <hr>
                     <input type="hidden" name="amount" value="{{ amount }}">
                     <button class="btn btn-default" type="submit" id="id_submit">{{ btn_content }}</button>
-                    <a href="/deals/join_purchases/new/{{ purchase_order.id }}" class="btn btn-default back">返回</a>
+                    <a href="{% url 'join_purchases.new' purchase_order.id %}" class="btn btn-default back">返回</a>
                 </form>
                 {% endif %}
             </div>

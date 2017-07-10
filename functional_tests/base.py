@@ -1,3 +1,4 @@
+from django.test import override_settings
 from selenium import webdriver
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from unittest import skip
