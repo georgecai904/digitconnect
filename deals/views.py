@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from deals.forms import NewPurchaseOrderForm, NewSupplyOfferForm, JoinPurchaseForm, ProductionRecordForm
+from deals.forms import PurchaseOrderForm, SupplyOfferForm, JoinPurchaseForm, ProductionRecordForm
 from deals.models import PurchaseOrder, SupplyOffer, PurchaseOrderLine, Production, ProductionRecord
 from directconnect.settings import POST_ORDER_STATUS, LOGIN_URL
 from stocks.models import Product
@@ -68,7 +68,7 @@ def new_purchase_order(request, product_id):
     return render(request, "purchase_orders/new.html", {
         "header": "发布采购订单",
         "product": product,
-        "form": NewPurchaseOrderForm(),
+        "form": PurchaseOrderForm(),
         "action_url": "/deals/purchase_orders/confirm/{}".format(product.id)
     })
 
@@ -106,7 +106,7 @@ def new_supply_offer(request, purchase_order_id):
     return render(request, "supply_offers/new.html", {
         "header": "报价页面",
         "purchase_order": purchase_order,
-        "form": NewSupplyOfferForm(),
+        "form": SupplyOfferForm(),
         "action_url": "/deals/supply_offers/confirm/{}".format(purchase_order_id)
     })
 
@@ -135,7 +135,7 @@ def supply_offer_details(request, supply_offer_id):
         "header": "报价详情",
         "purchase_order": supply_offer.purchase_order,
         "supply_offer": supply_offer,
-        "form": NewSupplyOfferForm(instance=supply_offer),
+        "form": SupplyOfferForm(instance=supply_offer),
         "action_url": "/deals/supply_offers/edit/confirm/{}".format(supply_offer.id)
     })
 

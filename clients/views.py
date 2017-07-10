@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from clients.forms import NewPurchaserForm, NewSupplierForm, ManufacturerForm
+from clients.forms import PurchaserForm, SupplierForm, ManufacturerForm
 from django.contrib.auth.decorators import login_required
 
 from deals.models import Production, PurchaseOrder
@@ -19,13 +19,13 @@ def select_type(request):
 @login_required(login_url=LOGIN_URL)
 def new_purchaser(request):
     if request.method == "POST":
-        purchaser = NewPurchaserForm(request.POST).save(commit=False)
+        purchaser = PurchaserForm(request.POST).save(commit=False)
         purchaser.user = request.user
         purchaser.save()
         return redirect('/')
     if len(request.user.purchaser_set.all()):
         return redirect('/')
-    return render(request, 'purchasers/purchaser_form.html', {'form': NewPurchaserForm(),
+    return render(request, 'purchasers/purchaser_form.html', {'form': PurchaserForm(),
                                                               'url': request.path,
                                                               'header': '登记采购商信息',
                                                               'action_url': '/clients/purchasers/new'})
@@ -34,9 +34,9 @@ def new_purchaser(request):
 @login_required(login_url=LOGIN_URL)
 def edit_purchaser(request, purchaser_id):
     purchaser = Purchaser.objects.get(id=purchaser_id)
-    form = NewPurchaserForm(instance=purchaser)
+    form = PurchaserForm(instance=purchaser)
     if request.method == "POST":
-        NewPurchaserForm(request.POST, instance=purchaser).save()
+        PurchaserForm(request.POST, instance=purchaser).save()
         return redirect("/auth/account")
     return render(request, 'purchasers/purchaser_form.html', {'form': form,
                                                               'action_url': '/clients/purchasers/edit/{0}'.format(
@@ -48,13 +48,13 @@ def edit_purchaser(request, purchaser_id):
 @login_required(login_url=LOGIN_URL)
 def new_supplier(request):
     if request.method == "POST":
-        supplier = NewSupplierForm(request.POST).save(commit=False)
+        supplier = SupplierForm(request.POST).save(commit=False)
         supplier.user = request.user
         supplier.save()
         return redirect('/')
     if len(request.user.supplier_set.all()):
         return redirect('/')
-    return render(request, 'suppliers/supplier_form.html', {'form': NewSupplierForm(),
+    return render(request, 'suppliers/supplier_form.html', {'form': SupplierForm(),
                                                             'url': request.path,
                                                             'action_url': '/clients/suppliers/new',
                                                             'header': '登记供应商信息',
@@ -64,9 +64,9 @@ def new_supplier(request):
 @login_required(login_url=LOGIN_URL)
 def edit_supplier(request, supplier_id):
     supplier = Supplier.objects.get(id=supplier_id)
-    form = NewSupplierForm(instance=supplier)
+    form = SupplierForm(instance=supplier)
     if request.method == "POST":
-        NewSupplierForm(request.POST, instance=supplier).save()
+        SupplierForm(request.POST, instance=supplier).save()
         return redirect("/auth/account")
     return render(request, 'suppliers/supplier_form.html', {'form': form,
                                                             'action_url': '/clients/suppliers/edit/{0}'.format(

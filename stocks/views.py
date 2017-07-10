@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from stocks.forms import NewProductForm
+from stocks.forms import ProductForm
 from django.contrib.auth.decorators import login_required
 from directconnect.settings import LOGIN_URL
 # Create your views here.
@@ -9,13 +9,13 @@ from stocks.models import Product
 @login_required(login_url=LOGIN_URL)
 def new_product(request):
     if request.method == "POST":
-        p = NewProductForm(request.POST).save(commit=False)
+        p = ProductForm(request.POST).save(commit=False)
         purchaser = request.user.purchaser_set.first()
         p.purchaser = purchaser
         p.save()
         return redirect('/stocks/products/dashboard')
     return render(request, 'stocks/products/form.html', {
-        'form': NewProductForm(),
+        'form': ProductForm(),
         'url': '/stocks/products/new',
         'action_url': '/stocks/products/new',
         'header': "登记产品信息"
@@ -25,9 +25,9 @@ def new_product(request):
 @login_required(login_url=LOGIN_URL)
 def edit_product(request, product_id):
     old_p = Product.objects.get(id=product_id)
-    form = NewProductForm(instance=old_p)
+    form = ProductForm(instance=old_p)
     if request.method == "POST":
-        NewProductForm(request.POST, instance=old_p).save()
+        ProductForm(request.POST, instance=old_p).save()
         # p.supplier = old_p.supplier
         # p.save()
         return redirect('/stocks/products/dashboard')
