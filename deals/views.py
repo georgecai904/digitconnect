@@ -22,7 +22,7 @@ def purchase_order_details(request, purchase_order_id):
             supply_offer.save()
     return render(request, "purchase_orders/details.html", {
         'header': "{}采购单细节".format(purchase_order.product.name),
-        'breadcrumb': [{"href": '/deals/purchase_orders/dashboard', "name": "我的发布"}],
+        'breadcrumb': [("我的发布", "purchase_orders.dashboard")],
         'purchase_order': purchase_order,
         'supply_offers': supply_offers,
         'join_purchases': join_purchases,

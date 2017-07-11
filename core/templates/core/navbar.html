@@ -7,41 +7,35 @@
                 </a>
             </div>
 
-
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-list menus">
-                    {% if url == "/" %}
-                        <li class="homepage active"><a href="/">主页</a></li>
-                    {% else %}
-                        <li class="homepage"><a href="/">主页</a></li>
-                    {% endif %}
-                    <li class="bbs"><a href="/">论坛</a></li>
-                    <li class="showroom"><a href="/">展会</a></li>
-                    <li class="meeting"><a href="/">电子会议</a></li>
-                    {% if url == "/purchasers/new" %}
-                        <li class="join-in active"><a href="/clients/select">申请入驻</a></li>
-                    {% else %}
-                        <li class="join-in"><a href="/clients/select">申请入驻</a></li>
-                    {% endif %}
-                    <li class="about-us"><a href="/">公司介绍</a></li>
-                    {% if url == "/products/list" %}
-                        <li class="release-order active"><a href="/stocks/products/dashboard">发布订单</a></li>
-                    {% else %}
-                        <li class="release-order"><a href="/stocks/products/dashboard">发布订单</a></li>
-                    {% endif %}
+                    <li class="homepage {% if request.resolver_match.url_name == 'homepage' %}active{% endif %}">
+                        <a href="/">主页</a>
+                    </li>
+                    <li class="join-in {% if request.resolver_match.url_name == 'clients.select' %}active{% endif %}">
+                        <a href="{% url 'clients.select' %}">申请入驻</a>
+                    </li>
+{#                    <li class="about-us"><a href="/">公司介绍</a></li>#}
+                    <li class="release-order {% if request.resolver_match.url_name == 'products.dashboard' %}active{% endif %}">
+                        <a href="{% url 'products.dashboard' %}">发布订单</a>
+                    </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-list navbar-right">
                     {% if user.is_authenticated %}
-                        <li><a href="/auth/center" class="user-center">我的中心</a></li>
-                        <li><a href="/auth/logout" class="logout">登出</a></li>
+                        <li class="{% if request.resolver_match.url_name == 'auth.center' %}active{% endif %}">
+                            <a href="{% url 'auth.center' %}" class="user-center">我的中心</a>
+                        </li>
+                        <li><a href="{% url 'auth.logout' %}" class="logout">登出</a></li>
                         {% if user.supplier_set.count or user.purchaser.set.count %}
-                            <li><a href="/auth/logout?next=/auth/login" class="manufacturer-login">工厂登陆</a></li>
+                            <li><a href="{% url 'auth.logout' %}?next={% url 'auth.login' %}" class="manufacturer-login">工厂登陆</a></li>
                         {% else %}
-                            <li><a href="/auth/logout?next=/auth/login" class="sales-login login">销售登陆</a></li>
+                            <li><a href="{% url 'auth.logout' %}?next={% url 'auth.login' %}" class="sales-login login">销售登陆</a>
+                            </li>
                         {% endif %}
                     {% else %}
-                        <li><a href="/auth/login?next=/auth/center" class="manufacturer-login">工厂登陆</a></li>
-                        <li><a href="/auth/login" class="sales-login login">销售登陆</a></li>
+                        <li><a href="{% url 'auth.login' %}?next={% url 'auth.center' %}" class="manufacturer-login">工厂登陆</a>
+                        </li>
+                        <li><a href="{% url 'auth.login' %}" class="sales-login login">销售登陆</a></li>
                     {% endif %}
                 </ul>
             </div>
