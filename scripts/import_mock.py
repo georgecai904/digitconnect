@@ -84,11 +84,29 @@ def create_purchase_order(initiator, product):
 #     )
 #     return pp
 
+def create_breadcrumb():
+    from core.models import Breadcrumb
+    import csv
+    Breadcrumb.objects.all().delete()
+    with open("scripts/breadcrumbs.csv", "r") as f:
+        reader = csv.reader(f)
+        for row in reader:
+            parent_url_name = row[2]
+            parent = None
+            if parent_url_name:
+                parent = Breadcrumb.objects.get(url_name=parent_url_name)
+            Breadcrumb.objects.create(
+                name=row[0],
+                url_name=row[1],
+                parent=parent,
+                class_name=row[3]
+            )
 
-supplier = create_supplier()
-purchaser = create_purchaser()
-product = create_product(purchaser=purchaser)
-# create_post_price(supplier=supplier, product=product)
-po = create_purchase_order(initiator=purchaser, product=product)
-po.add_purchaser(purchaser=purchaser, amount=100000)
-po.add_supplier(supplier=supplier, price=19.99)
+create_breadcrumb()
+# supplier = create_supplier()
+# purchaser = create_purchaser()
+# product = create_product(purchaser=purchaser)
+# # create_post_price(supplier=supplier, product=product)
+# po = create_purchase_order(initiator=purchaser, product=product)
+# po.add_purchaser(purchaser=purchaser, amount=100000)
+# po.add_supplier(supplier=supplier, price=19.99)

@@ -16,8 +16,9 @@ class IndexPageViewTest(FunctionalTest):
         self.assertEqual(nav_title.text, "欢迎来到 Direct Connect")
 
         # 目录栏里面分别有主页，论坛，展会，电子会议，申请入驻，公司介绍
-        expected_list = ["主页", "论坛", "展会", "电子会议",
-                         "申请入驻", "公司介绍", "发布订单"]
+        # expected_list = ["主页", "论坛", "展会", "电子会议",
+        #                  "申请入驻", "公司介绍", "发布订单"]
+        expected_list = ['主页', '申请入驻', '发布订单']
         nav_list = self.browser.find_elements_by_css_selector("nav .menus li")
 
         self.assertEqual(
@@ -27,7 +28,7 @@ class IndexPageViewTest(FunctionalTest):
 
         # 其中主页的状态是激活的
         nav_bar_item = self.browser.find_element_by_css_selector(".navbar-list li:first-child")
-        # self.assertIn("active", nav_bar_item.get_attribute("class"))
+        self.assertIn("active", nav_bar_item.get_attribute("class"))
 
         # 乔治在目录栏的下方看到了新品广告栏
         adv_bar = self.browser.find_element_by_css_selector(".advbar")

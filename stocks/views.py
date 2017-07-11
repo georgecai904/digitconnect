@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
+from core.views import get_breadcrumb
 from stocks.forms import ProductForm
 from django.contrib.auth.decorators import login_required
 from directconnect.settings import LOGIN_URL
@@ -20,7 +21,8 @@ def new_product(request):
         'form': ProductForm(),
         'url': '/stocks/products/new',
         'action_url': request.path,
-        'header': "登记产品信息"
+        'header': "登记产品信息",
+        'breadcrumb': get_breadcrumb(request)
     })
 
 
@@ -34,7 +36,8 @@ def edit_product(request, product_id):
     return render(request, 'stocks/products/form.html', {
         'form': form,
         'action_url': request.path,
-        'header': '修改产品信息'
+        'header': '修改产品信息',
+        'breadcrumb': get_breadcrumb(request)
     })
 
 
@@ -52,7 +55,8 @@ def products_dashboard(request):
     products = purchaser.product_set.all()
     return render(request, "stocks/products/dashboard.html", {
         'products': products,
-        'header': '产品列表'
+        'header': '产品列表',
+        'breadcrumb': get_breadcrumb(request)
     })
 
 

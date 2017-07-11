@@ -2,9 +2,7 @@
 
 {% block content %}
 <div class="container">
-    <div class="row">
-        <a class="post btn btn-block btn-default" href="{% url 'products.new' %}">发布</a>
-    </div>
+    <a class="post btn btn-block btn-default" href="{% url 'products.new' %}">登记产品信息</a>
     {% if products %}
     <table class="table table-hover product-table">
         <thead>

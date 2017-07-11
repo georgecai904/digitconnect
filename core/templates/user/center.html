@@ -1,16 +1,26 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-<div class="container">
-<div class="row">
-    <a class="account-dashboard btn btn-default col-md-4" href="{% url 'auth.account' %}">个人信息</a>
-    {% if user.supplier_set.count or user.purchaser_set.all %}
-        <a class="offers-dashboard  btn btn-default col-md-4" href="{% url 'supply_offers.dashboard' %}">我的报价</a>
-        <a class="products-dashboard btn btn-default col-md-4" href="{% url 'products.dashboard' %}">我的产品</a>
-        <a class="orders-dashboard btn btn-default col-md-4" href="{% url 'purchase_orders.dashboard' %}">我的发布</a>
-    {% endif %}
-    <a class="production-dashboard btn btn-default col-md-4" href="{% url 'production.dashboard' %}">生产管理</a>
-</div>
-</div>
+    <div class="container user-center">
+        <div class="col-md-4">
+            <a class="account-dashboard btn btn-block btn-default" href="{% url 'auth.account' %}">个人信息</a>
+        </div>
+        {% if user.supplier_set.count or user.purchaser_set.all %}
+            <div class="col-md-4">
+                <a class="offers-dashboard  btn btn-block btn-default"
+                   href="{% url 'supply_offers.dashboard' %}">我的报价</a>
+            </div>
+            <div class="col-md-4">
+                <a class="products-dashboard btn btn-block btn-default" href="{% url 'products.dashboard' %}">我的产品</a>
+            </div>
+            <div class="col-md-4">
+                <a class="orders-dashboard btn btn-block btn-default"
+                   href="{% url 'purchase_orders.dashboard' %}">我的发布</a>
+            </div>
+        {% endif %}
+        <div class="col-md-4">
+            <a class="production-dashboard btn btn-block btn-default" href="{% url 'production.dashboard' %}">生产管理</a>
 
+        </div>
+    </div>
 {% endblock %}

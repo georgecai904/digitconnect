@@ -1,10 +1,10 @@
-
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 # Create your views here.
 from django.urls import reverse
 
+from core.views import get_breadcrumb
 from deals.forms import PurchaseOrderForm, SupplyOfferForm, JoinPurchaseForm, ProductionRecordForm
 from deals.models import PurchaseOrder, SupplyOffer, Production, ProductionRecord
 from directconnect.settings import POST_ORDER_STATUS, LOGIN_URL
@@ -22,10 +22,10 @@ def purchase_order_details(request, purchase_order_id):
             supply_offer.save()
     return render(request, "purchase_orders/details.html", {
         'header': "{}采购单细节".format(purchase_order.product.name),
-        'breadcrumb': [("我的发布", "purchase_orders.dashboard")],
         'purchase_order': purchase_order,
         'supply_offers': supply_offers,
         'join_purchases': join_purchases,
+        "breadcrumb": get_breadcrumb(request)
     })
 
 
@@ -36,6 +36,7 @@ def on_road_purchase_order(request, purchase_order_id):
         "header": "待收货订单详情",
         "purchase_order_line": pol,
         "production": purchase_order.production_set.first(),
+        "breadcrumb": get_breadcrumb(request)
     })
 
 
@@ -49,9 +50,13 @@ def purchase_orders_dashboard(request):
             p_o.make_deal()
         return render(request, 'purchase_orders/dashboard.html', {
             'header': '我的订单',
-            'purchase_order_lines_oc': purchaser.purchaseorderline_set.filter(purchase_order__status=POST_ORDER_STATUS[0]),
-            'purchase_order_lines_or': purchaser.purchaseorderline_set.filter(purchase_order__status=POST_ORDER_STATUS[1]),
-            'purchase_order_lines_cp': purchaser.purchaseorderline_set.filter(purchase_order__status=POST_ORDER_STATUS[2]),
+            'purchase_order_lines_oc': purchaser.purchaseorderline_set.filter(
+                purchase_order__status=POST_ORDER_STATUS[0]),
+            'purchase_order_lines_or': purchaser.purchaseorderline_set.filter(
+                purchase_order__status=POST_ORDER_STATUS[1]),
+            'purchase_order_lines_cp': purchaser.purchaseorderline_set.filter(
+                purchase_order__status=POST_ORDER_STATUS[2]),
+            "breadcrumb": get_breadcrumb(request)
         })
     else:
         return redirect(reverse('purchasers.new'))
@@ -71,7 +76,8 @@ def new_purchase_order(request, product_id):
         "header": "发布采购订单",
         "product": product,
         "form": PurchaseOrderForm(),
-        "action_url": reverse('purchase_orders.confirm.new', args=(product_id,))
+        "action_url": reverse('purchase_orders.confirm.new', args=(product_id,)),
+        "breadcrumb": get_breadcrumb(request)
     })
 
 
@@ -83,7 +89,8 @@ def confirm_purchase_order(request, product_id):
             "header": "确认采购订单",
             "product": product,
             "amount": request.POST["amount"],
-            "action_url": reverse('purchase_orders.new', args=(product_id,))
+            "action_url": reverse('purchase_orders.new', args=(product_id,)),
+            "breadcrumb": get_breadcrumb(request)
         })
 
 
@@ -91,8 +98,11 @@ def supply_offers_dashboard(request):
     supplier = request.user.supplier_set.all()[0]
     return render(request, "supply_offers/dashboard.html", {
         "header": "我的报价",
-        "adopted_supply_offers": SupplyOffer.objects.filter(purchase_order__status=POST_ORDER_STATUS[1]).filter(supplier=supplier),
-        "ongoing_supply_offers": SupplyOffer.objects.filter(purchase_order__status=POST_ORDER_STATUS[0]).filter(supplier=supplier)
+        "adopted_supply_offers": SupplyOffer.objects.filter(purchase_order__status=POST_ORDER_STATUS[1]).filter(
+            supplier=supplier),
+        "ongoing_supply_offers": SupplyOffer.objects.filter(purchase_order__status=POST_ORDER_STATUS[0]).filter(
+            supplier=supplier),
+        "breadcrumb": get_breadcrumb(request)
     })
 
 
@@ -109,7 +119,8 @@ def new_supply_offer(request, purchase_order_id):
         "header": "报价页面",
         "purchase_order": purchase_order,
         "form": SupplyOfferForm(),
-        "action_url": reverse('supply_offers.confirm.new', args=(purchase_order_id,))
+        "action_url": reverse('supply_offers.confirm.new', args=(purchase_order_id,)),
+        "breadcrumb": get_breadcrumb(request)
     })
 
 
@@ -120,7 +131,8 @@ def confirm_new_supply_offer(request, purchase_order_id):
             "header": "确认报价",
             "purchase_order": purchase_order,
             "price": request.POST["price"],
-            "action_url": reverse('supply_offers.new', args=(purchase_order_id,))
+            "action_url": reverse('supply_offers.new', args=(purchase_order_id,)),
+            "breadcrumb": get_breadcrumb(request)
         })
 
 
@@ -138,7 +150,8 @@ def supply_offer_details(request, supply_offer_id):
         "purchase_order": supply_offer.purchase_order,
         "supply_offer": supply_offer,
         "form": SupplyOfferForm(instance=supply_offer),
-        "action_url": reverse('supply_offers.confirm.edit', args=(supply_offer_id, ))
+        "action_url": reverse('supply_offers.confirm.edit', args=(supply_offer_id,)),
+        "breadcrumb": get_breadcrumb(request)
     })
 
 
@@ -151,7 +164,8 @@ def confirm_edit_supply_offer(request, supply_offer_id):
             "supply_offer": supply_offer,
             "price": request.POST["price"],
             "action_url": reverse('supply_offers.details', args=(supply_offer_id,)),
-            "btn_content": "确认修改"
+            "btn_content": "确认修改",
+            "breadcrumb": get_breadcrumb(request)
         })
 
 
@@ -177,6 +191,7 @@ def adopt_supply_offer(request, supply_offer_id):
         "price": supply_offer.price,
         "action_url": request.path,
         "btn_content": "确认生产",
+        "breadcrumb": get_breadcrumb(request)
     })
 
 
@@ -193,7 +208,8 @@ def new_join_purchase(request, purchase_order_id):
         "header": "拼购采购",
         "form": JoinPurchaseForm(),
         "purchase_order": purchase_order,
-        "action_url": reverse('join_purchases.confirm.new', args=(purchase_order_id,))
+        "action_url": reverse('join_purchases.confirm.new', args=(purchase_order_id,)),
+        "breadcrumb": get_breadcrumb(request)
     })
 
 
@@ -204,7 +220,8 @@ def confirm_new_join_purchase(request, purchase_order_id):
             "header": "确认拼购",
             "purchase_order": purchase_order,
             "amount": request.POST["amount"],
-            "action_url": reverse('join_purchases.new', args=(purchase_order_id,))
+            "action_url": reverse('join_purchases.new', args=(purchase_order_id,)),
+            "breadcrumb": get_breadcrumb(request)
         })
 
 
@@ -213,6 +230,7 @@ def production_details(request, production_id):
     return render(request, "production/details.html", {
         "header": "生产信息",
         "production": production,
+        "breadcrumb": get_breadcrumb(request)
     })
 
 
@@ -223,7 +241,8 @@ def production_dashboard(request):
     productions = Production.objects.filter(manufacturer=manufacturer)
     return render(request, "production/dashboard.html", {
         "header": "生产管理",
-        "productions": productions
+        "productions": productions,
+        "breadcrumb": get_breadcrumb(request)
     })
 
 
@@ -237,7 +256,8 @@ def new_production_record(request, production_id):
     return render(request, "production/records/form.html", {
         "header": "登记生产记录",
         "action_url": request.path,
-        "form": ProductionRecordForm()
+        "form": ProductionRecordForm(),
+        "breadcrumb": get_breadcrumb(request, id=production_id)
     })
 
 
@@ -249,5 +269,6 @@ def edit_production_record(request, record_id):
     return render(request, "production/records/form.html", {
         "header": "修改生产记录",
         "action_url": request.path,
-        "form": ProductionRecordForm(instance=pr)
+        "form": ProductionRecordForm(instance=pr),
+        "breadcrumb": get_breadcrumb(request, id=pr.production.id)
     })

@@ -15,7 +15,17 @@
     <div class="container">
         <ol class="breadcrumb">
             {% for b in breadcrumb %}
-                <li><a href="{% url b.1 %}">{{ b.0 }}</a></li>
+                <li class="{{ b.2 }}">
+                    {% if b.1 %}
+                        {% if b.3 %}
+                            <a href="{% url b.1 b.3 %}">{{ b.0 }}</a>
+                        {% else %}
+                            <a href="{% url b.1 %}">{{ b.0 }}</a>
+                        {% endif %}
+                    {% else %}
+                        {{ b.0 }}
+                    {% endif %}
+                </li>
             {% endfor %}
         </ol>
     </div>

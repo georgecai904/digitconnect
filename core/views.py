@@ -16,7 +16,8 @@ def index_page(request):
     purchase_orders = PurchaseOrder.objects.all()
     return render(request, "core/index.html", {
         'mock_list': range(6),
-        'purchase_orders': purchase_orders
+        'purchase_orders': purchase_orders,
+        'breadcrumb': get_breadcrumb(request)
     })
 
 
@@ -35,7 +36,8 @@ def handle_login(request):
     return render(request, 'auth/login.html', {
         'header': "登陆页面",
         'form': LoginInForm(),
-        'action_url': request.get_full_path()
+        'action_url': request.get_full_path(),
+        'breadcrumb': get_breadcrumb(request)
     })
 
 
@@ -50,7 +52,8 @@ def handle_signup(request):
         'form': NewUserForm(),
         'header': "注册页面",
         'action_url': request.path,
-        'btn_name': "注册"
+        'btn_name': "注册",
+        'breadcrumb': get_breadcrumb(request)
     })
 
 
@@ -70,7 +73,8 @@ def account_details(request):
     return render(request, 'user/account.html', {
         'user': user,
         'purchaser': purchasers[0] if purchasers else None,
-        'supplier': suppliers[0] if suppliers else None
+        'supplier': suppliers[0] if suppliers else None,
+        'breadcrumb': get_breadcrumb(request)
     })
 
 
@@ -78,6 +82,7 @@ def account_details(request):
 def user_center(request):
     return render(request, 'user/center.html', {
         'header': "我的中心",
+        'breadcrumb': get_breadcrumb(request)
     })
 
 
@@ -92,7 +97,8 @@ def reset_email(request):
     return render(request, 'auth/form.html', {
         'form': form,
         'action_url': request.path,
-        'btn_name': "修改"
+        'btn_name': "修改",
+        'breadcrumb': get_breadcrumb(request)
     })
 
 
@@ -110,5 +116,16 @@ def reset_password(request):
     return render(request, 'auth/form.html', {
         'form': form,
         'action_url': request.path,
-        'btn_name': "修改"
+        'btn_name': "修改",
+        'breadcrumb': get_breadcrumb(request)
     })
+
+
+def get_breadcrumb(request, id=None):
+    from core.models import Breadcrumb
+    url_name = request.resolver_match.url_name
+    c = Breadcrumb.objects.get(url_name=url_name)
+    _list = c.get_list()
+    if id:
+        _list[-2][-1] = id
+    return _list

@@ -85,7 +85,7 @@ class OrdersDashboardTest(FunctionalTest):
         self.assertEqual(row.find_element_by_css_selector(".offer-amount").text, "100000")
 
         # 点击缩略地图里面的我的发布，山姆回到了我的发布界面
-        self.browser.find_element_by_css_selector(".breadcrumb li:first-child a").click()
+        self.browser.find_element_by_css_selector(".breadcrumb li.purchase_orders-dashboard a").click()
         self.assertRegex(self.browser.current_url, "/deals/purchase_orders/dashboard")
 
         # 山姆发现在刚刚的USB的报价数量变成了3/3

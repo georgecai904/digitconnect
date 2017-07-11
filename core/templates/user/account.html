@@ -55,7 +55,10 @@
                     </tr>
                 </table>
             </div>
+        {% elif not user.manufacturer_set.count  %}
+            <a href="{% url 'purchasers.new' %}" class="btn btn-default client-purchaser btn-block">创建采购商信息</a>
         {% endif %}
+
         {% if supplier %}
             <div class="suppliers">
                 <h1>供应商信息</h1>
@@ -90,6 +93,8 @@
                     </tr>
                 </table>
             </div>
+        {% elif not user.manufacturer_set.count  %}
+            <a href="{% url 'suppliers.new' %}" class="btn btn-default client-supplier btn-block">创建供应商信息</a>
         {% endif %}
     </div>
 

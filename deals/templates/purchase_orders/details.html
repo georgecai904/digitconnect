@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="container">
-        <a href="{% url 'purchase_orders.dashboard' %}?order_id={{ purchase_order.id }}" class="confirm-order">确认订单</a>
+        <a href="{% url 'purchase_orders.dashboard' %}?order_id={{ purchase_order.id }}" class="confirm-order btn btn-default">确认订单</a>
         <div class="row">
             <div class="col-md-6 supply-offer">
                 <h3 class="text-center title">供应商报价</h3>

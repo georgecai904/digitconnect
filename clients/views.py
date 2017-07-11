@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, reverse
 from clients.forms import PurchaserForm, SupplierForm, ManufacturerForm
 from django.contrib.auth.decorators import login_required
 
+from core.views import get_breadcrumb
 from deals.models import Production, PurchaseOrder
 from directconnect.settings import LOGIN_URL
 from clients.models import Purchaser, Supplier, Manufacturer
@@ -14,7 +15,9 @@ from django.contrib.auth.models import User
 @login_required(login_url=LOGIN_URL)
 def select_type(request):
     return render(request, 'clients/select_type.html', {
-        'header': '入驻身份选择'
+        'header': '入驻身份选择',
+        'breadcrumb': get_breadcrumb(request)
+
     })
 
 
@@ -31,7 +34,8 @@ def new_purchaser(request):
         'form': PurchaserForm(),
         'url': request.path,
         'header': '登记采购商信息',
-        'action_url': request.path
+        'action_url': request.path,
+        'breadcrumb': get_breadcrumb(request)
     })
 
 
@@ -46,6 +50,7 @@ def edit_purchaser(request, purchaser_id):
         'form': form,
         'action_url': request.path,
         'header': '修改采购商信息',
+        'breadcrumb': get_breadcrumb(request)
     })
 
 
@@ -62,6 +67,7 @@ def new_supplier(request):
         'form': SupplierForm(),
         'action_url': request.path,
         'header': '登记供应商信息',
+        'breadcrumb': get_breadcrumb(request)
     })
 
 
@@ -76,13 +82,15 @@ def edit_supplier(request, supplier_id):
         'form': form,
         'action_url': request.path,
         'header': '修改供应商信息',
+        'breadcrumb': get_breadcrumb(request)
     })
 
 
 def supplier_details(request, supplier_id):
     return render(request, 'suppliers/details.html', {
         'header': '供应商信息',
-        'supplier': Supplier.objects.get(id=supplier_id)
+        'supplier': Supplier.objects.get(id=supplier_id),
+        'breadcrumb': get_breadcrumb(request)
     })
 
 
@@ -107,5 +115,6 @@ def new_manufacturer(request, purchase_order_id):
     return render(request, "manufacturers/form.html", {
         "header": "登记工厂信息",
         "action_url": request.path,
-        "form": ManufacturerForm()
+        "form": ManufacturerForm(),
+        'breadcrumb': get_breadcrumb(request)
     })

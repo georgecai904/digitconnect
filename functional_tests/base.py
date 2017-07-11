@@ -9,6 +9,7 @@ class FunctionalTest(StaticLiveServerTestCase):
     def setUpClass(cls):
         super(FunctionalTest, cls).setUpClass()
         cls.browser = webdriver.Chrome(executable_path="/driver/chromedriver")
+        cls._import_breadcrumb()
         # cls.live_server_url = "http://localhost:8000"
 
     @classmethod
@@ -95,3 +96,22 @@ class FunctionalTest(StaticLiveServerTestCase):
 
     def _refresh(self):
         self.browser.get(self.browser.current_url)
+
+    @staticmethod
+    def _import_breadcrumb():
+        from core.models import Breadcrumb
+        import csv
+        Breadcrumb.objects.all().delete()
+        with open("scripts/breadcrumbs.csv", "r") as f:
+            reader = csv.reader(f)
+            for row in reader:
+                parent_url_name = row[2]
+                parent = None
+                if parent_url_name:
+                    parent = Breadcrumb.objects.get(url_name=parent_url_name)
+                Breadcrumb.objects.create(
+                    name=row[0],
+                    url_name=row[1],
+                    parent=parent,
+                    class_name=row[3]
+                )

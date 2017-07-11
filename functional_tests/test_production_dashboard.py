@@ -91,7 +91,7 @@ class ProductionDashboardTest(FunctionalTest):
         self.assertRegex(self.browser.current_url, "/auth/center")
 
         self.assertEqual(
-            [module.text for module in self.browser.find_elements_by_css_selector(".row a")],
+            [module.text for module in self.browser.find_elements_by_css_selector(".user-center a")],
             ["个人信息", "生产管理"]
         )
 
