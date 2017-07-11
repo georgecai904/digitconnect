@@ -15,7 +15,7 @@
     <div class="container">
         <ol class="breadcrumb">
             {% for b in breadcrumb %}
-                <li><a href="{{ b.href }}">{{ b.name }}</a></li>
+                <li><a href="{% url b.1 %}">{{ b.0 }}</a></li>
             {% endfor %}
         </ol>
     </div>
@@ -25,7 +25,9 @@
     <div class="container">
         <h1>{{ header }}</h1>
         <h3>{{ subheader }}</h3>
+        <hr>
     </div>
+
 
 {% endif %}
 
