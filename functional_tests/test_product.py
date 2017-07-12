@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.test import override_settings
 
 from functional_tests.base import FunctionalTest
 from unittest import skip
@@ -8,7 +9,7 @@ from clients.models import Purchaser
 
 
 class ProductFunctionalTest(FunctionalTest):
-
+    @override_settings(DEBUG=True)
     def test_manage_product(self):
         # 山姆登陆到了首页，看到了"发布订单"，便点了进去
         self.browser.get(self.live_server_url)
@@ -29,6 +30,7 @@ class ProductFunctionalTest(FunctionalTest):
         self.assertRegex(self.browser.current_url, "/stocks/products/dashboard")
         # table = self.browser.find_element_by_id("product-table")
         # self.assertEqual(table.find_elements_by_css_selector('tbody tr'), [])
+        # self._stop()
         self.browser.find_element_by_css_selector("a.post").click()
 
         # 点击发布后，页面跳转到了商品发布界面
@@ -51,7 +53,7 @@ class ProductFunctionalTest(FunctionalTest):
 
         # 在表格的最右边，山姆看到了修改按钮便点进去
         table.find_element_by_css_selector('tr:first-child .edit').click()
-
+        # self._stop(100)
         # 页面跳转到了修改页面, 里面显示了该商品的所有信息
         self.assertRegex(self.browser.current_url, "/stocks/products/edit")
         form = self.browser.find_element_by_tag_name('form')

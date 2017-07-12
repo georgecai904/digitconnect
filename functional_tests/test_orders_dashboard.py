@@ -157,6 +157,7 @@ class OrdersDashboardTest(FunctionalTest):
         # 由于工厂3的价格最低，山姆查看了工厂3的具体信息（TODO: 需要添加确认环节）
         purchase_offer_table = self.browser.find_element_by_css_selector(".supply-offer table")
         purchase_offer_table.find_element_by_css_selector("tbody tr:nth-child(3) .supplier-name a").click()
+        # self._stop(30)
         self.assertRegex(self.browser.current_url, "/clients/suppliers/details")
         self.assertEqual(self.browser.find_element_by_css_selector(".supplier-name").text, "工厂3")
 

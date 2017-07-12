@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 
 from core.views import get_breadcrumb
 from deals.models import Production, PurchaseOrder
+from directconnect.decorators import UserRequired, PurchaserRequired, SupplierRequired, SalesRequired
 from directconnect.settings import LOGIN_URL
 from clients.models import Purchaser, Supplier, Manufacturer
 from django.contrib.auth.models import User
@@ -12,7 +13,7 @@ from django.contrib.auth.models import User
 # Create your views here.
 
 
-@login_required(login_url=LOGIN_URL)
+@UserRequired
 def select_type(request):
     return render(request, 'clients/select_type.html', {
         'header': '入驻身份选择',
@@ -21,7 +22,7 @@ def select_type(request):
     })
 
 
-@login_required(login_url=LOGIN_URL)
+@UserRequired
 def new_purchaser(request):
     if request.method == "POST":
         purchaser = PurchaserForm(request.POST).save(commit=False)
@@ -39,7 +40,7 @@ def new_purchaser(request):
     })
 
 
-@login_required(login_url=LOGIN_URL)
+@PurchaserRequired
 def edit_purchaser(request, purchaser_id):
     purchaser = Purchaser.objects.get(id=purchaser_id)
     form = PurchaserForm(instance=purchaser)
@@ -54,7 +55,7 @@ def edit_purchaser(request, purchaser_id):
     })
 
 
-@login_required(login_url=LOGIN_URL)
+@UserRequired
 def new_supplier(request):
     if request.method == "POST":
         supplier = SupplierForm(request.POST).save(commit=False)
@@ -71,7 +72,7 @@ def new_supplier(request):
     })
 
 
-@login_required(login_url=LOGIN_URL)
+@SupplierRequired
 def edit_supplier(request, supplier_id):
     supplier = Supplier.objects.get(id=supplier_id)
     form = SupplierForm(instance=supplier)
@@ -86,6 +87,7 @@ def edit_supplier(request, supplier_id):
     })
 
 
+@SalesRequired
 def supplier_details(request, supplier_id):
     return render(request, 'suppliers/details.html', {
         'header': '供应商信息',
@@ -94,6 +96,7 @@ def supplier_details(request, supplier_id):
     })
 
 
+@UserRequired
 def new_manufacturer(request, purchase_order_id):
     if request.method == "POST":
         supplier = request.user.supplier_set.first()
@@ -110,7 +113,7 @@ def new_manufacturer(request, purchase_order_id):
             purchase_order=PurchaseOrder.objects.get(id=purchase_order_id),
             manufacturer=manufacturer
         )
-        return redirect(reverse('production.details', args=(production.id, )))
+        return redirect(reverse('production.details', args=(production.id,)))
 
     return render(request, "manufacturers/form.html", {
         "header": "登记工厂信息",

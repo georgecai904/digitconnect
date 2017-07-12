@@ -2,14 +2,13 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from core.views import get_breadcrumb
+from directconnect.decorators import PurchaserRequired
 from stocks.forms import ProductForm
-from django.contrib.auth.decorators import login_required
-from directconnect.settings import LOGIN_URL
 # Create your views here.
 from stocks.models import Product
 
 
-@login_required(login_url=LOGIN_URL)
+@PurchaserRequired
 def new_product(request):
     if request.method == "POST":
         p = ProductForm(request.POST).save(commit=False)
@@ -26,7 +25,7 @@ def new_product(request):
     })
 
 
-@login_required(login_url=LOGIN_URL)
+@PurchaserRequired
 def edit_product(request, product_id):
     old_p = Product.objects.get(id=product_id)
     form = ProductForm(instance=old_p)
@@ -41,13 +40,14 @@ def edit_product(request, product_id):
     })
 
 
+@PurchaserRequired
 def delete_product(request, product_id):
     p = Product.objects.get(id=product_id)
     p.delete()
     return redirect(reverse('products.dashboard'))
 
 
-@login_required(login_url=LOGIN_URL)
+@PurchaserRequired
 def products_dashboard(request):
     if len(request.user.purchaser_set.all()) == 0:
         return redirect(reverse('purchasers.new'))

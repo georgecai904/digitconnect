@@ -7,8 +7,18 @@ from django.urls import reverse
 from core.views import get_breadcrumb
 from deals.forms import PurchaseOrderForm, SupplyOfferForm, JoinPurchaseForm, ProductionRecordForm
 from deals.models import PurchaseOrder, SupplyOffer, Production, ProductionRecord
+from directconnect.decorators import SupplierRequired
 from directconnect.settings import POST_ORDER_STATUS, LOGIN_URL
 from stocks.models import Product
+
+
+def supplier_deco(func):
+    def decorated(request, *args):
+        if request.user.supplier_set.count():
+            func(request, *args)
+        else:
+            return redirect(reverse("suppliers.new"))
+    return decorated
 
 
 def purchase_order_details(request, purchase_order_id):
@@ -94,6 +104,7 @@ def confirm_purchase_order(request, product_id):
         })
 
 
+# @SupplierRequired
 def supply_offers_dashboard(request):
     supplier = request.user.supplier_set.all()[0]
     return render(request, "supply_offers/dashboard.html", {

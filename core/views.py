@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from deals.models import PurchaseOrder
+from directconnect.decorators import UserRequired
 from stocks.models import Product
 from django.contrib.auth import authenticate, login, logout
 from core.forms import LoginInForm, NewUserForm, ChangeEmailForm, ChangePasswordForm
@@ -70,15 +71,17 @@ def account_details(request):
     user = request.user
     purchasers = user.purchaser_set.all()
     suppliers = user.supplier_set.all()
+    manufacturers = user.manufacturer_set.all()
     return render(request, 'user/account.html', {
         'user': user,
         'purchaser': purchasers[0] if purchasers else None,
         'supplier': suppliers[0] if suppliers else None,
+        'manufacturer': manufacturers[0] if manufacturers else None,
         'breadcrumb': get_breadcrumb(request)
     })
 
 
-@login_required(login_url=LOGIN_URL)
+@UserRequired
 def user_center(request):
     return render(request, 'user/center.html', {
         'header': "我的中心",
@@ -86,7 +89,7 @@ def user_center(request):
     })
 
 
-@login_required(login_url=LOGIN_URL)
+@UserRequired
 def reset_email(request):
     u = User.objects.get(username=request.user.username)
     form = ChangeEmailForm(instance=u)
@@ -102,7 +105,7 @@ def reset_email(request):
     })
 
 
-@login_required(login_url=LOGIN_URL)
+@UserRequired
 def reset_password(request):
     u = User.objects.get(username=request.user.username)
     form = ChangePasswordForm()

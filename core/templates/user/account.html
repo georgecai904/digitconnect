@@ -2,8 +2,8 @@
 {% block content %}
     <div class="container">
         <div class="user-details">
-            <h1>用户信息</h1>
-            <table class="table table-hover">
+            <h3>用户信息</h3>
+            <table class="table table-hover table-bordered">
                 <tr>
                     <td>用户名</td>
                     <td>{{ user.username }}</td>
@@ -23,8 +23,8 @@
         <hr>
         {% if purchaser %}
             <div class="purchasers">
-                <h1>采购商信息</h1>
-                <table class="table table-hover">
+                <h3>采购商信息</h3>
+                <table class="table table-hover table-bordered">
                     <tr>
                         <td>姓名</td>
                         <td class="purchaser-name">{{ purchaser.name }}</td>
@@ -50,8 +50,8 @@
                         <td class="purchaser-area">{{ purchaser.area }}</td>
                     </tr>
                     <tr>
-                        <td><a href="{% url 'products.dashboard' %}" class="products">产品列表</a></td>
-                        <td><a href="{% url 'purchasers.edit' purchaser.id %}" class="edit">修改</a></td>
+                        <td><a href="{% url 'purchase_orders.dashboard' %}" class="orders  btn btn-default">订单管理</a></td>
+                        <td><a href="{% url 'purchasers.edit' purchaser.id %}" class="edit btn btn-default">修改</a></td>
                     </tr>
                 </table>
             </div>
@@ -61,8 +61,8 @@
 
         {% if supplier %}
             <div class="suppliers">
-                <h1>供应商信息</h1>
-                <table class="table table-hover">
+                <h3>供应商信息</h3>
+                <table class="table table-hover table-bordered">
                     <tr>
                         <td>姓名</td>
                         <td class="supplier-name">{{ supplier.name }}</td>
@@ -88,13 +88,32 @@
                         <td class="supplier-area">{{ supplier.area }}</td>
                     </tr>
                     <tr>
-                        <td><a href="{% url 'products.dashboard' %}" class="products">产品列表</a></td>
-                        <td><a href="{% url 'suppliers.edit' supplier.id %}" class="edit">修改</a></td>
+                        <td><a href="{% url 'supply_offers.dashboard' %}" class="offers  btn btn-default">报价管理</a></td>
+                        <td><a href="{% url 'suppliers.edit' supplier.id %}" class="edit btn btn-default">修改</a></td>
                     </tr>
                 </table>
             </div>
         {% elif not user.manufacturer_set.count  %}
             <a href="{% url 'suppliers.new' %}" class="btn btn-default client-supplier btn-block">创建供应商信息</a>
+        {% endif %}
+
+        {% if manufacturer %}
+            <div class="purchasers">
+                <h3>工厂信息</h3>
+                <table class="table table-hover table-bordered">
+                    <tr>
+                        <td>姓名</td>
+                        <td class="purchaser-name">{{ manufacturer.name }}</td>
+                    </tr>
+                    <tr>
+                        <td>地址</td>
+                        <td class="purchaser-address">{{ purchaser.address }}</td>
+                    </tr>
+                    <tr>
+{#                        <td><a href="{% url 'man.edit' purchaser.id %}" class="edit">修改</a></td>#}
+                    </tr>
+                </table>
+            </div>
         {% endif %}
     </div>
 

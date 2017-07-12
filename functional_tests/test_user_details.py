@@ -72,7 +72,7 @@ class UserDetailsTest(FunctionalTest):
 
         # 山姆发现在用户信息界面的下方有一个表格显示采购商信息表格
         purchaser_container = self.browser.find_element_by_css_selector(".purchasers")
-        self.assertEqual(purchaser_container.find_element_by_tag_name("h1").text, "采购商信息")
+        self.assertEqual(purchaser_container.find_element_by_tag_name("h3").text, "采购商信息")
         # time.sleep(10)
         # 这个表格显示了在自己名下的所有采购商信息
         self.assertEqual(
@@ -80,8 +80,8 @@ class UserDetailsTest(FunctionalTest):
             "山姆采购商")
 
         # 在每个表格的右边有产品按钮，修改按钮和删除按钮
-        self.assertEqual(purchaser_container.find_element_by_css_selector(".products").text,
-                         "产品列表")
+        self.assertEqual(purchaser_container.find_element_by_css_selector(".orders").text,
+                         "订单管理")
         self.assertEqual(purchaser_container.find_element_by_css_selector(".edit").text,
                          "修改")
         # self.assertEqual(purchaser_container.find_element_by_css_selector("tbody tr:first-child .delete").text,
@@ -106,14 +106,14 @@ class UserDetailsTest(FunctionalTest):
             "新山姆采购商")
 
         # 山姆想查看一下采购商里的产品信息情况，便点击了产品按钮
-        purchaser_container.find_element_by_css_selector(".products").click()
-
-        # 页面跳转到了之前的产品列表，里面信息和之前的一致
-        self.assertRegex(self.browser.current_url, "/stocks/products/dashboard")
-        self.assertEqual(
-            self.browser.find_element_by_css_selector(".product-name").text,
-            "B&O音响"
-        )
+        # purchaser_container.find_element_by_css_selector(".orders").click()
+        #
+        # # 页面跳转到了之前的产品列表，里面信息和之前的一致
+        # self.assertRegex(self.browser.current_url, "/stocks/products/dashboard")
+        # self.assertEqual(
+        #     self.browser.find_element_by_css_selector(".product-name").text,
+        #     "B&O音响"
+        # )
 
         # 山姆看一些信息都稳妥了，便退出了
         self.browser.find_element_by_css_selector("nav .logout").click()
